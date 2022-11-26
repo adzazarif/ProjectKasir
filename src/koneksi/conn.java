@@ -16,7 +16,7 @@ public class conn {
        private static Connection mysqlconfig;
     public static Connection configDB() throws SQLException{
         try {
-            String url = "jdbc:mysql://localhost/db_login";
+            String url = "jdbc:mysql://localhost/db_apotek";
             String user = "root";
             String pass = "";
             DriverManager.registerDriver(new com.mysql.jdbc.Driver());

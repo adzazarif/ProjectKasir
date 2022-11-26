@@ -79,31 +79,10 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_txtemailActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-          String username = txtemail.getText();
+        String username = txtemail.getText();
         String pass = txtpass.getText();
-        try {
-            String query = "SELECT * FROM user WHERE username ='"+ username +"' AND password ='" + pass + "'";
-            Connection koneksi = (Connection)conn.configDB();
-            PreparedStatement pst = koneksi.prepareStatement(query);
-            ResultSet res = pst.executeQuery();
-            if(res.next()){
-                admin.dashboard db = new admin.dashboard();
-                String lvl = res.getString("level");
-                if(lvl.equals("admin")){
-                    db.show();
-                    this.dispose();
-                }else{
-                    kasir.dashboard k = new kasir.dashboard();
-                    k.show();
-                    this.dispose();
-                }
-                level = lvl;
-            }else{
-                JOptionPane.showMessageDialog(rootPane, "username dan password salah");
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(rootPane, e);
-        }
+        Logic.login login = new Logic.login();
+        login.log(username, pass);
     }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
