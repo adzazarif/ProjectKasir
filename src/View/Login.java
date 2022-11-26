@@ -2,20 +2,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package kasirapotek;
+package View;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import javax.swing.JOptionPane;
-import koneksi.conn;
 
 /**
  *
  * @author WINDOWS 10
  */
 public class Login extends javax.swing.JFrame {
-    public static String level;
+
     /**
      * Creates new form Login
      */
@@ -82,7 +78,21 @@ public class Login extends javax.swing.JFrame {
         String username = txtemail.getText();
         String pass = txtpass.getText();
         Logic.login login = new Logic.login();
-        login.log(username, pass);
+        boolean logg = login.log(username, pass);
+        if(logg){
+
+            String lvl = Logic.login.level;
+            if(lvl.equals("admin")){
+                this.setVisible(false);
+                new DashboarAdmin().setVisible(true);
+            }else{
+                this.setVisible(false);
+                new DashboardKasir().setVisible(true);
+            }
+            
+        }else{
+             JOptionPane.showMessageDialog(this, "email dan pass salah");
+        }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
