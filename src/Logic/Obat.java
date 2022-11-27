@@ -44,10 +44,36 @@ public class Obat {
             PreparedStatement pstDetail = koneksi.prepareStatement(queryDetail);
             pstDetail.execute();
             return true;
-//            JOptionPane.showMessageDialog(null, "data sukses di simpan");
         } catch (Exception e) {
             return false;
-//            JOptionPane.showMessageDialog(null, e);
         }
+    }
+    public boolean hapus(int id){
+        try {
+            Statement st = (Statement) conn.configDB().createStatement();
+            Connection koneksi = (Connection)conn.configDB();
+            //delete di tabel detail_obat
+            String queryHapusDetail = "DELETE FROM detail_obat WHERE kode_obat = '" + id + "'";
+            PreparedStatement pstHapusDetail = koneksi.prepareStatement(queryHapusDetail);
+            pstHapusDetail.execute();
+            //delete di tabel obat
+            String queryHapusObat = "DELETE FROM obat WHERE kode_obat = '" + id + "'";
+            PreparedStatement pstHapusObat = koneksi.prepareStatement(queryHapusObat);
+            pstHapusObat.execute();
+            
+            
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    public static void main(String[] args) {
+        Obat obat = new Obat();
+         obat.hapus(14);
+//        if(hapus){
+//            JOptionPane.showMessageDialog(null, "data behasil di hapus");
+//        }else{
+//            JOptionPane.showMessageDialog(null, "data gagal di hapus");
+//        }
     }
 }
