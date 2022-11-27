@@ -16,6 +16,7 @@ import koneksi.conn;
  * @author WINDOWS 10
  */
 public class Obat {
+    
     public boolean tambah(String nama,String jenis,String kategori,int stok, int dosis, int harga_beli, int harga_jual, String tgl_exp, String ket){
           try {
             Connection koneksi = (Connection)conn.configDB();
@@ -48,6 +49,29 @@ public class Obat {
             return false;
         }
     }
+    
+    public boolean edit(int kode_obat, String nama,String jenis,String kategori,int stok, int dosis, int harga_beli, int harga_jual, String tgl_exp, String ket){
+        try {
+            Statement st = (Statement) conn.configDB().createStatement();
+            st.executeUpdate("UPDATE obat SET "
+                                                            + "nama = '" + nama + "',"
+                                                            + "jenis = '" + jenis + "',"
+                                                            + "kategori = '" + kategori + "' WHERE kode_obat ='" + kode_obat + "'" );
+            
+            st.executeUpdate("UPDATE detail_obat SET "
+                                                            + "stok = '" + stok + "',"
+                                                            + "dosis = '" + dosis + "',"
+                                                            + "harga_beli = '" + harga_beli + "',"
+                                                            + "harga_jual = '" + harga_jual + "',"
+                                                            + "tgl_kadaluarsa = '" + tgl_exp + "',"
+                                                            + "keterangan = '" + ket + "' WHERE kode_obat ='" + kode_obat + "'" );
+            return true;
+//            JOptionPane.showMessageDialog(null, "data behasil di update");
+        } catch (Exception e) {
+            return false;
+//            JOptionPane.showMessageDialog(null, "data gagal di update");
+        }
+    }
     public boolean hapus(int id){
         try {
             Statement st = (Statement) conn.configDB().createStatement();
@@ -69,7 +93,7 @@ public class Obat {
     }
     public static void main(String[] args) {
         Obat obat = new Obat();
-         obat.hapus(14);
+//         obat.edit(15, "edit", "edit", "edit", 1, 1, 1, 1, "2022-10-10", "edit");
 //        if(hapus){
 //            JOptionPane.showMessageDialog(null, "data behasil di hapus");
 //        }else{
