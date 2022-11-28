@@ -4,6 +4,7 @@
  */
 package View;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -17,6 +18,9 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        this.setUndecorated(true);
+        this.setVisible(true);
     }
 
     /**
@@ -63,6 +67,9 @@ public class Login extends javax.swing.JFrame {
         btnLogin.setBounds(670, 520, 630, 60);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Admin Login (2).jpg"))); // NOI18N
+        jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jLabel2.setFocusable(false);
+        jLabel2.setOpaque(true);
         getContentPane().add(jLabel2);
         jLabel2.setBounds(0, 0, 1366, 768);
 
@@ -84,7 +91,7 @@ public class Login extends javax.swing.JFrame {
             String lvl = Logic.login.level;
             if(lvl.equals("admin")){
                 this.setVisible(false);
-                new DashboarAdmin().setVisible(true);
+                new DashboardAdmin().setVisible(true);
             }else{
                 this.setVisible(false);
                 new DashboardKasir().setVisible(true);
