@@ -15,13 +15,28 @@ public class DashboardAdmin extends javax.swing.JFrame {
      */
     public DashboardAdmin() {
         initComponents();
+        sisaStockObat();
+        danaPemasukan();
+        barangTerjual();
     }
-//    public void sisaStockObat(){
-//        Logic.Dashboard ds = new Logic.Dashboard();
-//        int hasil = ds.stockObat();
-//        String result = String.valueOf(hasil);
-//        lblStockObat.setText(result);
-//    }
+    public void sisaStockObat(){
+        Logic.Dashboard ds = new Logic.Dashboard();
+        int hasil = ds.stockObat();
+        String result = String.valueOf(hasil);
+        lblStokObat1.setText(result);
+    }
+    public void danaPemasukan(){
+        Logic.Dashboard ds = new Logic.Dashboard();
+        int hasil = ds.Pemasukan();
+        String result = String.valueOf(hasil);
+        lblDanaPemasukan1.setText(result);
+    }
+    public void barangTerjual(){
+        Logic.Dashboard ds = new Logic.Dashboard();
+        int hasil = ds.barangTerjual();
+        String result = String.valueOf(hasil);
+        lblBarangTerjual.setText(result);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -31,30 +46,37 @@ public class DashboardAdmin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        lblBarangTerjual = new javax.swing.JLabel();
+        lblStokObat1 = new javax.swing.JLabel();
+        lblDanaPemasukan1 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(null);
+
+        lblBarangTerjual.setBackground(new java.awt.Color(255, 255, 255));
+        lblBarangTerjual.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblBarangTerjual.setForeground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(lblBarangTerjual);
+        lblBarangTerjual.setBounds(1100, 450, 80, 30);
+
+        lblStokObat1.setBackground(new java.awt.Color(255, 255, 255));
+        lblStokObat1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblStokObat1.setForeground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(lblStokObat1);
+        lblStokObat1.setBounds(590, 260, 80, 30);
+
+        lblDanaPemasukan1.setBackground(new java.awt.Color(255, 255, 255));
+        lblDanaPemasukan1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblDanaPemasukan1.setForeground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(lblDanaPemasukan1);
+        lblDanaPemasukan1.setBounds(600, 450, 80, 30);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/fahmarevisi dashboard (1).jpg"))); // NOI18N
-        jLabel1.setText("jLabel1");
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(6, 0, 1366, 768);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(180, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel1)
-                .addGap(0, 98, Short.MAX_VALUE))
-        );
-
-        pack();
+        setBounds(0, 0, 1607, 873);
     }// </editor-fold>//GEN-END:initComponents
 
     /**
@@ -94,5 +116,8 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lblBarangTerjual;
+    private javax.swing.JLabel lblDanaPemasukan1;
+    private javax.swing.JLabel lblStokObat1;
     // End of variables declaration//GEN-END:variables
 }
