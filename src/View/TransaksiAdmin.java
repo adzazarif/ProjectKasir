@@ -6,6 +6,8 @@ package View;
  */
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
@@ -18,16 +20,25 @@ import koneksi.conn;
 public class TransaksiAdmin extends javax.swing.JFrame {
 
     /**
-     * Creates new form TransaksiAdmin
+     * Creates new form TransaksiAdming
      */
+    private List<listData> trns = new ArrayList<>();
     private DefaultListModel mod;
     public TransaksiAdmin() {
         initComponents();
         menu.add(panel);
         mod = new DefaultListModel();
         list.setModel(mod);
+        setDateAndKode();
     }
-
+    public void setDateAndKode(){
+        Logic.Transaksi ts = new Logic.Transaksi();
+        String date = ts.date();
+        int kode = ts.kodeTransaksi();
+        lblKode.setText(String.valueOf(kode));
+        lblDate.setText(date);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -43,6 +54,14 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         menu = new javax.swing.JPopupMenu();
         txtSearch = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        lblKode = new javax.swing.JLabel();
+        lblDate = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        txtBanyak = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblTransaksi = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
 
         jScrollPane1.setViewportView(list);
@@ -69,16 +88,71 @@ public class TransaksiAdmin extends javax.swing.JFrame {
             }
         });
         getContentPane().add(txtSearch);
-        txtSearch.setBounds(390, 180, 420, 50);
+        txtSearch.setBounds(320, 180, 350, 30);
 
-        jLabel2.setText("Kode Transaksi");
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel2.setText("Kode Transaksi :");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(340, 120, 110, 16);
+        jLabel2.setBounds(390, 130, 140, 22);
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel3.setText("Tanggal :");
+        getContentPane().add(jLabel3);
+        jLabel3.setBounds(690, 128, 70, 22);
+
+        lblKode.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        getContentPane().add(lblKode);
+        lblKode.setBounds(510, 130, 90, 20);
+
+        lblDate.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        getContentPane().add(lblDate);
+        lblDate.setBounds(760, 130, 220, 20);
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel4.setText("Banyak");
+        getContentPane().add(jLabel4);
+        jLabel4.setBounds(690, 180, 50, 20);
+        getContentPane().add(txtBanyak);
+        txtBanyak.setBounds(750, 180, 110, 30);
+
+        jButton1.setText("Tambah");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1);
+        jButton1.setBounds(910, 180, 80, 30);
+
+        tblTransaksi.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "kode obat", "nama", "harga", "banyak", "total"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(tblTransaksi);
+
+        getContentPane().add(jScrollPane2);
+        jScrollPane2.setBounds(320, 240, 700, 370);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/transaksirevisi .jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(0, 0, 1407, 768);
+        jLabel1.setBounds(20, 0, 1407, 768);
 
         setBounds(0, 0, 1641, 936);
     }// </editor-fold>//GEN-END:initComponents
@@ -91,7 +165,7 @@ public class TransaksiAdmin extends javax.swing.JFrame {
             for(String item:searchEngine(search)){
                 mod.addElement(item.toString());
             }
-            System.out.println(search);
+//            System.out.println(search);
            menu.show(txtSearch, 0, txtSearch.getHeight());
         }
         
@@ -102,15 +176,44 @@ public class TransaksiAdmin extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_txtSearchKeyReleased
-   
-    
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            
+//            Logic.Transaksi tr = new Logic.Transaksi();
+//            int kode_obat = tr.getKode(txtSearch.getText());
+            Statement st = (Statement) conn.configDB().createStatement();
+            ResultSet res = st.executeQuery("SELECT * FROM obat right JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat WHERE nama = '"+ txtSearch.getText() +"'");
+            while(res.next()){
+                trns.add(new listData(res.getInt("kode_obat"), res.getString("nama"), res.getString("jenis")));
+//                trns.add(res.getString("kode_obat"));
+//                trns.add(res.getString("nama"));
+//                trns.add(res.getString("jenis"));
+//                trns.add(res.getString("kategori"));
+//                trns.add(res.getString("stok"));
+//                trns.add(res.getString("dosis"));
+//                trns.add(res.getString("harga_beli"));
+//                trns.add(res.getString("harga_jual"));
+//                trns.add(res.getString("tgl_kadaluarsa"));
+//                trns.add(res.getString("keterangan"));
+            }
+            for(listData i:trns){
+                System.out.println(i.nama);
+            }
+            System.out.println("size"+trns.size());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     public List<String> searchEngine(String query){
         List<String> data = new ArrayList<>();
             try {
             Statement st = (Statement) conn.configDB().createStatement();
-            ResultSet res = st.executeQuery("SELECT * FROM obat WHERE nama LIKE '%"+ query +"%'");
+            ResultSet res = st.executeQuery("SELECT * FROM obat JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat WHERE nama LIKE '%"+ query +"%'");
             while(res.next()){
-                data.add(res.getString("nama"));
+                data.add(res.getString("nama")+res.getString("stok"));
+               
             }
             return data;
         } catch (Exception e) {
@@ -154,12 +257,31 @@ public class TransaksiAdmin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblDate;
+    private javax.swing.JLabel lblKode;
     private javax.swing.JList<String> list;
     private javax.swing.JPopupMenu menu;
     private javax.swing.JPanel panel;
+    private javax.swing.JTable tblTransaksi;
+    private javax.swing.JTextField txtBanyak;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
+}
+class listData{
+    public int kode_obat;
+    public String nama;
+    public String jenis;
+    
+    public listData(int kode_obat,String nama,String jenis){
+        this.kode_obat = kode_obat;
+        this.nama = nama;
+        this.jenis = jenis;
+    }
 }
