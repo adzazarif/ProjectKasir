@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import koneksi.conn;
 /**
  *
@@ -24,13 +25,46 @@ public class TransaksiAdmin extends javax.swing.JFrame {
      */
     private List<listData> trns = new ArrayList<>();
     private DefaultListModel mod;
+    private int grandTotal;
     public TransaksiAdmin() {
         initComponents();
         menu.add(panel);
         mod = new DefaultListModel();
         list.setModel(mod);
         setDateAndKode();
+        datatable();
+        GrandTotal();
     }
+    
+    public void GrandTotal(){
+        String result = String.valueOf(grandTotal);
+        lblGrandtotal.setText(result);
+    }
+    public void datatable(){
+        DefaultTableModel tbl = new DefaultTableModel();
+        tbl.addColumn("kode obat");
+        tbl.addColumn("nama");
+        tbl.addColumn("harga");
+        tbl.addColumn("banyak");
+        tbl.addColumn("total");
+        tblTransaksi.setModel(tbl);
+        try {
+            for(listData ls:trns){
+                 tbl.addRow(new Object[]{
+                    ls.kode_obat,
+                    ls.nama,
+                    ls.harga,
+                    ls.banyak,
+                    ls.total
+                });
+                 
+            }
+            tblTransaksi.setModel(tbl);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "Salah");
+        }
+    }
+    
     public void setDateAndKode(){
         Logic.Transaksi ts = new Logic.Transaksi();
         String date = ts.date();
@@ -62,6 +96,13 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblTransaksi = new javax.swing.JTable();
+        lblGrandtotal = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        txtTunai = new javax.swing.JTextField();
+        lblKembalian = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         jScrollPane1.setViewportView(list);
@@ -135,24 +176,52 @@ public class TransaksiAdmin extends javax.swing.JFrame {
             new String [] {
                 "kode obat", "nama", "harga", "banyak", "total"
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
+        ));
         jScrollPane2.setViewportView(tblTransaksi);
 
         getContentPane().add(jScrollPane2);
-        jScrollPane2.setBounds(320, 240, 700, 370);
+        jScrollPane2.setBounds(340, 250, 700, 250);
+
+        lblGrandtotal.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        getContentPane().add(lblGrandtotal);
+        lblGrandtotal.setBounds(490, 520, 180, 40);
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel6.setText("Kembalian");
+        getContentPane().add(jLabel6);
+        jLabel6.setBounds(340, 640, 140, 40);
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel7.setText("Grand Total");
+        getContentPane().add(jLabel7);
+        jLabel7.setBounds(340, 520, 140, 40);
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel8.setText("Tunai");
+        getContentPane().add(jLabel8);
+        jLabel8.setBounds(340, 580, 140, 40);
+
+        txtTunai.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        txtTunai.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTunaiKeyReleased(evt);
+            }
+        });
+        getContentPane().add(txtTunai);
+        txtTunai.setBounds(490, 580, 180, 40);
+
+        lblKembalian.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        getContentPane().add(lblKembalian);
+        lblKembalian.setBounds(490, 640, 250, 40);
+
+        jButton2.setText("Tambah");
+        getContentPane().add(jButton2);
+        jButton2.setBounds(770, 622, 140, 40);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/transaksirevisi .jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(20, 0, 1407, 768);
+        jLabel1.setBounds(20, 10, 1407, 768);
 
         setBounds(0, 0, 1641, 936);
     }// </editor-fold>//GEN-END:initComponents
@@ -175,36 +244,41 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
     }//GEN-LAST:event_txtSearchKeyReleased
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             
-//            Logic.Transaksi tr = new Logic.Transaksi();
-//            int kode_obat = tr.getKode(txtSearch.getText());
+            int dtotal = 0 ;
             Statement st = (Statement) conn.configDB().createStatement();
             ResultSet res = st.executeQuery("SELECT * FROM obat right JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat WHERE nama = '"+ txtSearch.getText() +"'");
             while(res.next()){
-                trns.add(new listData(res.getInt("kode_obat"), res.getString("nama"), res.getString("jenis")));
-//                trns.add(res.getString("kode_obat"));
-//                trns.add(res.getString("nama"));
-//                trns.add(res.getString("jenis"));
-//                trns.add(res.getString("kategori"));
-//                trns.add(res.getString("stok"));
-//                trns.add(res.getString("dosis"));
-//                trns.add(res.getString("harga_beli"));
-//                trns.add(res.getString("harga_jual"));
-//                trns.add(res.getString("tgl_kadaluarsa"));
-//                trns.add(res.getString("keterangan"));
+                trns.add(new listData(res.getInt("kode_obat"), res.getString("nama"),res.getInt("harga_jual"), Integer.parseInt(txtBanyak.getText()), (res.getInt("harga_jual")*Integer.parseInt(txtBanyak.getText()))));
             }
             for(listData i:trns){
-                System.out.println(i.nama);
+                dtotal = i.total;
             }
+            grandTotal = grandTotal + dtotal;
             System.out.println("size"+trns.size());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, e);
         }
+        datatable();
+        GrandTotal();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void txtTunaiKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTunaiKeyReleased
+        String StrTunai = txtTunai.getText();
+        int tunai = Integer.parseInt(StrTunai);
+        int result = tunai - grandTotal ;
+        if(result >= 0){
+            lblKembalian.setText(String.valueOf(result));
+        }else{
+            lblKembalian.setText("Duite kurang cok");
+        }
+        
+    }//GEN-LAST:event_txtTunaiKeyReleased
 
     public List<String> searchEngine(String query){
         List<String> data = new ArrayList<>();
@@ -212,7 +286,7 @@ public class TransaksiAdmin extends javax.swing.JFrame {
             Statement st = (Statement) conn.configDB().createStatement();
             ResultSet res = st.executeQuery("SELECT * FROM obat JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat WHERE nama LIKE '%"+ query +"%'");
             while(res.next()){
-                data.add(res.getString("nama")+res.getString("stok"));
+                data.add(res.getString("nama")+" stok = "+res.getString("stok") + ", harga = "+res.getInt("harga_jual"));
                
             }
             return data;
@@ -258,13 +332,19 @@ public class TransaksiAdmin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblDate;
+    private javax.swing.JLabel lblGrandtotal;
+    private javax.swing.JLabel lblKembalian;
     private javax.swing.JLabel lblKode;
     private javax.swing.JList<String> list;
     private javax.swing.JPopupMenu menu;
@@ -272,16 +352,25 @@ public class TransaksiAdmin extends javax.swing.JFrame {
     private javax.swing.JTable tblTransaksi;
     private javax.swing.JTextField txtBanyak;
     private javax.swing.JTextField txtSearch;
+    private javax.swing.JTextField txtTunai;
     // End of variables declaration//GEN-END:variables
 }
 class listData{
     public int kode_obat;
     public String nama;
-    public String jenis;
+    public int harga;
+    public int banyak;
+    public int total;
     
-    public listData(int kode_obat,String nama,String jenis){
+    public listData(int kode_obat,String nama,int harga, int banyak, int total){
         this.kode_obat = kode_obat;
         this.nama = nama;
-        this.jenis = jenis;
+        this.harga = harga;
+        this.banyak = banyak;
+        this.total = total;
+    }
+    public int jumlah (){
+        int result = this.harga * this.banyak;
+        return result;
     }
 }

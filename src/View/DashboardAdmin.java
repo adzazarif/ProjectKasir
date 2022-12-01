@@ -15,13 +15,28 @@ public class DashboardAdmin extends javax.swing.JFrame {
      */
     public DashboardAdmin() {
         initComponents();
+        sisaStockObat();
+        danaPemasukan();
+        barangTerjual();
     }
-//    public void sisaStockObat(){
-//        Logic.Dashboard ds = new Logic.Dashboard();
-//        int hasil = ds.stockObat();
-//        String result = String.valueOf(hasil);
-//        lblStockObat.setText(result);
-//    }
+    public void sisaStockObat(){
+        Logic.Dashboard ds = new Logic.Dashboard();
+        int hasil = ds.stockObat();
+        String result = String.valueOf(hasil);
+        lblStokObat1.setText(result);
+    }
+    public void danaPemasukan(){
+        Logic.Dashboard ds = new Logic.Dashboard();
+        int hasil = ds.Pemasukan();
+        String result = String.valueOf(hasil);
+        lblDanaPemasukan1.setText(result);
+    }
+    public void barangTerjual(){
+        Logic.Dashboard ds = new Logic.Dashboard();
+        int hasil = ds.barangTerjual();
+        String result = String.valueOf(hasil);
+        lblBarangTerjual.setText(result);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -31,18 +46,57 @@ public class DashboardAdmin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        lblBarangTerjual = new javax.swing.JLabel();
+        lblStokObat1 = new javax.swing.JLabel();
+        lblDanaPemasukan1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/fahmarevisi dashboard (1).jpg"))); // NOI18N
-        jLabel1.setText("jLabel1");
-        getContentPane().add(jLabel1);
-        jLabel1.setBounds(0, 0, 1407, 768);
+        lblBarangTerjual.setBackground(new java.awt.Color(255, 255, 255));
+        lblBarangTerjual.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblBarangTerjual.setForeground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(lblBarangTerjual);
+        lblBarangTerjual.setBounds(1100, 450, 80, 30);
 
-        setBounds(0, 0, 1609, 874);
+        lblStokObat1.setBackground(new java.awt.Color(255, 255, 255));
+        lblStokObat1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblStokObat1.setForeground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(lblStokObat1);
+        lblStokObat1.setBounds(590, 260, 80, 30);
+
+        lblDanaPemasukan1.setBackground(new java.awt.Color(255, 255, 255));
+        lblDanaPemasukan1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblDanaPemasukan1.setForeground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(lblDanaPemasukan1);
+        lblDanaPemasukan1.setBounds(600, 450, 80, 30);
+
+        jButton1.setBackground(new java.awt.Color(72, 65, 220));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Obat");
+        jButton1.setBorder(null);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1);
+        jButton1.setBounds(70, 230, 130, 40);
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/fahmarevisi dashboard (1).jpg"))); // NOI18N
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(6, 0, 1366, 768);
+
+        setBounds(0, 0, 1607, 873);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.setVisible(false);
+        new ObatAdmin().setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -80,6 +134,10 @@ public class DashboardAdmin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lblBarangTerjual;
+    private javax.swing.JLabel lblDanaPemasukan1;
+    private javax.swing.JLabel lblStokObat1;
     // End of variables declaration//GEN-END:variables
 }
