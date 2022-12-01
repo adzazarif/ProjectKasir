@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import koneksi.conn;
@@ -28,6 +29,9 @@ public class TransaksiAdmin extends javax.swing.JFrame {
     private int grandTotal;
     public TransaksiAdmin() {
         initComponents();
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        this.setUndecorated(true);
+        this.setVisible(true);
         menu.add(panel);
         mod = new DefaultListModel();
         list.setModel(mod);
@@ -105,17 +109,18 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
+        list.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jScrollPane1.setViewportView(list);
 
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         menu.setFocusable(false);
@@ -123,13 +128,14 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
+        txtSearch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtSearchKeyReleased(evt);
             }
         });
         getContentPane().add(txtSearch);
-        txtSearch.setBounds(320, 180, 350, 30);
+        txtSearch.setBounds(340, 180, 330, 30);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel2.setText("Kode Transaksi :");
@@ -153,6 +159,8 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         jLabel4.setText("Banyak");
         getContentPane().add(jLabel4);
         jLabel4.setBounds(690, 180, 50, 20);
+
+        txtBanyak.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         getContentPane().add(txtBanyak);
         txtBanyak.setBounds(750, 180, 110, 30);
 
@@ -165,6 +173,7 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         getContentPane().add(jButton1);
         jButton1.setBounds(910, 180, 80, 30);
 
+        tblTransaksi.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tblTransaksi.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -221,7 +230,7 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/transaksirevisi .jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(20, 10, 1407, 768);
+        jLabel1.setBounds(0, 0, 1370, 768);
 
         setBounds(0, 0, 1641, 936);
     }// </editor-fold>//GEN-END:initComponents
@@ -262,7 +271,7 @@ public class TransaksiAdmin extends javax.swing.JFrame {
             grandTotal = grandTotal + dtotal;
             System.out.println("size"+trns.size());
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(rootPane, e);
+            JOptionPane.showMessageDialog(rootPane, e); 
         }
         datatable();
         GrandTotal();

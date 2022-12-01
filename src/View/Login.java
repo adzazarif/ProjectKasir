@@ -34,13 +34,15 @@ public class Login extends javax.swing.JFrame {
 
         txtemail = new javax.swing.JTextField();
         txtpass = new javax.swing.JPasswordField();
-        btnLogin = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
         txtemail.setBackground(new java.awt.Color(245, 245, 245));
+        txtemail.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtemail.setToolTipText("");
         txtemail.setBorder(null);
         txtemail.addActionListener(new java.awt.event.ActionListener() {
@@ -49,29 +51,39 @@ public class Login extends javax.swing.JFrame {
             }
         });
         getContentPane().add(txtemail);
-        txtemail.setBounds(690, 290, 600, 40);
+        txtemail.setBounds(690, 290, 600, 50);
 
         txtpass.setBackground(new java.awt.Color(245, 245, 245));
+        txtpass.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtpass.setBorder(null);
-        getContentPane().add(txtpass);
-        txtpass.setBounds(690, 410, 600, 40);
-
-        btnLogin.setText("Login");
-        btnLogin.setBorder(null);
-        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+        txtpass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLoginActionPerformed(evt);
+                txtpassActionPerformed(evt);
             }
         });
-        getContentPane().add(btnLogin);
-        btnLogin.setBounds(670, 520, 630, 60);
+        getContentPane().add(txtpass);
+        txtpass.setBounds(690, 410, 560, 40);
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Admin Login (2).jpg"))); // NOI18N
-        jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jLabel2.setFocusable(false);
-        jLabel2.setOpaque(true);
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(0, 0, 1366, 768);
+        jLabel2.setBounds(680, 520, 620, 60);
+
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
+        getContentPane().add(jLabel3);
+        jLabel3.setBounds(1140, 460, 170, 40);
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Admin Login (4).jpg"))); // NOI18N
+        jLabel1.setText("jLabel1");
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(0, 0, 1370, 770);
 
         setSize(new java.awt.Dimension(1640, 914));
         setLocationRelativeTo(null);
@@ -81,7 +93,11 @@ public class Login extends javax.swing.JFrame {
 
     }//GEN-LAST:event_txtemailActionPerformed
 
-    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+    private void txtpassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtpassActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtpassActionPerformed
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
         String username = txtemail.getText();
         String pass = txtpass.getText();
         Logic.login login = new Logic.login();
@@ -100,7 +116,12 @@ public class Login extends javax.swing.JFrame {
         }else{
              JOptionPane.showMessageDialog(this, "email dan pass salah");
         }
-    }//GEN-LAST:event_btnLoginActionPerformed
+    }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        this.setVisible(false);
+        new KonfirmasiPass().setVisible(true);
+    }//GEN-LAST:event_jLabel3MouseClicked
 
     /**
      * @param args the command line arguments
@@ -138,8 +159,9 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnLogin;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JTextField txtemail;
     private javax.swing.JPasswordField txtpass;
     // End of variables declaration//GEN-END:variables
