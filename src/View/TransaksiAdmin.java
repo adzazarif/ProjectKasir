@@ -4,10 +4,10 @@ package View;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
@@ -107,6 +107,7 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         txtTunai = new javax.swing.JTextField();
         lblKembalian = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         list.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -224,8 +225,17 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         lblKembalian.setBounds(490, 640, 250, 40);
 
         jButton2.setText("Tambah");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton2);
         jButton2.setBounds(770, 622, 140, 40);
+
+        jLabel5.setText("jLabel5");
+        getContentPane().add(jLabel5);
+        jLabel5.setBounds(560, 380, 37, 16);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/transaksirevisi .jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
@@ -263,6 +273,10 @@ public class TransaksiAdmin extends javax.swing.JFrame {
             Statement st = (Statement) conn.configDB().createStatement();
             ResultSet res = st.executeQuery("SELECT * FROM obat right JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat WHERE nama = '"+ txtSearch.getText() +"'");
             while(res.next()){
+                if(res.getInt("stok") < Integer.parseInt(txtBanyak.getText())){
+                    JOptionPane.showMessageDialog(rootPane, "Stok tidak cukup");
+                    return ;
+                }
                 trns.add(new listData(res.getInt("kode_obat"), res.getString("nama"),res.getInt("harga_jual"), Integer.parseInt(txtBanyak.getText()), (res.getInt("harga_jual")*Integer.parseInt(txtBanyak.getText()))));
             }
             for(listData i:trns){
@@ -284,10 +298,54 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         if(result >= 0){
             lblKembalian.setText(String.valueOf(result));
         }else{
-            lblKembalian.setText("Duite kurang cok");
+            lblKembalian.setText("Uang nya tidak memenuhi");
         }
         
     }//GEN-LAST:event_txtTunaiKeyReleased
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        
+        try {
+        Logic.Transaksi ts = new Logic.Transaksi();
+        String date = ts.typeDate();
+        String queryTransaksi = "INSERT INTO transaksi (`tgl_transaksi`, `total_harga`) VALUES ('"
+                                                             + date + "','"
+                                                            + grandTotal + "');";
+        Connection koneksi = (Connection)conn.configDB();
+        PreparedStatement pstDetail = koneksi.prepareStatement(queryTransaksi);
+        pstDetail.execute();
+       
+        String queryCek = "SELECT * FROM transaksi WHERE tgl_transaksi = '" + date +"'";
+        Statement pstCek = koneksi.createStatement();
+        ResultSet res = pstCek.executeQuery(queryCek);
+         if(res.next()){
+                int kd_transaksi = res.getInt("kode_transaksi");
+                for(listData i:trns){
+                    String queryStok = "SELECT * FROM detail_obat WHERE kode_obat = '" + i.kode_obat +"'";
+                    Statement pststok = koneksi.createStatement();
+                    ResultSet resStok = pststok.executeQuery(queryStok);
+                    if(resStok.next()){
+                        int stok = resStok.getInt("stok");
+                        int resultStok = stok - i.banyak;
+                        String sql = "UPDATE detail_obat SET stok='"+resultStok+"'WHERE kode_obat = '"+i.kode_obat+"'";       
+                        PreparedStatement pstStok=koneksi.prepareStatement(sql);
+                        pstStok.execute();
+                    }
+                    String queryDetailTransaksi = "INSERT INTO detail_transaksi VALUES ('"
+                                                            + kd_transaksi + "','"
+                                                            + i.kode_obat + "','"
+                                                            + i.banyak + "','"
+                                                            + i.total + "');";
+                    PreparedStatement pstObat = koneksi.prepareStatement(queryDetailTransaksi);
+                    pstObat.execute();
+                }
+            }
+        JOptionPane.showMessageDialog(rootPane, "Transaksi berhasil");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e);
+        }
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     public List<String> searchEngine(String query){
         List<String> data = new ArrayList<>();
@@ -346,6 +404,7 @@ public class TransaksiAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;

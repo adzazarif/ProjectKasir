@@ -4,8 +4,10 @@
  */
 package Logic;
 
-import com.sun.jdi.connect.spi.Connection;
+
+
 import java.sql.ResultSet;
+import java.sql.Connection;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -23,7 +25,14 @@ public class Transaksi {
    public String date(){
         LocalDateTime myDateObj = LocalDateTime.now();  
         DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("E, MMM dd yyyy HH:mm:ss");  
-    
+        String formattedDate = myDateObj.format(myFormatObj);  
+        System.out.println(formattedDate);
+        return formattedDate;
+    } 
+   public String typeDate(){
+        LocalDateTime myDateObj = LocalDateTime.now();  
+//        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("E, MMM dd yyyy HH:mm:ss");  
+            DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");  
         String formattedDate = myDateObj.format(myFormatObj);  
         System.out.println(formattedDate);
         return formattedDate;
@@ -43,6 +52,22 @@ public class Transaksi {
        }
        return resultKode;
    }
+   
+   
+   //Bagian Method untuk menangani laporan transaksi
+        public boolean getData(){
+        try{
+        String sql = "SELECT * FROM transaksi JOIN transaksi ON detail_transaksi.kode_transaksi ";
+        Connection koneksi = (Connection)conn.configDB();
+        Statement stm = koneksi.createStatement();
+        ResultSet res = stm.executeQuery(sql);
+        return res.next();
+    }catch(Exception e){
+        return false;
+    }
+    }
+        
+     
 //   public int getKode(String nama){
 //         try {
 //           Statement st = (Statement) conn.configDB().createStatement();

@@ -91,13 +91,28 @@ public class Obat {
             return false;
         }
     }
-    public static void main(String[] args) {
-        Obat obat = new Obat();
-//         obat.edit(15, "edit", "edit", "edit", 1, 1, 1, 1, "2022-10-10", "edit");
-//        if(hapus){
-//            JOptionPane.showMessageDialog(null, "data behasil di hapus");
-//        }else{
-//            JOptionPane.showMessageDialog(null, "data gagal di hapus");
-//        }
+         public boolean getData(){
+        try{
+        String sql = "select * from obat JOIN detail_join ON obat.kode_obat = detail_obat.kode_obat ";
+        Connection koneksi = (Connection)conn.configDB();
+        Statement stm = koneksi.createStatement();
+        ResultSet res = stm.executeQuery(sql);
+        return res.next();
+    }catch(Exception e){
+        return false;
+    }
+    }
+         
+     public boolean filter(String nama, String jenis, String kategori){
+        try{
+        String sql = "SELECT * FROM obat JOIN detail_transaksi ON obat.kode_obat = detail_obat = kode_obat WHERE "
+                + "nama ='"+ nama+"' OR jenis = '"+jenis+ "' OR kategori = "+kategori+"'";
+        Connection koneksi = (Connection)conn.configDB();
+        Statement stm = koneksi.createStatement();
+        ResultSet res = stm.executeQuery(sql);
+        return res.next();
+    }catch(Exception e){
+        return false;
+    }
     }
 }
