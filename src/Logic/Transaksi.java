@@ -40,10 +40,10 @@ public class Transaksi {
    public int kodeTransaksi(){
        try {
        Statement st = (Statement)conn.configDB().createStatement();
-       ResultSet res = st.executeQuery("SELECT * FROM obat ORDER BY kode_obat DESC");
+       ResultSet res = st.executeQuery("SELECT * FROM transaksi ORDER BY kode_transaksi DESC");
        
        if(res.next()){
-           int kode = res.getInt("kode_obat");
+           int kode = res.getInt("kode_transaksi");
            resultKode = kode + 1;
        }
        

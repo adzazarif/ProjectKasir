@@ -284,9 +284,12 @@ public class TransaksiAdmin extends javax.swing.JFrame {
             }
             grandTotal = grandTotal + dtotal;
             System.out.println("size"+trns.size());
+            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, e); 
         }
+        txtSearch.setText(null);
+        txtBanyak.setText(null);
         datatable();
         GrandTotal();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -340,6 +343,11 @@ public class TransaksiAdmin extends javax.swing.JFrame {
                     pstObat.execute();
                 }
             }
+         trns.clear();
+         datatable();
+         setDateAndKode();
+         grandTotal = 0;
+         lblGrandtotal.setText(null);
         JOptionPane.showMessageDialog(rootPane, "Transaksi berhasil");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, e);
