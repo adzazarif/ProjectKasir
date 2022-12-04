@@ -108,6 +108,7 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         lblKembalian = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
+        txtDetail = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
 
         list.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -159,11 +160,11 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("Banyak");
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(690, 180, 50, 20);
+        jLabel4.setBounds(970, 180, 50, 20);
 
         txtBanyak.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         getContentPane().add(txtBanyak);
-        txtBanyak.setBounds(750, 180, 110, 30);
+        txtBanyak.setBounds(1050, 180, 110, 30);
 
         jButton1.setText("Tambah");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -172,7 +173,7 @@ public class TransaksiAdmin extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton1);
-        jButton1.setBounds(910, 180, 80, 30);
+        jButton1.setBounds(1200, 180, 80, 30);
 
         tblTransaksi.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tblTransaksi.setModel(new javax.swing.table.DefaultTableModel(
@@ -236,6 +237,8 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         jLabel5.setText("jLabel5");
         getContentPane().add(jLabel5);
         jLabel5.setBounds(560, 380, 37, 16);
+        getContentPane().add(txtDetail);
+        txtDetail.setBounds(710, 180, 170, 22);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/transaksirevisi .jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
@@ -271,13 +274,13 @@ public class TransaksiAdmin extends javax.swing.JFrame {
             
             int dtotal = 0 ;
             Statement st = (Statement) conn.configDB().createStatement();
-            ResultSet res = st.executeQuery("SELECT * FROM obat right JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat WHERE nama = '"+ txtSearch.getText() +"'");
+            ResultSet res = st.executeQuery("SELECT * FROM obat right JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat WHERE obat.nama = '"+ txtSearch.getText() +"' AND detail_obat.id_detail = '" + txtDetail.getText() + "'");
             while(res.next()){
                 if(res.getInt("stok") < Integer.parseInt(txtBanyak.getText())){
                     JOptionPane.showMessageDialog(rootPane, "Stok tidak cukup");
                     return ;
                 }
-                trns.add(new listData(res.getInt("kode_obat"), res.getString("nama"),res.getInt("harga_jual"), Integer.parseInt(txtBanyak.getText()), (res.getInt("harga_jual")*Integer.parseInt(txtBanyak.getText()))));
+                trns.add(new listData(res.getInt("kode_obat"), res.getInt("id_detail"), res.getString("nama"),res.getInt("harga_jual"), Integer.parseInt(txtBanyak.getText()), (res.getInt("harga_jual")*Integer.parseInt(txtBanyak.getText()))));
             }
             for(listData i:trns){
                 dtotal = i.total;
@@ -324,13 +327,13 @@ public class TransaksiAdmin extends javax.swing.JFrame {
          if(res.next()){
                 int kd_transaksi = res.getInt("kode_transaksi");
                 for(listData i:trns){
-                    String queryStok = "SELECT * FROM detail_obat WHERE kode_obat = '" + i.kode_obat +"'";
+                    String queryStok = "SELECT * FROM id_detail WHERE kode_obat = '" + i.kode_obat +"'";
                     Statement pststok = koneksi.createStatement();
                     ResultSet resStok = pststok.executeQuery(queryStok);
                     if(resStok.next()){
                         int stok = resStok.getInt("stok");
                         int resultStok = stok - i.banyak;
-                        String sql = "UPDATE detail_obat SET stok='"+resultStok+"'WHERE kode_obat = '"+i.kode_obat+"'";       
+                        String sql = "UPDATE detail_obat SET stok='"+resultStok+"'WHERE id_detail = '"+i.kode_obat+"'";       
                         PreparedStatement pstStok=koneksi.prepareStatement(sql);
                         pstStok.execute();
                     }
@@ -361,7 +364,7 @@ public class TransaksiAdmin extends javax.swing.JFrame {
             Statement st = (Statement) conn.configDB().createStatement();
             ResultSet res = st.executeQuery("SELECT * FROM obat JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat WHERE nama LIKE '%"+ query +"%'");
             while(res.next()){
-                data.add(res.getString("nama")+" stok = "+res.getString("stok") + ", harga = "+res.getInt("harga_jual"));
+                data.add(res.getString("nama")+" Id_detail = "+res.getString("id_detail")+" stok = "+res.getString("stok") + ", harga = "+res.getInt("harga_jual"));
                
             }
             return data;
@@ -427,19 +430,22 @@ public class TransaksiAdmin extends javax.swing.JFrame {
     private javax.swing.JPanel panel;
     private javax.swing.JTable tblTransaksi;
     private javax.swing.JTextField txtBanyak;
+    private javax.swing.JTextField txtDetail;
     private javax.swing.JTextField txtSearch;
     private javax.swing.JTextField txtTunai;
     // End of variables declaration//GEN-END:variables
 }
 class listData{
     public int kode_obat;
+    public int id_detail;
     public String nama;
     public int harga;
     public int banyak;
     public int total;
     
-    public listData(int kode_obat,String nama,int harga, int banyak, int total){
+    public listData(int kode_obat, int id_detail, String nama,int harga, int banyak, int total){
         this.kode_obat = kode_obat;
+        this.id_detail = id_detail;
         this.nama = nama;
         this.harga = harga;
         this.banyak = banyak;

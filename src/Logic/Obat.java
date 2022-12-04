@@ -17,12 +17,11 @@ import koneksi.conn;
  */
 public class Obat {
     
-    public boolean tambah(String nama,String jenis,String kategori,int stok, int dosis, int harga_beli, int harga_jual, String tgl_exp, String ket){
+    public boolean tambah(String nama,String jenis,String kategori,String stok, String dosis, String harga_beli, String harga_jual, String tgl_exp, String ket){
           try {
             Connection koneksi = (Connection)conn.configDB();
-            String queryObat = "INSERT INTO obat (`nama`, `jenis`, `kategori`) VALUES ('"
+            String queryObat = "INSERT INTO obat (`nama`, `kategori`) VALUES ('"
                                                              + nama + "','"
-                                                             + jenis + "','"
                                                              + kategori + "');";
             PreparedStatement pstObat = koneksi.prepareStatement(queryObat);
             pstObat.execute();
@@ -34,8 +33,9 @@ public class Obat {
                 return false;
             }
             int kode_obat = res.getInt("kode_obat");
-            String queryDetail = "INSERT INTO detail_obat (`kode_obat`, `stok`, `dosis`,`harga_beli`, `harga_jual`, `tgl_kadaluarsa`, `keterangan`) VALUES ('"
+            String queryDetail = "INSERT INTO detail_obat (`kode_obat`,`jenis`,`stok`, `dosis`,`harga_beli`, `harga_jual`, `tgl_kadaluarsa`, `keterangan`) VALUES ('"
                                                              + kode_obat + "','"
+                                                             + jenis + "','"
                                                              + stok + "','"
                                                              + dosis + "','"
                                                              + harga_beli + "','"
@@ -114,5 +114,9 @@ public class Obat {
     }catch(Exception e){
         return false;
     }
+    }
+     public static void main(String[] args) {
+//        Obat o = new Obat();
+//        o.tam
     }
 }
