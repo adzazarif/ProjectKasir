@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
 import koneksi.conn;
 
@@ -16,7 +18,14 @@ import koneksi.conn;
  * @author WINDOWS 10
  */
 public class Obat {
-    
+       public String date(){
+        LocalDateTime myDateObj = LocalDateTime.now();   
+            DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd");  
+        String formattedDate = myDateObj.format(myFormatObj);  
+        System.out.println(formattedDate);
+        return formattedDate;
+    } 
+       
     public boolean tambah(String nama,String jenis,String kategori,String stok, String dosis, String harga_beli, String harga_jual, String tgl_exp, String ket){
           try {
             Connection koneksi = (Connection)conn.configDB();
@@ -33,7 +42,7 @@ public class Obat {
                 return false;
             }
             int kode_obat = res.getInt("kode_obat");
-            String queryDetail = "INSERT INTO detail_obat (`kode_obat`,`jenis`,`stok`, `dosis`,`harga_beli`, `harga_jual`, `tgl_kadaluarsa`, `keterangan`) VALUES ('"
+            String queryDetail = "INSERT INTO detail_obat (`kode_obat`,`jenis`,`stok`, `dosis`,`harga_beli`, `harga_jual`, `tgl_kadaluarsa`, `tgl_masuk`,`keterangan`) VALUES ('"
                                                              + kode_obat + "','"
                                                              + jenis + "','"
                                                              + stok + "','"
@@ -41,6 +50,7 @@ public class Obat {
                                                              + harga_beli + "','"
                                                              + harga_jual + "','"
                                                              + tgl_exp + "','"
+                                                             + date() + "','"
                                                              + ket + "');";
             PreparedStatement pstDetail = koneksi.prepareStatement(queryDetail);
             pstDetail.execute();
@@ -50,16 +60,16 @@ public class Obat {
         }
     }
     
-    public boolean edit(int kode_obat, String nama,String jenis,String kategori,int stok, int dosis, int harga_beli, int harga_jual, String tgl_exp, String ket){
+    public boolean edit(int kode_obat, String nama,String jenis,String kategori,String stok, String dosis, String harga_beli, String harga_jual, String tgl_exp, String ket){
         try {
             Statement st = (Statement) conn.configDB().createStatement();
             st.executeUpdate("UPDATE obat SET "
                                                             + "nama = '" + nama + "',"
-                                                            + "jenis = '" + jenis + "',"
                                                             + "kategori = '" + kategori + "' WHERE kode_obat ='" + kode_obat + "'" );
             
             st.executeUpdate("UPDATE detail_obat SET "
                                                             + "stok = '" + stok + "',"
+                                                            + "jenis = '" + jenis + "',"
                                                             + "dosis = '" + dosis + "',"
                                                             + "harga_beli = '" + harga_beli + "',"
                                                             + "harga_jual = '" + harga_jual + "',"
@@ -72,6 +82,7 @@ public class Obat {
 //            JOptionPane.showMessageDialog(null, "data gagal di update");
         }
     }
+    
     public boolean hapus(int id){
         try {
             Statement st = (Statement) conn.configDB().createStatement();
@@ -85,13 +96,34 @@ public class Obat {
             PreparedStatement pstHapusObat = koneksi.prepareStatement(queryHapusObat);
             pstHapusObat.execute();
             
-            
             return true;
         } catch (Exception e) {
             return false;
         }
     }
-         public boolean getData(){
+    //method untuk menambahkan detail obat
+    public boolean tambahDetail(String kode_obat,String jenis, String dosis, String stok, String harga_jual, String harga_beli, String tgl_exp,String ket){
+        try {
+            Connection koneksi = (Connection)conn.configDB();
+              String queryDetail = "INSERT INTO detail_obat (`kode_obat`,`jenis`,`stok`, `dosis`,`harga_beli`, `harga_jual`, `tgl_kadaluarsa`,`tgl_masuk`, `keterangan`) VALUES ('"
+                                                             + kode_obat + "','"
+                                                             + jenis + "','"
+                                                             + stok + "','"
+                                                             + dosis + "','"
+                                                             + harga_beli + "','"
+                                                             + harga_jual + "','"
+                                                             + tgl_exp + "','"
+                                                             + date() + "','"
+                                                             + ket + "');";
+            PreparedStatement pstDetail = koneksi.prepareStatement(queryDetail);
+            pstDetail.execute();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
+        public boolean getData(){
         try{
         String sql = "select * from obat JOIN detail_join ON obat.kode_obat = detail_obat.kode_obat ";
         Connection koneksi = (Connection)conn.configDB();

@@ -4,7 +4,13 @@
  */
 package View;
 
+import Logic.Obat;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import koneksi.conn;
 
 /**
  *
@@ -20,8 +26,24 @@ public class TambahDetailObatAdmin extends javax.swing.JFrame {
         this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
         this.setUndecorated(true);
         this.setVisible(true);
+        setObat();
     }
-
+    public void setObat(){
+        try {
+            ObatAdmin obat = new ObatAdmin();
+            int kode_obat = obat.kd_obat;
+            Connection koneksi = (Connection)conn.configDB();
+            String queryCek = "SELECT * FROM obat WHERE kode_obat = '" + kode_obat +"'";
+            Statement pstCek = koneksi.createStatement();
+            ResultSet res = pstCek.executeQuery(queryCek);
+            if(res.next()){
+                lblKode.setText(res.getString("kode_obat"));
+                lblNama.setText(res.getString("nama"));
+                lblKategori.setText(res.getString("kategori"));
+            }
+        } catch (Exception e) {
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -32,6 +54,18 @@ public class TambahDetailObatAdmin extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        lblKode = new javax.swing.JLabel();
+        lblKategori = new javax.swing.JLabel();
+        lblNama = new javax.swing.JLabel();
+        txtTglexp = new javax.swing.JTextField();
+        cmbJenis = new javax.swing.JComboBox<>();
+        txtDosis = new javax.swing.JTextField();
+        txtStok = new javax.swing.JTextField();
+        txtHargaBeli = new javax.swing.JTextField();
+        txtHargaJual = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtKet = new javax.swing.JTextArea();
+        txtSimpan = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -44,6 +78,70 @@ public class TambahDetailObatAdmin extends javax.swing.JFrame {
         });
         getContentPane().add(jLabel1);
         jLabel1.setBounds(350, 660, 150, 50);
+
+        lblKode.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        getContentPane().add(lblKode);
+        lblKode.setBounds(530, 130, 140, 30);
+
+        lblKategori.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        getContentPane().add(lblKategori);
+        lblKategori.setBounds(530, 250, 200, 30);
+
+        lblNama.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        getContentPane().add(lblNama);
+        lblNama.setBounds(530, 190, 200, 30);
+
+        txtTglexp.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtTglexp.setBorder(null);
+        getContentPane().add(txtTglexp);
+        txtTglexp.setBounds(1080, 130, 250, 40);
+
+        cmbJenis.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cmbJenis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tablet", "Cair", "Kapsul", "Oles", "Suntik", "Implam" }));
+        cmbJenis.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbJenisActionPerformed(evt);
+            }
+        });
+        getContentPane().add(cmbJenis);
+        cmbJenis.setBounds(530, 320, 250, 40);
+
+        txtDosis.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtDosis.setBorder(null);
+        getContentPane().add(txtDosis);
+        txtDosis.setBounds(530, 380, 250, 30);
+
+        txtStok.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtStok.setBorder(null);
+        getContentPane().add(txtStok);
+        txtStok.setBounds(1080, 190, 250, 30);
+
+        txtHargaBeli.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtHargaBeli.setBorder(null);
+        getContentPane().add(txtHargaBeli);
+        txtHargaBeli.setBounds(1090, 250, 240, 40);
+
+        txtHargaJual.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtHargaJual.setBorder(null);
+        getContentPane().add(txtHargaJual);
+        txtHargaJual.setBounds(1090, 310, 240, 40);
+
+        txtKet.setColumns(20);
+        txtKet.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtKet.setRows(5);
+        txtKet.setBorder(null);
+        jScrollPane1.setViewportView(txtKet);
+
+        getContentPane().add(jScrollPane1);
+        jScrollPane1.setBounds(530, 470, 800, 130);
+
+        txtSimpan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtSimpanMouseClicked(evt);
+            }
+        });
+        getContentPane().add(txtSimpan);
+        txtSimpan.setBounds(530, 660, 150, 50);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/tambah detail obatnew.jpg"))); // NOI18N
         jLabel2.setText("jLabel2");
@@ -59,6 +157,41 @@ public class TambahDetailObatAdmin extends javax.swing.JFrame {
         this.setVisible(false);
         obat.setVisible(true);
     }//GEN-LAST:event_jLabel1MouseClicked
+
+    private void cmbJenisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbJenisActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbJenisActionPerformed
+
+    private void txtSimpanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtSimpanMouseClicked
+        String jenis = String.valueOf(cmbJenis.getSelectedItem());
+        String stok = txtStok.getText();
+        String dosis = txtDosis.getText();
+        String harga_jual = txtHargaJual.getText();
+        String harga_beli = txtHargaBeli.getText();
+        String tgl_exp = txtTglexp.getText();
+        String ket = txtKet.getText(); 
+         
+        try {
+            ObatAdmin obat = new ObatAdmin();
+            int kode_obat = obat.kd_obat;
+            Connection koneksi = (Connection)conn.configDB();
+            String queryCek = "SELECT * FROM obat WHERE kode_obat = '" + kode_obat +"'";
+            Statement pstCek = koneksi.createStatement();
+            ResultSet res = pstCek.executeQuery(queryCek);
+            if(!res.next()){
+                 return;
+            }
+             Obat o = new Obat();
+                  boolean result = o.tambahDetail(res.getString("kode_obat"), jenis, dosis, stok, harga_jual, harga_beli, tgl_exp, ket);
+                  if(result){
+                      JOptionPane.showMessageDialog(rootPane, "Data berhasil ditambahkan");
+                  }else{
+                      JOptionPane.showMessageDialog(rootPane, "Data gagal ditambahkan");
+                  }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e);
+        }
+    }//GEN-LAST:event_txtSimpanMouseClicked
 
     /**
      * @param args the command line arguments
@@ -96,7 +229,19 @@ public class TambahDetailObatAdmin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cmbJenis;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblKategori;
+    private javax.swing.JLabel lblKode;
+    private javax.swing.JLabel lblNama;
+    private javax.swing.JTextField txtDosis;
+    private javax.swing.JTextField txtHargaBeli;
+    private javax.swing.JTextField txtHargaJual;
+    private javax.swing.JTextArea txtKet;
+    private javax.swing.JLabel txtSimpan;
+    private javax.swing.JTextField txtStok;
+    private javax.swing.JTextField txtTglexp;
     // End of variables declaration//GEN-END:variables
 }

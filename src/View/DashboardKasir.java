@@ -15,28 +15,8 @@ public class DashboardKasir extends javax.swing.JFrame {
      */
     public DashboardKasir() {
         initComponents();
-        sisaStockObat();
-        danaPemasukan();
-        barangTerjual();
     }
-public void sisaStockObat(){
-        Logic.Dashboard ds = new Logic.Dashboard();
-        int hasil = ds.stockObat();
-        String result = String.valueOf(hasil);
-        lblStokObat.setText(result);
-    }
-    public void danaPemasukan(){
-        Logic.Dashboard ds = new Logic.Dashboard();
-        int hasil = ds.Pemasukan();
-        String result = String.valueOf(hasil);
-        lblDanaPemasukan.setText(result);
-    }
-    public void barangTerjual(){
-        Logic.Dashboard ds = new Logic.Dashboard();
-        int hasil = ds.barangTerjual();
-        String result = String.valueOf(hasil);
-        lblBarangTerjual.setText(result);
-    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -46,44 +26,20 @@ public void sisaStockObat(){
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTextField1 = new javax.swing.JTextField();
-        lblDanaPemasukan = new javax.swing.JLabel();
-        lblBarangTerjual = new javax.swing.JLabel();
-        lblStokObat = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(null);
 
-        jTextField1.setText("jTextField1");
-        getContentPane().add(jTextField1);
-        jTextField1.setBounds(550, 620, 70, 22);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
 
-        lblDanaPemasukan.setBackground(new java.awt.Color(255, 255, 255));
-        lblDanaPemasukan.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        lblDanaPemasukan.setForeground(new java.awt.Color(255, 255, 255));
-        getContentPane().add(lblDanaPemasukan);
-        lblDanaPemasukan.setBounds(590, 450, 80, 30);
-
-        lblBarangTerjual.setBackground(new java.awt.Color(255, 255, 255));
-        lblBarangTerjual.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        lblBarangTerjual.setForeground(new java.awt.Color(255, 255, 255));
-        getContentPane().add(lblBarangTerjual);
-        lblBarangTerjual.setBounds(1090, 450, 80, 30);
-
-        lblStokObat.setBackground(new java.awt.Color(255, 255, 255));
-        lblStokObat.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        lblStokObat.setForeground(new java.awt.Color(255, 255, 255));
-        getContentPane().add(lblStokObat);
-        lblStokObat.setBounds(590, 260, 80, 30);
-
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/fahmarevisi kasir.jpg"))); // NOI18N
-        jLabel1.setText("jLabel1");
-        jLabel1.setPreferredSize(new java.awt.Dimension(1366, 768));
-        getContentPane().add(jLabel1);
-        jLabel1.setBounds(0, 0, 1366, 768);
-
-        setBounds(0, 0, 1664, 796);
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     /**
@@ -122,10 +78,5 @@ public void sisaStockObat(){
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JLabel lblBarangTerjual;
-    private javax.swing.JLabel lblDanaPemasukan;
-    private javax.swing.JLabel lblStokObat;
     // End of variables declaration//GEN-END:variables
 }

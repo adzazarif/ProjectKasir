@@ -112,6 +112,11 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         list.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        list.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(list);
 
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
@@ -357,6 +362,10 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void listMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_listMouseClicked
 
     public List<String> searchEngine(String query){
         List<String> data = new ArrayList<>();

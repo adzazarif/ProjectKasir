@@ -58,7 +58,7 @@ public class TambahObatAdmin extends javax.swing.JFrame {
         getContentPane().add(btnKembali);
         btnKembali.setBounds(350, 590, 150, 40);
 
-        txtStok.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtStok.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtStok.setBorder(null);
         txtStok.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -68,27 +68,27 @@ public class TambahObatAdmin extends javax.swing.JFrame {
         getContentPane().add(txtStok);
         txtStok.setBounds(1080, 190, 250, 30);
 
-        txtNama.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtNama.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtNama.setBorder(null);
         getContentPane().add(txtNama);
         txtNama.setBounds(530, 130, 250, 40);
 
-        txtDosis.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtDosis.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtDosis.setBorder(null);
         getContentPane().add(txtDosis);
         txtDosis.setBounds(530, 320, 250, 40);
 
-        txtHargaJual.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtHargaJual.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtHargaJual.setBorder(null);
         getContentPane().add(txtHargaJual);
         txtHargaJual.setBounds(1080, 310, 250, 40);
 
-        txtTglexp.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtTglexp.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtTglexp.setBorder(null);
         getContentPane().add(txtTglexp);
         txtTglexp.setBounds(1080, 130, 250, 40);
 
-        txtHargaBeli.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtHargaBeli.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtHargaBeli.setBorder(null);
         getContentPane().add(txtHargaBeli);
         txtHargaBeli.setBounds(1080, 250, 250, 40);
@@ -101,15 +101,18 @@ public class TambahObatAdmin extends javax.swing.JFrame {
         getContentPane().add(jLabel2);
         jLabel2.setBounds(540, 590, 150, 40);
 
+        cmbJenis.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cmbJenis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tablet", "Cair", "Kapsul", "Oles", "Suntik", "Implam" }));
         getContentPane().add(cmbJenis);
         cmbJenis.setBounds(520, 260, 260, 30);
 
+        cmbKategori.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cmbKategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Obat BebasTerbatas", "Obat Bebas", "Obat Keras", "Obat Wajib Apotek", "Obat Gol Narkotika", "Obat Psikotropika", "Obat Herbal", " " }));
         getContentPane().add(cmbKategori);
         cmbKategori.setBounds(520, 200, 260, 30);
 
         txtKet.setColumns(20);
+        txtKet.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtKet.setRows(5);
         txtKet.setBorder(null);
         jScrollPane1.setViewportView(txtKet);

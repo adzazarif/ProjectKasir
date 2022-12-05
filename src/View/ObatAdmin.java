@@ -4,10 +4,12 @@
  */
 package View;
 
+import Logic.Obat;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import koneksi.conn;
 /**
@@ -20,6 +22,7 @@ public class ObatAdmin extends javax.swing.JFrame {
      * Creates new form ObatAdmin
      */
     public static int kd_obat;
+    public static int id_detail;
     public ObatAdmin() {
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
@@ -29,15 +32,17 @@ public class ObatAdmin extends javax.swing.JFrame {
     }
 public void load_table(){
         DefaultTableModel model = new DefaultTableModel();
-        model.addColumn("No");
+        model.addColumn("No");      
         model.addColumn("Kode Obat");
+        model.addColumn("id_detail");
         model.addColumn("Nama");
         model.addColumn("Kategori");
+        model.addColumn("Jenis");
         model.addColumn("Stok");
         model.addColumn("Harga Jual");
     try{
         int no = 1;
-        String sql = "SELECT * FROM obat JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat GROUP BY obat.nama";
+        String sql = "SELECT * FROM obat JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat";
         Connection conn = (Connection) koneksi.conn.configDB();
         Statement stm = conn.createStatement();
         ResultSet res = stm.executeQuery(sql);
@@ -45,8 +50,10 @@ public void load_table(){
             model.addRow(new Object[]{
                 no++,
                 res.getString("kode_obat"),
+                res.getString("id_detail"),
                 res.getString("nama"),
                 res.getString("kategori"), 
+                res.getString("jenis"), 
                 res.getString("stok"), 
                 res.getString("harga_jual"),
             });
@@ -67,6 +74,9 @@ public void load_table(){
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
+        btnDetail = new javax.swing.JLabel();
+        btnHapus = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -105,6 +115,30 @@ public void load_table(){
         getContentPane().add(jScrollPane1);
         jScrollPane1.setBounds(340, 330, 960, 402);
 
+        btnDetail.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnDetailMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnDetail);
+        btnDetail.setBounds(440, 230, 140, 40);
+
+        btnHapus.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnHapusMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnHapus);
+        btnHapus.setBounds(610, 160, 150, 50);
+
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
+        getContentPane().add(jLabel3);
+        jLabel3.setBounds(610, 220, 150, 50);
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/obatnew.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1);
@@ -126,10 +160,36 @@ public void load_table(){
     private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
         int baris = table.rowAtPoint(evt.getPoint());
         String kode_obat = table.getValueAt(baris, 1).toString();
-        int result = Integer.parseInt(kode_obat);
-        
+        int result = Integer.parseInt(kode_obat);  
+        String detail = table.getValueAt(baris, 2).toString();
+        int resultDetail = Integer.parseInt(detail);
+        System.out.println(kd_obat);
         kd_obat = result;
+        id_detail = resultDetail;
     }//GEN-LAST:event_tableMouseClicked
+
+    private void btnDetailMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDetailMouseClicked
+        this.setVisible(false);
+        new DetailObatAdmin().setVisible(true);
+    }//GEN-LAST:event_btnDetailMouseClicked
+
+    private void btnHapusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusMouseClicked
+        Obat obat = new Obat();
+        boolean result = obat.hapus(kd_obat);
+        if(result){
+            JOptionPane.showMessageDialog(rootPane, "Data berhasil di hapus");
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "Data gagal di hapus");
+        }
+        kd_obat = 0; 
+        id_detail = 0;
+        load_table();
+    }//GEN-LAST:event_btnHapusMouseClicked
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        this.setVisible(false);
+        new EditObatAdmin().setVisible(true);
+    }//GEN-LAST:event_jLabel3MouseClicked
 
     /**
      * @param args the command line arguments
@@ -167,8 +227,11 @@ public void load_table(){
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnDetail;
+    private javax.swing.JLabel btnHapus;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
