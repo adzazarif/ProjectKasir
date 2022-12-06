@@ -145,8 +145,8 @@ public void load_table(){
         txtCari.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtCari.setBorder(null);
         txtCari.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtCariKeyPressed(evt);
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCariKeyReleased(evt);
             }
         });
         getContentPane().add(txtCari);
@@ -217,41 +217,6 @@ public void load_table(){
         new EditObatAdmin().setVisible(true);
     }//GEN-LAST:event_jLabel3MouseClicked
 
-    private void txtCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCariKeyPressed
-        String cari = txtCari.getText();
-        DefaultTableModel model = new DefaultTableModel();
-        model.addColumn("No");      
-        model.addColumn("Kode Obat");
-        model.addColumn("id_detail");   
-        model.addColumn("Nama");
-        model.addColumn("Kategori");
-        model.addColumn("Jenis");
-        model.addColumn("Stok");
-        model.addColumn("Harga Jual");
-    try{
-        int no = 1;
-        String sql = "SELECT * FROM obat JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat WHERE nama LIKE '%"+cari+"%'";
-        Connection conn = (Connection) koneksi.conn.configDB();
-        Statement stm = conn.createStatement();
-        ResultSet res = stm.executeQuery(sql);
-        while(res.next()){
-            model.addRow(new Object[]{
-                no++,
-                res.getString("kode_obat"),
-                res.getString("id_detail"),
-                res.getString("nama"),
-                res.getString("kategori"), 
-                res.getString("jenis"), 
-                res.getString("stok"), 
-                res.getString("harga_jual"),
-            });
-        }
-        table.setModel(model);
-    }catch(Exception e){
-    }
-    
-    }//GEN-LAST:event_txtCariKeyPressed
-
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
         String jenis = String.valueOf(cmbJenis.getSelectedItem());
         DefaultTableModel model = new DefaultTableModel();
@@ -285,6 +250,41 @@ public void load_table(){
     }catch(Exception e){
     }
     }//GEN-LAST:event_jLabel4MouseClicked
+
+    private void txtCariKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCariKeyReleased
+         String cari = txtCari.getText();
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("No");      
+        model.addColumn("Kode Obat");
+        model.addColumn("id_detail");   
+        model.addColumn("Nama");
+        model.addColumn("Kategori");
+        model.addColumn("Jenis");
+        model.addColumn("Stok");
+        model.addColumn("Harga Jual");
+    try{
+        int no = 1;
+        String sql = "SELECT * FROM obat JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat WHERE nama LIKE '%"+cari+"%'";
+        Connection conn = (Connection) koneksi.conn.configDB();
+        Statement stm = conn.createStatement();
+        ResultSet res = stm.executeQuery(sql);
+        while(res.next()){
+            model.addRow(new Object[]{
+                no++,
+                res.getString("kode_obat"),
+                res.getString("id_detail"),
+                res.getString("nama"),
+                res.getString("kategori"), 
+                res.getString("jenis"), 
+                res.getString("stok"), 
+                res.getString("harga_jual"),
+            });
+        }
+        table.setModel(model);
+    }catch(Exception e){
+    }
+    
+    }//GEN-LAST:event_txtCariKeyReleased
 
     /**
      * @param args the command line arguments
