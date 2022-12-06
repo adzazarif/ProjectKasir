@@ -25,6 +25,8 @@ public class TransaksiAdmin extends javax.swing.JFrame {
      * Creates new form TransaksiAdming
      */
     private List<listData> trns = new ArrayList<>();
+    private List<listData> keywoard = new ArrayList<>();
+    private listData selectData;
     private DefaultListModel mod;
     private int grandTotal;
     public TransaksiAdmin() {
@@ -258,8 +260,9 @@ public class TransaksiAdmin extends javax.swing.JFrame {
             String search = txtSearch.getText().trim();
         if(!search.equals("")){
             mod.removeAllElements();
-            for(String item:searchEngine(search)){
-                mod.addElement(item.toString());
+            for(listData item:searchEngine(search)){
+                mod.addElement(item.nama+ " ->Stok = " + item.stok + " " + item.id_detail);
+                keywoard.add(item);
             }
 //            System.out.println(search);
            menu.show(txtSearch, 0, txtSearch.getHeight());
@@ -279,7 +282,7 @@ public class TransaksiAdmin extends javax.swing.JFrame {
             
             int dtotal = 0 ;
             Statement st = (Statement) conn.configDB().createStatement();
-            ResultSet res = st.executeQuery("SELECT * FROM obat right JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat WHERE obat.nama = '"+ txtSearch.getText() +"' AND detail_obat.id_detail = '" + txtDetail.getText() + "'");
+            ResultSet res = st.executeQuery("SELECT * FROM obat right JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat WHERE obat.nama = '"+ txtSearch.getText() +"' AND detail_obat.id_detail = '" + selectData.id_detail + "'");
             while(res.next()){
                 if(res.getInt("stok") < Integer.parseInt(txtBanyak.getText())){
                     JOptionPane.showMessageDialog(rootPane, "Stok tidak cukup");
@@ -364,17 +367,19 @@ public class TransaksiAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void listMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listMouseClicked
-        // TODO add your handling code here:
+        int index = list.getSelectedIndex();
+        txtSearch.setText(keywoard.get(index).nama);
+        selectData = keywoard.get(index);
     }//GEN-LAST:event_listMouseClicked
 
-    public List<String> searchEngine(String query){
-        List<String> data = new ArrayList<>();
+    public List<listData> searchEngine(String query){
+        List<listData> data = new ArrayList<>();
+            keywoard = new ArrayList<>();
             try {
             Statement st = (Statement) conn.configDB().createStatement();
             ResultSet res = st.executeQuery("SELECT * FROM obat JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat WHERE nama LIKE '%"+ query +"%'");
             while(res.next()){
-                data.add(res.getString("nama")+" Id_detail = "+res.getString("id_detail")+" stok = "+res.getString("stok") + ", harga = "+res.getInt("harga_jual"));
-               
+                data.add(new listData(res.getInt("stok"),res.getString("nama"),res.getInt("harga_jual"),res.getInt("id_detail")));      
             }
             return data;
         } catch (Exception e) {
@@ -451,6 +456,7 @@ class listData{
     public int harga;
     public int banyak;
     public int total;
+    public int stok;
     
     public listData(int kode_obat, int id_detail, String nama,int harga, int banyak, int total){
         this.kode_obat = kode_obat;
@@ -459,9 +465,16 @@ class listData{
         this.harga = harga;
         this.banyak = banyak;
         this.total = total;
+    }   
+    public listData(int stok, String nama, int harga, int id_detail){
+        this.nama = nama;
+        this.stok = stok;
+        this.harga = harga;
+        this.id_detail = id_detail;
     }
     public int jumlah (){
         int result = this.harga * this.banyak;
         return result;
     }
+   
 }

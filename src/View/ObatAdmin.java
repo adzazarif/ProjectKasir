@@ -77,6 +77,9 @@ public void load_table(){
         btnDetail = new javax.swing.JLabel();
         btnHapus = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        txtCari = new javax.swing.JTextField();
+        cmbJenis = new javax.swing.JComboBox<>();
+        jLabel4 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -139,6 +142,29 @@ public void load_table(){
         getContentPane().add(jLabel3);
         jLabel3.setBounds(610, 220, 150, 50);
 
+        txtCari.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtCari.setBorder(null);
+        txtCari.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCariKeyPressed(evt);
+            }
+        });
+        getContentPane().add(txtCari);
+        txtCari.setBounds(890, 240, 360, 30);
+
+        cmbJenis.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        cmbJenis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tablet", "Cair", "Kapsul", "Oles", "Suntik", "Implam" }));
+        getContentPane().add(cmbJenis);
+        cmbJenis.setBounds(980, 180, 170, 40);
+
+        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel4MouseClicked(evt);
+            }
+        });
+        getContentPane().add(jLabel4);
+        jLabel4.setBounds(1170, 170, 90, 50);
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/obatnew.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1);
@@ -191,6 +217,75 @@ public void load_table(){
         new EditObatAdmin().setVisible(true);
     }//GEN-LAST:event_jLabel3MouseClicked
 
+    private void txtCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCariKeyPressed
+        String cari = txtCari.getText();
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("No");      
+        model.addColumn("Kode Obat");
+        model.addColumn("id_detail");   
+        model.addColumn("Nama");
+        model.addColumn("Kategori");
+        model.addColumn("Jenis");
+        model.addColumn("Stok");
+        model.addColumn("Harga Jual");
+    try{
+        int no = 1;
+        String sql = "SELECT * FROM obat JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat WHERE nama LIKE '%"+cari+"%'";
+        Connection conn = (Connection) koneksi.conn.configDB();
+        Statement stm = conn.createStatement();
+        ResultSet res = stm.executeQuery(sql);
+        while(res.next()){
+            model.addRow(new Object[]{
+                no++,
+                res.getString("kode_obat"),
+                res.getString("id_detail"),
+                res.getString("nama"),
+                res.getString("kategori"), 
+                res.getString("jenis"), 
+                res.getString("stok"), 
+                res.getString("harga_jual"),
+            });
+        }
+        table.setModel(model);
+    }catch(Exception e){
+    }
+    
+    }//GEN-LAST:event_txtCariKeyPressed
+
+    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+        String jenis = String.valueOf(cmbJenis.getSelectedItem());
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("No");      
+        model.addColumn("Kode Obat");
+        model.addColumn("id_detail");   
+        model.addColumn("Nama");
+        model.addColumn("Kategori");
+        model.addColumn("Jenis");
+        model.addColumn("Stok");
+        model.addColumn("Harga Jual");
+    try{
+        int no = 1;
+        String sql = "SELECT * FROM obat JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat WHERE jenis = '"+jenis+"'";
+        Connection conn = (Connection) koneksi.conn.configDB();
+        Statement stm = conn.createStatement();
+        ResultSet res = stm.executeQuery(sql);
+        while(res.next()){
+            model.addRow(new Object[]{
+                no++,
+                res.getString("kode_obat"),
+                res.getString("id_detail"),
+                res.getString("nama"),
+                res.getString("kategori"), 
+                res.getString("jenis"), 
+                res.getString("stok"), 
+                res.getString("harga_jual"),
+            });
+        }
+        table.setModel(model);
+    }catch(Exception e){
+    }
+    }//GEN-LAST:event_jLabel4MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -229,10 +324,13 @@ public void load_table(){
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnDetail;
     private javax.swing.JLabel btnHapus;
+    private javax.swing.JComboBox<String> cmbJenis;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable table;
+    private javax.swing.JTextField txtCari;
     // End of variables declaration//GEN-END:variables
 }
