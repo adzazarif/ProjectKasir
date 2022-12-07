@@ -353,9 +353,10 @@ public class TransaksiAdmin extends javax.swing.JFrame {
                         PreparedStatement pstStok=koneksi.prepareStatement(sql);
                         pstStok.execute();
                     }
-                    String queryDetailTransaksi = "INSERT INTO detail_transaksi VALUES ('"
+                    String queryDetailTransaksi = "INSERT INTO detail_transaksi(`kode_transaksi`,`kode_obat`,`id_detail_obat`,`banyak_barang`,`total_harga`) VALUES ('"
                     + kd_transaksi + "','"
                     + i.kode_obat + "','"
+                    + i.id_detail + "','"
                     + i.banyak + "','"
                     + i.total + "');";
                     PreparedStatement pstObat = koneksi.prepareStatement(queryDetailTransaksi);

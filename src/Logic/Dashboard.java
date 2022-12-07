@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
@@ -22,15 +23,23 @@ public class Dashboard {
     private int totalStock;
     private int totalPemasukan;
     private int totalBarangTerjual;
-    public String dateAwal(){
+    private int labaBersih;
+    private int totalObatExp;
+    public String date(){
         LocalDateTime myDateObj = LocalDateTime.now();   
-            DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd 00-01-00");  
+            DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd");  
         String formattedDate = myDateObj.format(myFormatObj);  
         return formattedDate;
     }
-    public String dateAkhir(){
+    public String dateStart(){
         LocalDateTime myDateObj = LocalDateTime.now();   
-            DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd 23-59-00");  
+            DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd 00-00-00");  
+        String formattedDate = myDateObj.format(myFormatObj);  
+        return formattedDate;
+    }
+    public String dateEnd(){
+        LocalDateTime myDateObj = LocalDateTime.now();   
+            DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd 23-59-59");  
         String formattedDate = myDateObj.format(myFormatObj);  
         return formattedDate;
     }
@@ -49,9 +58,9 @@ public class Dashboard {
         return this.totalStock;
     }
     
-    public int Pemasukan(){
+    public int Pemasukan(String dateStart ,String dateEnd ){
         try {
-        String queryCek = "SELECT SUM(total_harga) AS jml FROM transaksi WHERE tgl_transaksi BETWEEN '"+dateAwal()+"' AND '"+dateAkhir()+"'";
+        String queryCek = "SELECT SUM(total_harga) AS jml FROM transaksi WHERE tgl_transaksi BETWEEN '"+dateStart+"' AND '"+dateEnd+"'";
         Connection koneksi = (Connection) conn.configDB();
         Statement pstCek = koneksi.createStatement();
         ResultSet res = pstCek.executeQuery(queryCek);
@@ -64,35 +73,71 @@ public class Dashboard {
         return this.totalPemasukan;
     }
     
-    public static void a(){
-    Date dt = new Date();
-    Calendar c = Calendar.getInstance(); 
-    c.setTime(dt); 
-    c.add(Calendar.DATE, 1);
-    dt = c.getTime();
-    SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd");
-    System.out.println(dt1.format(dt));
-//        System.out.println(dt);
+    public int labaBersih(String dateStart,String dateEnd){
+        try {
+        String queryCek = "SELECT SUM(detail_obat.harga_jual) AS hargaJual, SUM(detail_obat.harga_beli) AS hargaBeli FROM detail_transaksi JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi WHERE transaksi.tgl_transaksi BETWEEN '"+dateStart+"' AND '"+dateEnd+"'";
+        Connection koneksi = (Connection) conn.configDB();
+        Statement pstCek = koneksi.createStatement();
+        ResultSet res = pstCek.executeQuery(queryCek);
+        if(res.next()){
+            int hargaJual = res.getInt("hargaJual");
+            int hargaBeli = res.getInt("hargaBeli");
+            labaBersih = hargaJual - hargaBeli;
+        }    
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        return labaBersih;
     }
-//    public int barangTerjual(){
-//        try {
-//        String queryCek = "SELECT SUM(detail_transaksi.banyak_barang) AS jml FROM detail_transaksi JOIN transaksi"
-//                + "ON detail_transaksi.kode_transasksi = transaksi.kode_transaksi WHERE transai.tgl_transaksi = '"+date()+"'";
-//        Connection koneksi = (Connection) conn.configDB();
-//        Statement pstCek = koneksi.createStatement();
-//        ResultSet res = pstCek.executeQuery(queryCek);
-//        if(res.next()){
-//            this.totalBarangTerjual = res.getInt("jml");
-//        }    
-//        } catch (Exception e) {
-//            JOptionPane.showMessageDialog(null, e);
-//        }
-//        return this.totalBarangTerjual;
-//    }
+    public int obatExp(){
+         try {
+        String queryCek = "SELECT COUNT(*) AS jml FROM detail_obat WHERE tgl_kadaluarsa BETWEEN '"+date()+"' AND '"+dateExp()+"'";
+        Connection koneksi = (Connection) conn.configDB();
+        Statement pstCek = koneksi.createStatement();
+        ResultSet res = pstCek.executeQuery(queryCek);
+        if(res.next()){
+            totalObatExp = res.getInt("jml");
+        }    
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+         return totalObatExp;
+    }
+    public int barangTerjual(String dateStart, String dateEnd){
+        try {
+        String queryCek = "SELECT COUNT(detail_transaksi.banyak_barang) AS jml FROM detail_transaksi JOIN transaksi"
+                + "ON detail_transaksi.kode_transasksi = transaksi.kode_transaksi WHERE transai.tgl_transaksi BETWEEN '"+dateStart+"' AND '"+dateEnd+"'";
+        Connection koneksi = (Connection) conn.configDB();
+        Statement pstCek = koneksi.createStatement();
+        ResultSet res = pstCek.executeQuery(queryCek);
+        if(res.next()){
+            this.totalBarangTerjual = res.getInt("jml");
+        }    
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        return this.totalBarangTerjual;
+    }
+    public String dateExp(){
+        Date dt = new Date();
+        Calendar c = Calendar.getInstance(); 
+        c.setTime(dt); 
+        c.add(Calendar.DATE, 30);
+        dt = c.getTime();
+        SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd");
+        String result = dt1.format(dt);
+        return result;
+    }
+    public String dateMonthAgo(){
+        LocalDate thirtyDaysAgo = LocalDate.parse(date()).minusDays(30);
+        return String.valueOf(thirtyDaysAgo);
+    }
     public static void main(String[] args) {
-//        Dashboard db = new Dashboard();
-//        System.out.println(db.Pemasukan());
-        a();
+        Dashboard db = new Dashboard();
+        System.out.println(db.obatExp());
+        System.out.println(db.dateExp());
+        System.out.println(db.date());
+        System.out.println(db.dateMonthAgo());
     }
     
     
