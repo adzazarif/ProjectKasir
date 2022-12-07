@@ -22,7 +22,6 @@ public class Obat {
         LocalDateTime myDateObj = LocalDateTime.now();   
             DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd");  
         String formattedDate = myDateObj.format(myFormatObj);  
-        System.out.println(formattedDate);
         return formattedDate;
     } 
        

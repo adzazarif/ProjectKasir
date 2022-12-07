@@ -378,6 +378,10 @@ public class TransaksiAdmin extends javax.swing.JFrame {
 
     private void btnHapusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusMouseClicked
         trns.clear();
+        grandTotal = 0;
+        grandDiskon = 0;
+        totalBelanja = 0;
+        loadResult();
         datatable();
     }//GEN-LAST:event_btnHapusMouseClicked
 
