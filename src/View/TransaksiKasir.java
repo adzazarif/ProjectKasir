@@ -323,7 +323,7 @@ public class TransaksiKasir extends javax.swing.JFrame {
          if(res.next()){
                 int kd_transaksi = res.getInt("kode_transaksi");
                 for(listData i:trns){
-                    String queryStok = "SELECT * FROM detail_obat WHERE kode_obat = '" + i.kode_obat +"'";
+                    String queryStok = "SELECT * FROM detail_obat WHERE id_detail = '" + i.id_detail +"'";
                     Statement pststok = koneksi.createStatement();
                     ResultSet resStok = pststok.executeQuery(queryStok);
                     if(resStok.next()){
@@ -333,9 +333,10 @@ public class TransaksiKasir extends javax.swing.JFrame {
                         PreparedStatement pstStok=koneksi.prepareStatement(sql);
                         pstStok.execute();
                     }
-                    String queryDetailTransaksi = "INSERT INTO detail_transaksi VALUES ('"
+                    String queryDetailTransaksi = "INSERT INTO detail_transaksi (`kode_transaksi`,`kode_obat`,`id_detail_obat`,`banyak_barang`,`total_harga`)  VALUES ('"
                                                             + kd_transaksi + "','"
                                                             + i.kode_obat + "','"
+                                                            + i.id_detail + "','"
                                                             + i.banyak + "','"
                                                             + i.total + "');";
                     PreparedStatement pstObat = koneksi.prepareStatement(queryDetailTransaksi);

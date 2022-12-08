@@ -4,6 +4,7 @@
  */
 package View;
 
+import Logic.Dashboard;
 import javax.swing.JFrame;
 
 /**
@@ -15,33 +16,57 @@ public class DashboardAdmin extends javax.swing.JFrame {
     /**
      * Creates new form DashboardAdmin
      */
+    public String filter = "Hari";
     public DashboardAdmin() {
         initComponents();
-                this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        load_data();
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
         this.setUndecorated(true);
         this.setVisible(true);
-//        sisaStockObat();
-//        danaPemasukan();
-//        barangTerjual();
     }
-//public void sisaStockObat(){
-//        Logic.Dashboard ds = new Logic.Dashboard();
-//        int hasil = ds.stockObat();
-//        String result = String.valueOf(hasil);
-//        lblStokObat1.setText(result);
-//    }
-//    public void danaPemasukan(){
-//        Logic.Dashboard ds = new Logic.Dashboard();
-//        int hasil = ds.Pemasukan();
-//        String result = String.valueOf(hasil);
-//        lblDanaPemasukan1.setText(result);
-//    }
-//    public void barangTerjual(){
-//        Logic.Dashboard ds = new Logic.Dashboard();
-//        int hasil = ds.barangTerjual();
-//        String result = String.valueOf(hasil);
-//        lblBarangTerjual.setText(result);
-//    }
+    public void load_data(){
+            hari();
+            if(filter.equals(null)){
+                hari();
+            }else if(filter.equals("Bulan")){
+                bulan();
+            }else if(filter.equals("hari")){
+                hari();
+            }
+    }
+    public void hari(){
+            Dashboard db = new Dashboard();
+            String date = db.date();
+            String sisaStock = String.valueOf(db.stockObat());
+            String obatExp = String.valueOf(db.obatExp());
+            String danaPemasukan = String.valueOf(db.Pemasukan(db.dateStart(), db.dateEnd()));
+            String keuntungan = String.valueOf(db.labaBersih(db.dateStart(), db.dateEnd()));
+            String barangTerjual = String.valueOf(db.barangTerjual(db.dateStart(), db.dateEnd()));
+            lblDate.setText(date);
+            lblStokObat.setText(sisaStock);
+            lblObatExp.setText(obatExp);
+            lblDanaPemasukan.setText(danaPemasukan);
+            lblKeuntungan.setText(keuntungan);
+            lblBarangTerjual.setText(barangTerjual);
+
+    }
+    public void bulan(){
+        Dashboard db = new Dashboard();
+            String dateEnd = db.dateEnd();
+            String dateStart = db.dateMonthAgo();
+            String sisaStock = String.valueOf(db.stockObat());
+            String obatExp = String.valueOf(db.obatExp());
+            String danaPemasukan = String.valueOf(db.Pemasukan(dateStart, dateEnd));
+            String keuntungan = String.valueOf(db.labaBersih(dateStart, dateEnd));
+            String barangTerjual = String.valueOf(db.barangTerjual(dateStart, dateEnd));
+            lblDate.setText(dateStart+" Sampai " +db.date());
+            lblStokObat.setText(sisaStock);
+            lblObatExp.setText(obatExp);
+            lblDanaPemasukan.setText(danaPemasukan);
+            lblKeuntungan.setText(keuntungan);
+            lblBarangTerjual.setText(barangTerjual);
+     
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -51,18 +76,94 @@ public class DashboardAdmin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        lblDate = new javax.swing.JLabel();
+        cmbFilter = new javax.swing.JComboBox<>();
+        lblKeuntungan = new javax.swing.JLabel();
+        lblBarangTerjual = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        lblDanaPemasukan = new javax.swing.JLabel();
+        lblObatExp = new javax.swing.JLabel();
+        lblStokObat = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/fahmarevisi dashboard (1).jpg"))); // NOI18N
+        lblDate.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        getContentPane().add(lblDate);
+        lblDate.setBounds(470, 130, 380, 40);
+
+        cmbFilter.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        cmbFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hari", "Bulan" }));
+        cmbFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbFilterActionPerformed(evt);
+            }
+        });
+        getContentPane().add(cmbFilter);
+        cmbFilter.setBounds(950, 140, 200, 30);
+
+        lblKeuntungan.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        lblKeuntungan.setForeground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(lblKeuntungan);
+        lblKeuntungan.setBounds(1000, 420, 150, 40);
+
+        lblBarangTerjual.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        lblBarangTerjual.setForeground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(lblBarangTerjual);
+        lblBarangTerjual.setBounds(530, 570, 150, 40);
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel3.setText("Filter :");
+        getContentPane().add(jLabel3);
+        jLabel3.setBounds(870, 140, 60, 30);
+
+        lblDanaPemasukan.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        lblDanaPemasukan.setForeground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(lblDanaPemasukan);
+        lblDanaPemasukan.setBounds(530, 420, 150, 40);
+
+        lblObatExp.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        lblObatExp.setForeground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(lblObatExp);
+        lblObatExp.setBounds(1010, 250, 150, 40);
+
+        lblStokObat.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        lblStokObat.setForeground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(lblStokObat);
+        lblStokObat.setBounds(530, 260, 150, 40);
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/dashboard adminrevisi dashboard.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
+        jLabel1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jLabel1KeyReleased(evt);
+            }
+        });
         getContentPane().add(jLabel1);
         jLabel1.setBounds(0, 0, 1407, 768);
 
-        setBounds(0, 0, 1585, 889);
+        setBounds(0, 0, 1555, 891);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jLabel1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jLabel1KeyReleased
+//        String a = String.valueOf(cmbFilter.getSelectedItem());
+//        System.out.println(a);
+    }//GEN-LAST:event_jLabel1KeyReleased
+
+    private void cmbFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbFilterActionPerformed
+       String flt = String.valueOf(cmbFilter.getSelectedItem());
+        System.out.println(flt);
+       if(flt.equals("")){
+           filter = "Hari";
+       }else if(flt.equals("Hari")){
+           filter = "Hari";
+           load_data();
+       }else if(flt.equals("Bulan")){
+           filter = String.valueOf(cmbFilter.getSelectedItem());
+           load_data();
+       }
+    }//GEN-LAST:event_cmbFilterActionPerformed
 
     /**
      * @param args the command line arguments
@@ -100,6 +201,14 @@ public class DashboardAdmin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cmbFilter;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel lblBarangTerjual;
+    private javax.swing.JLabel lblDanaPemasukan;
+    private javax.swing.JLabel lblDate;
+    private javax.swing.JLabel lblKeuntungan;
+    private javax.swing.JLabel lblObatExp;
+    private javax.swing.JLabel lblStokObat;
     // End of variables declaration//GEN-END:variables
 }

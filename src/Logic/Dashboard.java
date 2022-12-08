@@ -105,8 +105,7 @@ public class Dashboard {
     }
     public int barangTerjual(String dateStart, String dateEnd){
         try {
-        String queryCek = "SELECT COUNT(detail_transaksi.banyak_barang) AS jml FROM detail_transaksi JOIN transaksi"
-                + "ON detail_transaksi.kode_transasksi = transaksi.kode_transaksi WHERE transai.tgl_transaksi BETWEEN '"+dateStart+"' AND '"+dateEnd+"'";
+        String queryCek = "SELECT SUM(detail_transaksi.banyak_barang) AS jml FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi WHERE transaksi.tgl_transaksi BETWEEN '"+dateStart+"' AND '"+dateEnd+"'";
         Connection koneksi = (Connection) conn.configDB();
         Statement pstCek = koneksi.createStatement();
         ResultSet res = pstCek.executeQuery(queryCek);
@@ -134,10 +133,12 @@ public class Dashboard {
     }
     public static void main(String[] args) {
         Dashboard db = new Dashboard();
-        System.out.println(db.obatExp());
-        System.out.println(db.dateExp());
-        System.out.println(db.date());
-        System.out.println(db.dateMonthAgo());
+//        System.out.println(db.obatExp());
+//        System.out.println(db.dateExp());
+//        System.out.println(db.labaBersih(db.dateMonthAgo(),db.dateEnd()));
+//        System.out.println(db.labaBersih(db.dateStart(),db.dateEnd()));
+//        System.out.println(db.dateStart());
+//        System.out.println(db.dateEnd());
     }
     
     

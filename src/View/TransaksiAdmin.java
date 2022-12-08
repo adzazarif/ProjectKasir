@@ -343,7 +343,7 @@ public class TransaksiAdmin extends javax.swing.JFrame {
             if(res.next()){
                 int kd_transaksi = res.getInt("kode_transaksi");
                 for(listData i:trns){
-                    String queryStok = "SELECT * FROM detail_obat WHERE kode_obat = '" + i.kode_obat +"'";
+                    String queryStok = "SELECT * FROM detail_obat WHERE id_detail = '" + i.id_detail +"'";
                     Statement pststok = koneksi.createStatement();
                     ResultSet resStok = pststok.executeQuery(queryStok);
                     if(resStok.next()){
