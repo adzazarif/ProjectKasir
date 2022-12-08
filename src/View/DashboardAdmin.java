@@ -25,13 +25,11 @@ public class DashboardAdmin extends javax.swing.JFrame {
         this.setVisible(true);
     }
     public void load_data(){
-            hari();
-            if(filter.equals(null)){
+             hari();
+            if(filter.equals("hari")){
                 hari();
             }else if(filter.equals("Bulan")){
                 bulan();
-            }else if(filter.equals("hari")){
-                hari();
             }
     }
     public void hari(){
@@ -153,16 +151,13 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
     private void cmbFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbFilterActionPerformed
        String flt = String.valueOf(cmbFilter.getSelectedItem());
-        System.out.println(flt);
-       if(flt.equals("")){
-           filter = "Hari";
-       }else if(flt.equals("Hari")){
-           filter = "Hari";
-           load_data();
-       }else if(flt.equals("Bulan")){
-           filter = String.valueOf(cmbFilter.getSelectedItem());
-           load_data();
-       }
+        if(flt.equals("Hari")){
+            filter = "Hari";
+            load_data();
+        }else if(flt.equals("Bulan")){
+            filter = "Bulan";
+            load_data();
+        }
     }//GEN-LAST:event_cmbFilterActionPerformed
 
     /**

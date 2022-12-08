@@ -30,38 +30,38 @@ public class ObatAdmin extends javax.swing.JFrame {
         this.setVisible(true);
         load_table();
     }
-public void load_table(){
-        DefaultTableModel model = new DefaultTableModel();
-        model.addColumn("No");      
-        model.addColumn("Kode Obat");
-        model.addColumn("id_detail");
-        model.addColumn("Nama");
-        model.addColumn("Kategori");
-        model.addColumn("Jenis");
-        model.addColumn("Stok");
-        model.addColumn("Harga Jual");
-    try{
-        int no = 1;
-        String sql = "SELECT * FROM obat JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat";
-        Connection conn = (Connection) koneksi.conn.configDB();
-        Statement stm = conn.createStatement();
-        ResultSet res = stm.executeQuery(sql);
-        while(res.next()){
-            model.addRow(new Object[]{
-                no++,
-                res.getString("kode_obat"),
-                res.getString("id_detail"),
-                res.getString("nama"),
-                res.getString("kategori"), 
-                res.getString("jenis"), 
-                res.getString("stok"), 
-                res.getString("harga_jual"),
-            });
+    public void load_table(){
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("No");      
+            model.addColumn("Kode Obat");
+            model.addColumn("id_detail");
+            model.addColumn("Nama");
+            model.addColumn("Kategori");
+            model.addColumn("Jenis");
+            model.addColumn("Stok");
+            model.addColumn("Harga Jual");
+        try{
+            int no = 1;
+            String sql = "SELECT * FROM obat JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat";
+            Connection conn = (Connection) koneksi.conn.configDB();
+            Statement stm = conn.createStatement();
+            ResultSet res = stm.executeQuery(sql);
+            while(res.next()){
+                model.addRow(new Object[]{
+                    no++,
+                    res.getString("kode_obat"),
+                    res.getString("id_detail"),
+                    res.getString("nama"),
+                    res.getString("kategori"), 
+                    res.getString("jenis"), 
+                    res.getString("stok"), 
+                    res.getString("harga_jual"),
+                });
+            }
+            table.setModel(model);
+        }catch(Exception e){
         }
-        table.setModel(model);
-    }catch(Exception e){
-    }
-    }
+        }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

@@ -4,6 +4,13 @@
  */
 package View;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import koneksi.conn;
+
 /**
  *
  * @author WINDOWS 10
@@ -15,7 +22,39 @@ public class LaporanAdmin extends javax.swing.JFrame {
      */
     public LaporanAdmin() {
         initComponents();
+        load_table();
     }
+    public void load_table(){
+            DefaultTableModel model = new DefaultTableModel();      
+            model.addColumn("Kode Transaksi");
+            model.addColumn("Tanggal Transaksi");
+            model.addColumn("Nama");
+            model.addColumn("Jenis");
+            model.addColumn("Harga");
+            model.addColumn("Banyak");
+            model.addColumn("Total");
+        try{
+            int no = 1;
+        String sql = "SELECT * FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi JOIN obat ON detail_transaksi.kode_obat = obat.kode_obat JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail";
+        Connection koneksi = (Connection)conn.configDB();
+        Statement stm = koneksi.createStatement();
+        ResultSet res = stm.executeQuery(sql);
+            while(res.next()){
+                model.addRow(new Object[]{
+                    res.getString("kode_transaksi"),
+                    res.getString("tgl_transaksi"), 
+                    res.getString("nama"),
+                    res.getString("jenis"), 
+                    res.getString("harga_jual"), 
+                    res.getString("banyak_barang"),
+                    res.getString("detail_transaksi.total_harga")
+                });
+            }
+            table.setModel(model);
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(rootPane, e);
+        }
+        }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -26,21 +65,81 @@ public class LaporanAdmin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        txtSearcb = new javax.swing.JTextField();
+        txtDateEnd = new javax.swing.JLabel();
+        txtDateStart = new javax.swing.JLabel();
+        cmbWaktu = new javax.swing.JComboBox<>();
+        btnSearch = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(null);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        txtSearcb.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtSearcb.setBorder(null);
+        txtSearcb.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearcbKeyReleased(evt);
+            }
+        });
+        getContentPane().add(txtSearcb);
+        txtSearcb.setBounds(340, 170, 320, 30);
 
-        pack();
+        txtDateEnd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        getContentPane().add(txtDateEnd);
+        txtDateEnd.setBounds(1050, 170, 160, 30);
+
+        txtDateStart.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        getContentPane().add(txtDateStart);
+        txtDateStart.setBounds(820, 170, 170, 30);
+
+        cmbWaktu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "------Pilih Waktu------", "Hari", "Bulan" }));
+        getContentPane().add(cmbWaktu);
+        cmbWaktu.setBounds(820, 120, 170, 40);
+
+        btnSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSearchMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnSearch);
+        btnSearch.setBounds(1240, 170, 80, 40);
+
+        table.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        table.setRowHeight(50);
+        jScrollPane1.setViewportView(table);
+
+        getContentPane().add(jScrollPane1);
+        jScrollPane1.setBounds(340, 260, 970, 470);
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/laporan penjulanrevisi .jpg"))); // NOI18N
+        jLabel1.setText("jLabel1");
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(0, 0, 1407, 768);
+
+        setBounds(0, 0, 1589, 902);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSearchMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSearchMouseClicked
+
+    private void txtSearcbKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearcbKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSearcbKeyReleased
 
     /**
      * @param args the command line arguments
@@ -78,5 +177,13 @@ public class LaporanAdmin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnSearch;
+    private javax.swing.JComboBox<String> cmbWaktu;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable table;
+    private javax.swing.JLabel txtDateEnd;
+    private javax.swing.JLabel txtDateStart;
+    private javax.swing.JTextField txtSearcb;
     // End of variables declaration//GEN-END:variables
 }
