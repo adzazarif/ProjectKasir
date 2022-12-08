@@ -27,7 +27,7 @@ public class Dashboard {
     private int totalObatExp;
     public String date(){
         LocalDateTime myDateObj = LocalDateTime.now();   
-            DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd");  
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd");  
         String formattedDate = myDateObj.format(myFormatObj);  
         return formattedDate;
     }
