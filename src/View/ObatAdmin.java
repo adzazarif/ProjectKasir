@@ -80,6 +80,10 @@ public class ObatAdmin extends javax.swing.JFrame {
         txtCari = new javax.swing.JTextField();
         cmbJenis = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
+        btnDashboard = new javax.swing.JLabel();
+        btnTransaksi = new javax.swing.JLabel();
+        btnPengguna = new javax.swing.JLabel();
+        btnLaporan = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -164,6 +168,38 @@ public class ObatAdmin extends javax.swing.JFrame {
         });
         getContentPane().add(jLabel4);
         jLabel4.setBounds(1170, 170, 90, 50);
+
+        btnDashboard.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnDashboardMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnDashboard);
+        btnDashboard.setBounds(10, 150, 250, 50);
+
+        btnTransaksi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnTransaksiMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnTransaksi);
+        btnTransaksi.setBounds(20, 300, 230, 50);
+
+        btnPengguna.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnPenggunaMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnPengguna);
+        btnPengguna.setBounds(20, 380, 230, 50);
+
+        btnLaporan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLaporanMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnLaporan);
+        btnLaporan.setBounds(30, 460, 230, 40);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/obatnew.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
@@ -286,6 +322,26 @@ public class ObatAdmin extends javax.swing.JFrame {
     
     }//GEN-LAST:event_txtCariKeyReleased
 
+    private void btnDashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDashboardMouseClicked
+        this.setVisible(false);
+        new DashboardAdmin().setVisible(true);
+    }//GEN-LAST:event_btnDashboardMouseClicked
+
+    private void btnTransaksiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTransaksiMouseClicked
+        this.setVisible(false);
+        new TransaksiAdmin().setVisible(true);
+    }//GEN-LAST:event_btnTransaksiMouseClicked
+
+    private void btnPenggunaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPenggunaMouseClicked
+        this.setVisible(false);
+        new PenggunaAdmin().setVisible(true);
+    }//GEN-LAST:event_btnPenggunaMouseClicked
+
+    private void btnLaporanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLaporanMouseClicked
+               this.setVisible(false);
+        new LaporanAdmin().setVisible(true);
+    }//GEN-LAST:event_btnLaporanMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -322,8 +378,12 @@ public class ObatAdmin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnDashboard;
     private javax.swing.JLabel btnDetail;
     private javax.swing.JLabel btnHapus;
+    private javax.swing.JLabel btnLaporan;
+    private javax.swing.JLabel btnPengguna;
+    private javax.swing.JLabel btnTransaksi;
     private javax.swing.JComboBox<String> cmbJenis;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

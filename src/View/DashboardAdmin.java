@@ -82,6 +82,10 @@ public class DashboardAdmin extends javax.swing.JFrame {
         lblDanaPemasukan = new javax.swing.JLabel();
         lblObatExp = new javax.swing.JLabel();
         lblStokObat = new javax.swing.JLabel();
+        btnTransaksi = new javax.swing.JLabel();
+        btnLaporan = new javax.swing.JLabel();
+        btnPengguna = new javax.swing.JLabel();
+        btnObat = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -131,6 +135,38 @@ public class DashboardAdmin extends javax.swing.JFrame {
         getContentPane().add(lblStokObat);
         lblStokObat.setBounds(530, 260, 150, 40);
 
+        btnTransaksi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnTransaksiMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnTransaksi);
+        btnTransaksi.setBounds(10, 300, 250, 50);
+
+        btnLaporan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLaporanMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnLaporan);
+        btnLaporan.setBounds(20, 450, 250, 60);
+
+        btnPengguna.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnPenggunaMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnPengguna);
+        btnPengguna.setBounds(10, 370, 250, 60);
+
+        btnObat.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnObatMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnObat);
+        btnObat.setBounds(10, 220, 250, 60);
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/dashboard adminrevisi dashboard.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
         jLabel1.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -145,8 +181,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jLabel1KeyReleased
-//        String a = String.valueOf(cmbFilter.getSelectedItem());
-//        System.out.println(a);
+
     }//GEN-LAST:event_jLabel1KeyReleased
 
     private void cmbFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbFilterActionPerformed
@@ -159,6 +194,26 @@ public class DashboardAdmin extends javax.swing.JFrame {
             load_data();
         }
     }//GEN-LAST:event_cmbFilterActionPerformed
+
+    private void btnObatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnObatMouseClicked
+        this.setVisible(false);
+        new ObatAdmin().setVisible(true);
+    }//GEN-LAST:event_btnObatMouseClicked
+
+    private void btnTransaksiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTransaksiMouseClicked
+        this.setVisible(false);
+        new TransaksiAdmin().setVisible(true);
+    }//GEN-LAST:event_btnTransaksiMouseClicked
+
+    private void btnPenggunaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPenggunaMouseClicked
+        this.setVisible(false);
+        new PenggunaAdmin().setVisible(true);
+    }//GEN-LAST:event_btnPenggunaMouseClicked
+
+    private void btnLaporanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLaporanMouseClicked
+        this.setVisible(false);
+        new LaporanAdmin().setVisible(true);
+    }//GEN-LAST:event_btnLaporanMouseClicked
 
     /**
      * @param args the command line arguments
@@ -196,6 +251,10 @@ public class DashboardAdmin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnLaporan;
+    private javax.swing.JLabel btnObat;
+    private javax.swing.JLabel btnPengguna;
+    private javax.swing.JLabel btnTransaksi;
     private javax.swing.JComboBox<String> cmbFilter;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;

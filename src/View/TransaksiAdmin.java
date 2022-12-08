@@ -7,18 +7,22 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import koneksi.conn;
+import koneksi.conn; 
 /**
  *
  * @author WINDOWS 10
  */
+
 public class TransaksiAdmin extends javax.swing.JFrame {
+    NumberFormat nf = NumberFormat.getNumberInstance(new Locale("in", "ID"));
     private List<listData> trns = new ArrayList<>();
     private List<listData> keywoard = new ArrayList<>();
     private listData selectData;
@@ -43,12 +47,12 @@ public class TransaksiAdmin extends javax.swing.JFrame {
     }
     //menampilkan grand total dan diskon ke layar
     public void loadResult(){
-        String resultGrandTotal = String.valueOf(grandTotal);
-        lblGrandTotal.setText(resultGrandTotal);
-        String resultGrandDiskon = String.valueOf(grandDiskon);
-        lblTotalDiskon.setText(resultGrandDiskon);
-        String resultTotalBelanja = String.valueOf(totalBelanja);
-        lblTotalBelanja.setText(resultTotalBelanja);
+      
+        lblGrandTotal.setText(nf.format(grandTotal));
+
+        lblTotalDiskon.setText(nf.format(grandDiskon));
+
+        lblTotalBelanja.setText(nf.format(totalBelanja));
     }
     //menampilkan ke dalma tabel
     public void datatable(){

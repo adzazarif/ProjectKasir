@@ -87,14 +87,19 @@ public class Obat {
             Statement st = (Statement) conn.configDB().createStatement();
             Connection koneksi = (Connection)conn.configDB();
             //delete di tabel detail_obat
+            String queryHapusTransaksi = "DELETE FROM detail_transaksi WHERE kode_obat = '" + id + "'";
+            PreparedStatement pstHapusTransaksi = koneksi.prepareStatement(queryHapusTransaksi);
+            pstHapusTransaksi.execute();
+            
+            //delete di tabel detail_obat
             String queryHapusDetail = "DELETE FROM detail_obat WHERE kode_obat = '" + id + "'";
             PreparedStatement pstHapusDetail = koneksi.prepareStatement(queryHapusDetail);
             pstHapusDetail.execute();
+            
             //delete di tabel obat
             String queryHapusObat = "DELETE FROM obat WHERE kode_obat = '" + id + "'";
             PreparedStatement pstHapusObat = koneksi.prepareStatement(queryHapusObat);
-            pstHapusObat.execute();
-            
+            pstHapusObat.execute();      
             return true;
         } catch (Exception e) {
             return false;
