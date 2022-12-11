@@ -133,8 +133,8 @@ public class Dashboard {
     }
     public static void main(String[] args) {
         Dashboard db = new Dashboard();
-//        System.out.println(db.obatExp());
-//        System.out.println(db.dateExp());
+        System.out.println(db.obatExp());
+        System.out.println(db.dateExp());
 //        System.out.println(db.labaBersih(db.dateMonthAgo(),db.dateEnd()));
 //        System.out.println(db.labaBersih(db.dateStart(),db.dateEnd()));
 //        System.out.println(db.dateStart());
