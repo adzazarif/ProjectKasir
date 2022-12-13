@@ -5,7 +5,12 @@
 package View;
 
 import Logic.Dashboard;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import koneksi.conn;
 
 /**
  *
@@ -23,8 +28,30 @@ public class DashboardAdmin extends javax.swing.JFrame {
         this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
         this.setUndecorated(true);
         this.setVisible(true);
+        User();
+    }
+    public void User(){
+        Logic.login lg = new Logic.login();
+        int id = lg.userId;
+         try {
+            String queryCek = "SELECT * FROM user WHERE id = '"+id+"'";
+            Connection koneksi = (Connection) conn.configDB();
+            Statement pstCek = koneksi.createStatement();
+            ResultSet res = pstCek.executeQuery(queryCek);
+            if(res.next()){
+                lblNama.setText(res.getString("nama"));
+            }else{
+                JOptionPane.showMessageDialog(rootPane, "Login terlebih dahulu");
+                this.setVisible(false);
+                                this.dispose();
+                new Login().setVisible(true);
+
+            }
+        } catch (Exception e) {
+        }
     }
     public void load_data(){
+//        lblNama.setText(String.valueOf(new Logic.login().userId));
              hari();
             if(filter.equals("hari")){
                 hari();
@@ -75,17 +102,20 @@ public class DashboardAdmin extends javax.swing.JFrame {
     private void initComponents() {
 
         lblDate = new javax.swing.JLabel();
+        btnObatExp = new javax.swing.JLabel();
         cmbFilter = new javax.swing.JComboBox<>();
         lblKeuntungan = new javax.swing.JLabel();
         lblBarangTerjual = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         lblDanaPemasukan = new javax.swing.JLabel();
         lblObatExp = new javax.swing.JLabel();
+        cmbUser = new javax.swing.JComboBox<>();
         lblStokObat = new javax.swing.JLabel();
         btnTransaksi = new javax.swing.JLabel();
         btnLaporan = new javax.swing.JLabel();
         btnPengguna = new javax.swing.JLabel();
         btnObat = new javax.swing.JLabel();
+        lblNama = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -94,6 +124,14 @@ public class DashboardAdmin extends javax.swing.JFrame {
         lblDate.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         getContentPane().add(lblDate);
         lblDate.setBounds(470, 130, 380, 40);
+
+        btnObatExp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnObatExpMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnObatExp);
+        btnObatExp.setBounds(850, 200, 370, 120);
 
         cmbFilter.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         cmbFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hari", "Bulan" }));
@@ -130,7 +168,11 @@ public class DashboardAdmin extends javax.swing.JFrame {
         getContentPane().add(lblObatExp);
         lblObatExp.setBounds(1010, 250, 150, 40);
 
-        lblStokObat.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        cmbUser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Profil", "Ganti Password", "Logout" }));
+        cmbUser.setSelectedItem(lblNama);
+        getContentPane().add(cmbUser);
+        cmbUser.setBounds(1180, 50, 90, 22);
+
         lblStokObat.setForeground(new java.awt.Color(255, 255, 255));
         getContentPane().add(lblStokObat);
         lblStokObat.setBounds(530, 260, 150, 40);
@@ -166,6 +208,10 @@ public class DashboardAdmin extends javax.swing.JFrame {
         });
         getContentPane().add(btnObat);
         btnObat.setBounds(10, 220, 250, 60);
+
+        lblNama.setText("jLabel2");
+        getContentPane().add(lblNama);
+        lblNama.setBounds(1130, 50, 80, 30);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/dashboard adminrevisi dashboard.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
@@ -215,6 +261,11 @@ public class DashboardAdmin extends javax.swing.JFrame {
         new LaporanAdmin().setVisible(true);
     }//GEN-LAST:event_btnLaporanMouseClicked
 
+    private void btnObatExpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnObatExpMouseClicked
+        this.setVisible(false);
+        new LaporanAdmin().setVisible(true);
+    }//GEN-LAST:event_btnObatExpMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -253,15 +304,18 @@ public class DashboardAdmin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnLaporan;
     private javax.swing.JLabel btnObat;
+    private javax.swing.JLabel btnObatExp;
     private javax.swing.JLabel btnPengguna;
     private javax.swing.JLabel btnTransaksi;
     private javax.swing.JComboBox<String> cmbFilter;
+    private javax.swing.JComboBox<String> cmbUser;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel lblBarangTerjual;
     private javax.swing.JLabel lblDanaPemasukan;
     private javax.swing.JLabel lblDate;
     private javax.swing.JLabel lblKeuntungan;
+    private javax.swing.JLabel lblNama;
     private javax.swing.JLabel lblObatExp;
     private javax.swing.JLabel lblStokObat;
     // End of variables declaration//GEN-END:variables

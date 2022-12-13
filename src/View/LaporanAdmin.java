@@ -138,7 +138,35 @@ public class LaporanAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSearchMouseClicked
 
     private void txtSearcbKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearcbKeyReleased
-        // TODO add your handling code here:
+         String cari = txtSearcb.getText();
+        DefaultTableModel model = new DefaultTableModel();
+                model.addColumn("Kode Transaksi");
+            model.addColumn("Tanggal Transaksi");
+            model.addColumn("Nama");
+            model.addColumn("Jenis");
+            model.addColumn("Harga");
+            model.addColumn("Banyak");
+            model.addColumn("Total");
+    try{
+        int no = 1;
+        String sql = "SELECT * FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi JOIN obat ON detail_transaksi.kode_obat = obat.kode_obat JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail WHERE nama LIKE '%"+cari+"%'";
+        Connection conn = (Connection) koneksi.conn.configDB();
+        Statement stm = conn.createStatement();
+        ResultSet res = stm.executeQuery(sql);
+        while(res.next()){
+            model.addRow(new Object[]{
+                    res.getString("kode_transaksi"),
+                    res.getString("tgl_transaksi"), 
+                    res.getString("nama"),
+                    res.getString("jenis"), 
+                    res.getString("harga_jual"), 
+                    res.getString("banyak_barang"),
+                    res.getString("detail_transaksi.total_harga")
+            });
+        }
+        table.setModel(model);
+    }catch(Exception e){
+    }
     }//GEN-LAST:event_txtSearcbKeyReleased
 
     /**

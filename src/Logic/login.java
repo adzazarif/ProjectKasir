@@ -30,6 +30,7 @@ public class login {
             if(res.next()){
                 String lvl = res.getString("level");
                 this.level = lvl;
+                this.userId = res.getInt("id");
                 if(lvl.equals("admin")){
                       return true;
                 }else{
