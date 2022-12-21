@@ -25,6 +25,7 @@ public class Dashboard {
     private int totalBarangTerjual;
     private int labaBersih;
     private int totalObatExp;
+    public int rentangWaktu = 30;
     public String date(){
         LocalDateTime myDateObj = LocalDateTime.now();   
         DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd");  
@@ -89,6 +90,7 @@ public class Dashboard {
         }
         return labaBersih;
     }
+    
     public int obatExp(){
          try {
         String queryCek = "SELECT COUNT(*) AS jml FROM detail_obat WHERE tgl_kadaluarsa BETWEEN '"+date()+"' AND '"+dateExp()+"'";
@@ -103,6 +105,7 @@ public class Dashboard {
         }
          return totalObatExp;
     }
+    
     public int barangTerjual(String dateStart, String dateEnd){
         try {
         String queryCek = "SELECT SUM(detail_transaksi.banyak_barang) AS jml FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi WHERE transaksi.tgl_transaksi BETWEEN '"+dateStart+"' AND '"+dateEnd+"'";
@@ -121,7 +124,7 @@ public class Dashboard {
         Date dt = new Date();
         Calendar c = Calendar.getInstance(); 
         c.setTime(dt); 
-        c.add(Calendar.DATE, 30);
+        c.add(Calendar.DATE, rentangWaktu);
         dt = c.getTime();
         SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd");
         String result = dt1.format(dt);

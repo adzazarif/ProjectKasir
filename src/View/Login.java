@@ -103,7 +103,6 @@ public class Login extends javax.swing.JFrame {
         Logic.login login = new Logic.login();
         boolean logg = login.log(username, pass);
         if(logg){
-
             String lvl = Logic.login.level;
             if(lvl.equals("admin")){
                 this.setVisible(false);
@@ -111,8 +110,7 @@ public class Login extends javax.swing.JFrame {
             }else{
                 this.setVisible(false);
                 new DashboardKasir().setVisible(true);
-            }
-            
+            }  
         }else{
              JOptionPane.showMessageDialog(this, "email dan pass salah");
         }

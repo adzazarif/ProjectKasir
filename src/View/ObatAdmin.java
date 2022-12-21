@@ -222,7 +222,7 @@ public class ObatAdmin extends javax.swing.JFrame {
     private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
         int baris = table.rowAtPoint(evt.getPoint());
         String kode_obat = table.getValueAt(baris, 1).toString();
-        int result = Integer.parseInt(kode_obat);  
+        int result = Integer.parseInt(kode_obat);
         String detail = table.getValueAt(baris, 2).toString();
         int resultDetail = Integer.parseInt(detail);
         System.out.println(kd_obat);
@@ -288,7 +288,7 @@ public class ObatAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel4MouseClicked
 
     private void txtCariKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCariKeyReleased
-         String cari = txtCari.getText();
+        String cari = txtCari.getText();
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("No");      
         model.addColumn("Kode Obat");

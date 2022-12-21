@@ -21,6 +21,7 @@ import koneksi.conn;
 public class login {
     public static String level;
     public static int userId;
+    
     public boolean log(String username, String pass){
         try {
             String query = "SELECT * FROM user WHERE username ='"+ username +"' AND password ='" + pass + "'";
@@ -31,17 +32,12 @@ public class login {
                 String lvl = res.getString("level");
                 this.level = lvl;
                 this.userId = res.getInt("id");
-                if(lvl.equals("admin")){
-                      return true;
-                }else{
-                    return true;
-                }
+                return true;
             }else{
                   return false;
             }
         } catch (Exception e) {
-//            JOptionPane.showMessageDialog(null, e);
-return false;
+                return false;
         }
     }
     
@@ -65,7 +61,7 @@ return false;
     
     public boolean gantiPass(String pass){
         try {
-            String query = "UPDATE user SET  password = '" + pass + "' WHERE id ='" + this.userId + "'";
+            String query = "UPDATE user SET  password = '" + pass + "' WHERE id ='" + userId + "'";
             Statement st = (Statement) conn.configDB().createStatement();
             st.executeUpdate(query);
           return true;

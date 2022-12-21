@@ -4,11 +4,14 @@
  */
 package View;
 import java.sql.Connection;
+import java.sql.DriverManager;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import javax.swing.DefaultListModel;
@@ -16,6 +19,11 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import koneksi.conn; 
+//import net.sf.jasperreports.engine.JasperCompileManager;
+//import net.sf.jasperreports.engine.JasperFillManager;
+//import net.sf.jasperreports.engine.JasperPrint;
+//import net.sf.jasperreports.engine.JasperReport;
+//import net.sf.jasperreports.view.JasperViewer;
 /**
  *
  * @author WINDOWS 10
@@ -35,9 +43,9 @@ public class TransaksiAdmin extends javax.swing.JFrame {
      */
     public TransaksiAdmin() {
         initComponents();
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-        this.setUndecorated(true);
-        this.setVisible(true);
+//        this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+//        this.setUndecorated(true);
+//        this.setVisible(true);
         menu.add(panel);
         mod = new DefaultListModel();
         list.setModel(mod);
@@ -107,6 +115,42 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         }
             return data;
     }
+    
+//    public void tampilStruk(){
+//        
+////            Logic.Transaksi ts = new Logic.Transaksi();
+////            int kode = ts.kodeTransaksi() - 1;
+//    String kode = "70";
+//            
+//            java.sql.Connection con = null;
+//            try{
+//                String jdbcDriver = "com.mysql.jdbc.Driver";
+//                Class.forName(jdbcDriver);
+//                
+//                String url = "jdbc:mysql://localhost:3306/db_apotek";
+//                String user = "root";
+//                String pass = "";
+//                
+//                con = DriverManager.getConnection(url, user, pass);
+//                Statement stm = (Statement) con.createStatement();
+//                try{
+////                    Connection con = (Connection) conn.configDB();
+//                    String report = ("E:\\kuliah\\code\\semester 1\\pengembangan rekayasa perangkat lunak\\kasirApotek\\src\\View\\report1.jrxml");
+//                    HashMap hash = new HashMap();
+//                    hash.put("kode", "56");
+//                    JasperReport JRpt = JasperCompileManager.compileReport(report);
+//                    JasperPrint JPrint = JasperFillManager.fillReport(JRpt, hash, con);
+//                    JasperViewer.viewReport(JPrint, false);
+//                } catch (Exception rptexcpt){
+//                    JOptionPane.showMessageDialog(rootPane, rptexcpt);
+//                }
+//                } catch (Exception e){
+//                    JOptionPane.showMessageDialog(rootPane, e);
+//            }
+//            
+//           
+//        
+//    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -134,6 +178,7 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         btnHapus = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         list.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -256,6 +301,15 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         getContentPane().add(jScrollPane2);
         jScrollPane2.setBounds(312, 270, 1010, 260);
 
+        jLabel2.setText("jLabel2");
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(310, 40, 100, 20);
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/transaksifix.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1);
@@ -334,7 +388,7 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         try {
             Logic.Transaksi ts = new Logic.Transaksi();
             String date = ts.typeDate();
-            String queryTransaksi = "INSERT INTO transaksi (`tgl_transaksi`, `total_harga`) VALUES ('"
+            String queryTransaksi = "INSERT INTO transaksi (`tgl_transaksi`, `grand_total`) VALUES ('"
             + date + "','"
             + grandTotal + "');";
             Connection koneksi = (Connection)conn.configDB();
@@ -367,6 +421,10 @@ public class TransaksiAdmin extends javax.swing.JFrame {
                     pstObat.execute();
                 }
             }
+            int jawab =  JOptionPane.showConfirmDialog(this, "Ingin mencetak struk?", "Print Struk",JOptionPane.YES_NO_OPTION);
+        if(jawab == JOptionPane.YES_OPTION){
+//            tampilStruk();
+        }
             trns.clear();
             datatable();
             setDateAndKode();
@@ -395,6 +453,10 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         txtSearch.setText(keywoard.get(index).nama);
         selectData = keywoard.get(index);
     }//GEN-LAST:event_listMouseClicked
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+//        tampilStruk();
+    }//GEN-LAST:event_jLabel2MouseClicked
 
     /**
      * @param args the command line arguments
@@ -436,6 +498,7 @@ public class TransaksiAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel btnSimpan;
     private javax.swing.JLabel btnTambah;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblGrandTotal;

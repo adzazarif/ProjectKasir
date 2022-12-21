@@ -5,6 +5,8 @@
 package View;
 
 import Logic.Dashboard;
+import Logic.Pengguna;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
