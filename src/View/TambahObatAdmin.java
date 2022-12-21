@@ -120,10 +120,10 @@ public class TambahObatAdmin extends javax.swing.JFrame {
         getContentPane().add(jScrollPane1);
         jScrollPane1.setBounds(530, 390, 800, 140);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/tambahobatnew.jpg"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/tambahobat.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(0, 0, 1407, 768);
+        jLabel1.setBounds(0, 0, 1370, 770);
 
         setBounds(0, 0, 1601, 888);
     }// </editor-fold>//GEN-END:initComponents

@@ -201,10 +201,10 @@ public class ObatAdmin extends javax.swing.JFrame {
         getContentPane().add(btnLaporan);
         btnLaporan.setBounds(30, 460, 230, 40);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/obatnew.jpg"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/obat.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(0, 0, 1407, 768);
+        jLabel1.setBounds(0, 0, 1370, 770);
 
         setBounds(0, 0, 1604, 869);
     }// </editor-fold>//GEN-END:initComponents

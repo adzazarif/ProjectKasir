@@ -18,9 +18,7 @@ import koneksi.conn;
  * @author WINDOWS 10
  */
 public class ObatExp extends javax.swing.JFrame {
-
- 
-    
+    private static int idObat;
     
     
     public ObatExp() {
@@ -34,6 +32,7 @@ public class ObatExp extends javax.swing.JFrame {
                 model.addColumn("No");      
                 model.addColumn("Kode Obat");
                 model.addColumn("Nama");
+                model.addColumn("Tanggal Kadaluarsa");
                 model.addColumn("Kategori");
                 model.addColumn("Jenis");
                 model.addColumn("Stok");
@@ -51,6 +50,44 @@ public class ObatExp extends javax.swing.JFrame {
                         no++,
                         res.getString("id_detail"),
                         res.getString("nama"),
+                        res.getString("tgl_kadaluarsa"),
+                        res.getString("kategori"),
+                        res.getString("jenis"),
+                        res.getString("stok"), 
+                        res.getString("diskon"), 
+                        res.getString("harga_jual"),
+                    });
+                }
+                table.setModel(model);
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(rootPane, e);
+            }
+        }
+    
+    public void loadTableFilter(String filter){
+                DefaultTableModel model = new DefaultTableModel();
+                model.addColumn("No");      
+                model.addColumn("Kode Obat");
+                model.addColumn("Nama");
+                model.addColumn("Tanggal Kadaluarsa");
+                model.addColumn("Kategori");
+                model.addColumn("Jenis");
+                model.addColumn("Stok");
+                model.addColumn("Diskon");
+                model.addColumn("Harga Jual");
+            try{
+                Dashboard db = new Dashboard();
+                int no = 1;
+                String sql = "SELECT * FROM obat JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat WHERE tgl_kadaluarsa BETWEEN '"+db.date()+"' AND '"+db.dateExp()+"' ORDER BY tgl_kadaluarsa "+filter+"";
+                Connection conn = (Connection) koneksi.conn.configDB();
+                Statement stm = conn.createStatement();
+                ResultSet res = stm.executeQuery(sql);
+                while(res.next()){
+                    model.addRow(new Object[]{
+                        no++,
+                        res.getString("id_detail"),
+                        res.getString("nama"),
+                        res.getString("tgl_kadaluarsa"),
                         res.getString("kategori"),
                         res.getString("jenis"),
                         res.getString("stok"), 
@@ -68,6 +105,15 @@ public class ObatExp extends javax.swing.JFrame {
         Dashboard db = new Dashboard();
         lblDateStart.setText(db.date());
         lblDateEnd.setText(db.dateExp());
+        txtRentangWaktu.setText(String.valueOf(db.rentangWaktu));
+    }
+    
+    public void bersih(){
+        txtDiskon.setText("");
+        lblHarga.setText("");
+        lblNama.setText("");
+        lblTotalDiskon.setText("");
+        idObat = 0;
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -90,8 +136,9 @@ public class ObatExp extends javax.swing.JFrame {
         lblDateStart = new javax.swing.JLabel();
         txtDiskon = new javax.swing.JTextField();
         txtSearch = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cmbFilter = new javax.swing.JComboBox<>();
+        btnTambah = new javax.swing.JLabel();
+        btnBersih = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -99,11 +146,6 @@ public class ObatExp extends javax.swing.JFrame {
 
         txtAutoGenerate.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtAutoGenerate.setBorder(null);
-        txtAutoGenerate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtAutoGenerateActionPerformed(evt);
-            }
-        });
         getContentPane().add(txtAutoGenerate);
         txtAutoGenerate.setBounds(1050, 260, 70, 20);
 
@@ -136,10 +178,15 @@ public class ObatExp extends javax.swing.JFrame {
             }
         });
         getContentPane().add(BtnAutoGenerate);
-        BtnAutoGenerate.setBounds(1190, 260, 120, 50);
+        BtnAutoGenerate.setBounds(1190, 240, 120, 50);
 
         txtRentangWaktu.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtRentangWaktu.setBorder(null);
+        txtRentangWaktu.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtRentangWaktuKeyPressed(evt);
+            }
+        });
         getContentPane().add(txtRentangWaktu);
         txtRentangWaktu.setBounds(1140, 140, 70, 20);
 
@@ -188,18 +235,30 @@ public class ObatExp extends javax.swing.JFrame {
         getContentPane().add(txtSearch);
         txtSearch.setBounds(890, 360, 180, 30);
 
-        jLabel2.setText("jLabel2");
-        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel2MouseClicked(evt);
+        cmbFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih Order baru", "Tanggal Awal", "Tanggal Akhir" }));
+        cmbFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbFilterActionPerformed(evt);
             }
         });
-        getContentPane().add(jLabel2);
-        jLabel2.setBounds(1227, 140, 50, 20);
+        getContentPane().add(cmbFilter);
+        cmbFilter.setBounds(1130, 360, 190, 40);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih Order baru", "Tanggal Awal", "Tanggal Akhir" }));
-        getContentPane().add(jComboBox1);
-        jComboBox1.setBounds(1130, 360, 190, 40);
+        btnTambah.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnTambahMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnTambah);
+        btnTambah.setBounds(660, 230, 130, 50);
+
+        btnBersih.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBersihMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnBersih);
+        btnBersih.setBounds(660, 300, 130, 50);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/laporan obat exprevisi  (4).jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
@@ -241,6 +300,7 @@ public class ObatExp extends javax.swing.JFrame {
                 model.addColumn("No");      
                 model.addColumn("Kode Obat");
                 model.addColumn("Nama");
+                model.addColumn("Tanggal kadaluarsa");
                 model.addColumn("Kategori");
                 model.addColumn("Jenis");
                 model.addColumn("Stok");
@@ -256,8 +316,9 @@ public class ObatExp extends javax.swing.JFrame {
                 while(res.next()){
                     model.addRow(new Object[]{
                         no++,
-                        res.getString("kode_obat"),
+                        res.getString("id_detail"),
                         res.getString("nama"),
+                        res.getString("tgl_kadaluarsa"),
                         res.getString("kategori"),
                         res.getString("jenis"),
                         res.getString("stok"), 
@@ -273,32 +334,85 @@ public class ObatExp extends javax.swing.JFrame {
 
     }//GEN-LAST:event_txtSearchKeyReleased
 
-    private void txtAutoGenerateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAutoGenerateActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtAutoGenerateActionPerformed
-
     private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSearchActionPerformed
 
     private void txtDiskonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDiskonKeyReleased
+        int diskon = Integer.parseInt(txtDiskon.getText());
+        int harga = Integer.parseInt(lblHarga.getText());
         
+        int result = harga * diskon / 100 ;
+        lblTotalDiskon.setText(String.valueOf(result));
     }//GEN-LAST:event_txtDiskonKeyReleased
-
-    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-        int rentangWaktu = Integer.parseInt(txtRentangWaktu.getText());
-        Dashboard db = new Dashboard();
-        db.rentangWaktu = rentangWaktu;
-        lblDateStart.setText(db.date());
-        lblDateEnd.setText(db.dateExp());
-    }//GEN-LAST:event_jLabel2MouseClicked
 
     private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
         int baris = table.rowAtPoint(evt.getPoint());
         String diskon = table.getValueAt(baris, 7).toString();
         String harga = table.getValueAt(baris, 8).toString();
-        txtSearch.setText(diskon);
+        String idObat = table.getValueAt(baris, 1).toString();
+        String nama = table.getValueAt(baris, 2).toString();
+        ObatExp.idObat = Integer.parseInt(idObat);
+        lblHarga.setText(harga);
+        lblNama.setText(nama);
+        if(!diskon.equals(0)){
+            double persen = (Double.valueOf(diskon)/Double.valueOf(harga) )*100;
+            int result = (int) persen;
+            txtDiskon.setText(String.valueOf(result));
+            lblTotalDiskon.setText(diskon);
+        }else{
+             txtDiskon.setText(String.valueOf(diskon));
+        }
+
+        
     }//GEN-LAST:event_tableMouseClicked
+
+    private void txtRentangWaktuKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRentangWaktuKeyPressed
+                int rentangWaktu = Integer.parseInt(txtRentangWaktu.getText());
+        Dashboard db = new Dashboard();
+        db.rentangWaktu = rentangWaktu;
+        lblDateStart.setText(db.date());
+        lblDateEnd.setText(db.dateExp());
+    }//GEN-LAST:event_txtRentangWaktuKeyPressed
+
+    private void btnTambahMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTambahMouseClicked
+           int diskon = Integer.parseInt(txtDiskon.getText());
+           int harga = Integer.parseInt(lblHarga.getText());
+           int hasil = Integer.parseInt(lblTotalDiskon.getText());
+        try {
+                Connection conn = (Connection) koneksi.conn.configDB();
+                Statement stm = conn.createStatement();
+//                    int hasil = harga * diskon / 100;
+                    String queryDiskon = "UPDATE detail_obat SET diskon = '" + hasil + "' WHERE id_detail ='" + idObat + "'";
+                    PreparedStatement pstDiskon = conn.prepareStatement(queryDiskon);
+                    pstDiskon.execute();
+                
+
+                JOptionPane.showMessageDialog(rootPane, "Data berhasil di Update");
+                
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e);
+        }
+        load_table();
+        bersih();
+    }//GEN-LAST:event_btnTambahMouseClicked
+
+    private void btnBersihMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBersihMouseClicked
+        bersih();
+    }//GEN-LAST:event_btnBersihMouseClicked
+
+    private void cmbFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbFilterActionPerformed
+        String isi = String.valueOf(cmbFilter.getSelectedItem());
+        
+        switch(isi){
+            case "Tanggal Awal":
+                loadTableFilter("ASC");
+            break;
+            case"Tanggal Akhir":
+                loadTableFilter("DESC");
+            break;
+        }
+    }//GEN-LAST:event_cmbFilterActionPerformed
     
     /**
      * @param args the command line arguments
@@ -337,9 +451,10 @@ public class ObatExp extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel BtnAutoGenerate;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel btnBersih;
+    private javax.swing.JLabel btnTambah;
+    private javax.swing.JComboBox<String> cmbFilter;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblDateEnd;
     private javax.swing.JLabel lblDateStart;

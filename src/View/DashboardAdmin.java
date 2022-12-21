@@ -215,7 +215,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         getContentPane().add(lblNama);
         lblNama.setBounds(1130, 50, 80, 30);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/dashboard adminrevisi dashboard.jpg"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/dashboard admin.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
         jLabel1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -223,7 +223,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(0, 0, 1407, 768);
+        jLabel1.setBounds(0, 0, 1370, 770);
 
         setBounds(0, 0, 1555, 891);
     }// </editor-fold>//GEN-END:initComponents

@@ -44,6 +44,7 @@ public class DetailObatAdmin extends javax.swing.JFrame {
             lblTglExp.setText(res.getString("tgl_kadaluarsa"));
             lblTglMasuk.setText(res.getString("tgl_masuk"));
             lblKet.setText(res.getString("keterangan"));  
+            lblDiskon.setText(res.getString("diskon"));
         }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, e);
@@ -67,6 +68,7 @@ public class DetailObatAdmin extends javax.swing.JFrame {
         lblTglExp = new javax.swing.JLabel();
         lblTglMasuk = new javax.swing.JLabel();
         lblStok = new javax.swing.JLabel();
+        lblDiskon = new javax.swing.JLabel();
         lblHargaJual = new javax.swing.JLabel();
         lblKategori = new javax.swing.JLabel();
         btnKembali = new javax.swing.JLabel();
@@ -77,7 +79,7 @@ public class DetailObatAdmin extends javax.swing.JFrame {
 
         lblKet.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         getContentPane().add(lblKet);
-        lblKet.setBounds(500, 430, 790, 40);
+        lblKet.setBounds(500, 430, 280, 170);
 
         lblKode.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         getContentPane().add(lblKode);
@@ -111,9 +113,13 @@ public class DetailObatAdmin extends javax.swing.JFrame {
         getContentPane().add(lblStok);
         lblStok.setBounds(1050, 270, 250, 40);
 
+        lblDiskon.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        getContentPane().add(lblDiskon);
+        lblDiskon.setBounds(1050, 430, 250, 40);
+
         lblHargaJual.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         getContentPane().add(lblHargaJual);
-        lblHargaJual.setBounds(1050, 380, 250, 40);
+        lblHargaJual.setBounds(1050, 430, 250, 40);
 
         lblKategori.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         getContentPane().add(lblKategori);
@@ -127,10 +133,10 @@ public class DetailObatAdmin extends javax.swing.JFrame {
         getContentPane().add(btnKembali);
         btnKembali.setBounds(320, 570, 150, 40);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/detail obatnew.jpg"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/detail obat.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(0, 0, 1407, 768);
+        jLabel1.setBounds(0, 0, 1370, 770);
 
         setBounds(0, 0, 1598, 882);
     }// </editor-fold>//GEN-END:initComponents
@@ -181,6 +187,7 @@ public class DetailObatAdmin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnKembali;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lblDiskon;
     private javax.swing.JLabel lblDosis;
     private javax.swing.JLabel lblHargaBeli;
     private javax.swing.JLabel lblHargaJual;

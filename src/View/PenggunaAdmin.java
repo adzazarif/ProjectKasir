@@ -137,6 +137,7 @@ public void load_table(){
         getContentPane().add(cmblevel);
         cmblevel.setBounds(460, 300, 150, 30);
 
+        table.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -148,6 +149,7 @@ public void load_table(){
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        table.setRowHeight(50);
         table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableMouseClicked(evt);
@@ -156,7 +158,7 @@ public void load_table(){
         jScrollPane1.setViewportView(table);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(310, 420, 570, 310);
+        jScrollPane1.setBounds(310, 420, 1020, 290);
 
         jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -182,10 +184,10 @@ public void load_table(){
         getContentPane().add(jLabel4);
         jLabel4.setBounds(1030, 350, 150, 40);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/penggunarevisi  (1).jpg"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/pengguna.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(0, 0, 1407, 768);
+        jLabel1.setBounds(0, 0, 1370, 770);
 
         setBounds(0, 0, 1606, 892);
     }// </editor-fold>//GEN-END:initComponents

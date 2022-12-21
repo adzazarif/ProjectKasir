@@ -100,12 +100,13 @@ public class TransaksiAdmin extends javax.swing.JFrame {
     }
     
     //method untuk query ke database dan di tampilkan ke list
-    public List<listData> searchEngine(String query){
+    public List<listData> search(String query){
         List<listData> data = new ArrayList<>();
             keywoard = new ArrayList<>();
+            Logic.Dashboard db = new Logic.Dashboard();
             try {
             Statement st = (Statement) conn.configDB().createStatement();
-            ResultSet res = st.executeQuery("SELECT * FROM obat JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat WHERE nama LIKE '%"+ query +"%'");
+            ResultSet res = st.executeQuery("SELECT * FROM obat JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat WHERE nama LIKE '%"+ query +"%' AND tgl_kadaluarsa > '"+db.date()+"'");
             while(res.next()){
                 data.add(new listData(res.getInt("stok"),res.getString("nama"),res.getString("jenis"),res.getInt("dosis"),res.getInt("harga_jual"),res.getInt("id_detail")));      
             }
@@ -310,10 +311,10 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         getContentPane().add(jLabel2);
         jLabel2.setBounds(310, 40, 100, 20);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/transaksifix.jpg"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/transaksi.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(0, 0, 1407, 768);
+        jLabel1.setBounds(0, 0, 1370, 768);
 
         setBounds(0, 0, 1570, 889);
     }// </editor-fold>//GEN-END:initComponents
@@ -323,7 +324,7 @@ public class TransaksiAdmin extends javax.swing.JFrame {
             String search = txtSearch.getText().trim();
             if(!search.equals("")){
                 mod.removeAllElements();
-                for(listData item:searchEngine(search)){
+                for(listData item:search(search)){
                     mod.addElement(item.nama+ " | Stok = " + item.stok + " | Jenis = "+item.jenis + " | Dosis = "+item.dosis);
                     keywoard.add(item);
                 }

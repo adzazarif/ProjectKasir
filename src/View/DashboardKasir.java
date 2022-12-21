@@ -132,10 +132,10 @@ public class DashboardKasir extends javax.swing.JFrame {
         getContentPane().add(lblBarangTerjual);
         lblBarangTerjual.setBounds(530, 570, 150, 40);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/fahmafix.jpg"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/dashboard Kasir.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(0, 0, 1407, 768);
+        jLabel1.setBounds(0, 0, 1360, 770);
 
         setBounds(0, 0, 1607, 903);
     }// </editor-fold>//GEN-END:initComponents

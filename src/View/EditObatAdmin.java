@@ -142,10 +142,10 @@ public class EditObatAdmin extends javax.swing.JFrame {
         getContentPane().add(btnSimpan);
         btnSimpan.setBounds(530, 660, 150, 40);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Edit obatnew.jpg"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Edit obat.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(0, 0, 1407, 768);
+        jLabel1.setBounds(0, 0, 1370, 770);
 
         setBounds(0, 0, 1595, 891);
     }// </editor-fold>//GEN-END:initComponents
