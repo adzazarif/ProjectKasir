@@ -60,7 +60,7 @@ public class GantiPass extends javax.swing.JFrame {
         getContentPane().add(jLabel2);
         jLabel2.setBounds(680, 520, 620, 60);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Konfirmasi Pass-2.jpg"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Konfirmasi Pass-1.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1);
         jLabel1.setBounds(0, 0, 1370, 770);
