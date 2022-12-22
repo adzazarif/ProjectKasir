@@ -69,4 +69,31 @@ public class login {
             return false;
         }
     }
+    
+    
+    public boolean konfirmasiLupaPasswordUser(String username, String email){
+        try {
+            String query = "SELECT * FROM user WHERE username ='"+ username +"' AND email ='" + email + "' AND id = '"+userId+"'";
+            Connection koneksi = (Connection)conn.configDB();
+            PreparedStatement pst = koneksi.prepareStatement(query);
+            ResultSet res = pst.executeQuery();
+            
+            if(res.next()){
+                return true;
+            }else{
+                return false;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
+    
+    
+    //method untuk logout
+    public void logOut(){
+        level = "";
+        userId = 0;
+        new Login().setVisible(true);
+    }
 }

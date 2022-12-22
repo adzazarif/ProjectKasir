@@ -20,31 +20,19 @@ import koneksi.conn;
  * @author WINDOWS 10
  */
 public class Dashboard {
+    
+    Util util = new Util();
+    
     private int totalStock;
     private int totalPemasukan;
     private int totalBarangTerjual;
     private int labaBersih;
-    private int totalObatExp;
-    public int rentangWaktu = 30;
-    public String date(){
-        LocalDateTime myDateObj = LocalDateTime.now();   
-        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd");  
-        String formattedDate = myDateObj.format(myFormatObj);  
-        return formattedDate;
-    }
-    public String dateStart(){
-        LocalDateTime myDateObj = LocalDateTime.now();   
-            DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd 00-00-00");  
-        String formattedDate = myDateObj.format(myFormatObj);  
-        return formattedDate;
-    }
-    public String dateEnd(){
-        LocalDateTime myDateObj = LocalDateTime.now();   
-            DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd 23-59-59");  
-        String formattedDate = myDateObj.format(myFormatObj);  
-        return formattedDate;
-    }
+    private int totalObatHampirExp;
+    private int totalObaSudahExp;
+    private int dataObaSudahExp;
+
     public int stockObat(){
+        
         try {
         String queryCek = "SELECT SUM(stok) AS jml FROM detail_obat";
         Connection koneksi = (Connection) conn.configDB();
@@ -61,7 +49,7 @@ public class Dashboard {
     
     public int Pemasukan(String dateStart ,String dateEnd ){
         try {
-        String queryCek = "SELECT SUM(total_harga) AS jml FROM transaksi WHERE tgl_transaksi BETWEEN '"+dateStart+"' AND '"+dateEnd+"'";
+        String queryCek = "SELECT SUM(grand_total) AS jml FROM transaksi WHERE tgl_transaksi BETWEEN '"+dateStart+"' AND '"+dateEnd+"'";
         Connection koneksi = (Connection) conn.configDB();
         Statement pstCek = koneksi.createStatement();
         ResultSet res = pstCek.executeQuery(queryCek);
@@ -90,20 +78,53 @@ public class Dashboard {
         }
         return labaBersih;
     }
-    
-    public int obatExp(){
+
+    //Method untuk menghitung jumlah stok obat yang hampir exp
+    public int obatHampirExp(){
          try {
-        String queryCek = "SELECT COUNT(*) AS jml FROM detail_obat WHERE tgl_kadaluarsa BETWEEN '"+date()+"' AND '"+dateExp()+"'";
+        String queryCek = "SELECT SUM(detail_obat.stok) AS jml FROM detail_obat WHERE tgl_kadaluarsa BETWEEN '"+util.date()+"' AND '"+util.dateExp()+"'";
         Connection koneksi = (Connection) conn.configDB();
         Statement pstCek = koneksi.createStatement();
         ResultSet res = pstCek.executeQuery(queryCek);
         if(res.next()){
-            totalObatExp = res.getInt("jml");
+            totalObatHampirExp = res.getInt("jml");
         }    
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
-         return totalObatExp;
+         return totalObatHampirExp;
+    }
+    
+    //Method untuk menghitung jumlah stok obat yang sudah exp
+    public int obatSudahExp(){
+          try {
+        String queryCek = "SELECT SUM(detail_obat.stok) AS jml FROM detail_obat WHERE tgl_kadaluarsa <= '"+util.date()+"'";
+        Connection koneksi = (Connection) conn.configDB();
+        Statement pstCek = koneksi.createStatement();
+        ResultSet res = pstCek.executeQuery(queryCek);
+        if(res.next()){
+            totalObaSudahExp = res.getInt("jml");
+        }    
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+         return totalObaSudahExp;
+    }
+    
+    //Method untuk menghitung jumlah berapa banyak data obat yang sudah exp
+    public int dataObatSudahExp(){
+          try {
+        String queryCek = "SELECT COUNT(*) AS jml FROM detail_obat WHERE tgl_kadaluarsa <= '"+util.date()+"'";
+        Connection koneksi = (Connection) conn.configDB();
+        Statement pstCek = koneksi.createStatement();
+        ResultSet res = pstCek.executeQuery(queryCek);
+        if(res.next()){
+            dataObaSudahExp = res.getInt("jml");
+        }    
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+         return dataObaSudahExp;
     }
     
     public int barangTerjual(String dateStart, String dateEnd){
@@ -120,24 +141,12 @@ public class Dashboard {
         }
         return this.totalBarangTerjual;
     }
-    public String dateExp(){
-        Date dt = new Date();
-        Calendar c = Calendar.getInstance(); 
-        c.setTime(dt); 
-        c.add(Calendar.DATE, rentangWaktu);
-        dt = c.getTime();
-        SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd");
-        String result = dt1.format(dt);
-        return result;
-    }
-    public String dateMonthAgo(){
-        LocalDate thirtyDaysAgo = LocalDate.parse(date()).minusDays(30);
-        return String.valueOf(thirtyDaysAgo);
-    }
+
+
     public static void main(String[] args) {
-        Dashboard db = new Dashboard();
-        System.out.println(db.obatExp());
-        System.out.println(db.dateExp());
+//        Dashboard db = new Dashboard();
+//        System.out.println(db.obatExp());
+//        System.out.println(db.dateExp());
 //        System.out.println(db.labaBersih(db.dateMonthAgo(),db.dateEnd()));
 //        System.out.println(db.labaBersih(db.dateStart(),db.dateEnd()));
 //        System.out.println(db.dateStart());

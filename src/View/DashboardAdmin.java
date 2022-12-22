@@ -5,7 +5,8 @@
 package View;
 
 import Logic.Dashboard;
-import Logic.Pengguna;
+import Logic.Util;
+import Logic.login;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -19,7 +20,10 @@ import koneksi.conn;
  * @author WINDOWS 10
  */
 public class DashboardAdmin extends javax.swing.JFrame {
-
+    Util util = new Util();
+                Dashboard db = new Dashboard();
+                login lg = new login();
+                Login lgn = new Login();
     /**
      * Creates new form DashboardAdmin
      */
@@ -33,7 +37,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         User();
     }
     public void User(){
-        Logic.login lg = new Logic.login();
+        
         int id = lg.userId;
          try {
             String queryCek = "SELECT * FROM user WHERE id = '"+id+"'";
@@ -42,16 +46,14 @@ public class DashboardAdmin extends javax.swing.JFrame {
             ResultSet res = pstCek.executeQuery(queryCek);
             if(res.next()){
                 lblNama.setText(res.getString("nama"));
-            }else{
-                JOptionPane.showMessageDialog(rootPane, "Login terlebih dahulu");
-                this.setVisible(false);
-                                this.dispose();
-                new Login().setVisible(true);
-
             }
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e);
         }
     }
+    
+   
+    
     public void load_data(){
 //        lblNama.setText(String.valueOf(new Logic.login().userId));
              hari();
@@ -62,13 +64,13 @@ public class DashboardAdmin extends javax.swing.JFrame {
             }
     }
     public void hari(){
-            Dashboard db = new Dashboard();
-            String date = db.date();
+
+            String date = util.date();
             String sisaStock = String.valueOf(db.stockObat());
-            String obatExp = String.valueOf(db.obatExp());
-            String danaPemasukan = String.valueOf(db.Pemasukan(db.dateStart(), db.dateEnd()));
-            String keuntungan = String.valueOf(db.labaBersih(db.dateStart(), db.dateEnd()));
-            String barangTerjual = String.valueOf(db.barangTerjual(db.dateStart(), db.dateEnd()));
+            String obatExp = String.valueOf(db.obatHampirExp());
+            String danaPemasukan = String.valueOf(db.Pemasukan(util.dateStart(), util.dateEnd()));
+            String keuntungan = String.valueOf(db.labaBersih(util.dateStart(), util.dateEnd()));
+            String barangTerjual = String.valueOf(db.barangTerjual(util.dateStart(), util.dateEnd()));
             lblDate.setText(date);
             lblStokObat.setText(sisaStock);
             lblObatExp.setText(obatExp);
@@ -78,15 +80,15 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
     }
     public void bulan(){
-        Dashboard db = new Dashboard();
-            String dateEnd = db.dateEnd();
-            String dateStart = db.dateMonthAgo();
+
+            String dateEnd = util.dateEnd();
+            String dateStart = util.dateMonthAgo();
             String sisaStock = String.valueOf(db.stockObat());
-            String obatExp = String.valueOf(db.obatExp());
+            String obatExp = String.valueOf(db.obatHampirExp());
             String danaPemasukan = String.valueOf(db.Pemasukan(dateStart, dateEnd));
             String keuntungan = String.valueOf(db.labaBersih(dateStart, dateEnd));
             String barangTerjual = String.valueOf(db.barangTerjual(dateStart, dateEnd));
-            lblDate.setText(dateStart+" Sampai " +db.date());
+            lblDate.setText(dateStart+" Sampai " +util.date());
             lblStokObat.setText(sisaStock);
             lblObatExp.setText(obatExp);
             lblDanaPemasukan.setText(danaPemasukan);
@@ -170,10 +172,15 @@ public class DashboardAdmin extends javax.swing.JFrame {
         getContentPane().add(lblObatExp);
         lblObatExp.setBounds(1010, 250, 150, 40);
 
-        cmbUser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Profil", "Ganti Password", "Logout" }));
-        cmbUser.setSelectedItem(lblNama);
+        cmbUser.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cmbUser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "----Menu----", "Profil", "Logout" }));
+        cmbUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbUserActionPerformed(evt);
+            }
+        });
         getContentPane().add(cmbUser);
-        cmbUser.setBounds(1180, 50, 90, 22);
+        cmbUser.setBounds(1140, 50, 130, 26);
 
         lblStokObat.setForeground(new java.awt.Color(255, 255, 255));
         getContentPane().add(lblStokObat);
@@ -211,11 +218,12 @@ public class DashboardAdmin extends javax.swing.JFrame {
         getContentPane().add(btnObat);
         btnObat.setBounds(10, 220, 250, 60);
 
+        lblNama.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblNama.setText("jLabel2");
         getContentPane().add(lblNama);
-        lblNama.setBounds(1130, 50, 80, 30);
+        lblNama.setBounds(1140, 10, 130, 30);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/dashboard admin.jpg"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/dashboard adminfixed.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
         jLabel1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -268,6 +276,22 @@ public class DashboardAdmin extends javax.swing.JFrame {
         new LaporanAdmin().setVisible(true);
     }//GEN-LAST:event_btnObatExpMouseClicked
 
+    private void cmbUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbUserActionPerformed
+        String menu = String.valueOf(cmbUser.getSelectedItem());
+        switch(menu){
+            case "Profil":
+                this.setVisible(false);
+                this.dispose();
+                new ProfilUser().setVisible(true);
+            break;
+            case "Logout":
+                this.setVisible(false);
+                this.dispose();
+                lg.logOut();
+            break;
+        }
+    }//GEN-LAST:event_cmbUserActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -296,13 +320,13 @@ public class DashboardAdmin extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+                     java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DashboardAdmin().setVisible(true);
+               new DashboardAdmin().setVisible(true);
             }
         });
-    }
-
+            }
+               
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnLaporan;
     private javax.swing.JLabel btnObat;

@@ -4,19 +4,76 @@
  */
 package View;
 
+import Logic.Dashboard;
+import Logic.Util;
+import Logic.Obat;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author WINDOWS 10
  */
 public class obatSudahExp extends javax.swing.JFrame {
-
+    Util util = new Util();
+    Obat obat = new Obat();
+    Dashboard db = new Dashboard();
+     
+    private static int id;
     /**
      * Creates new form obatSudahExp
      */
     public obatSudahExp() {
         initComponents();
+        load_table();
+        load_data();
     }
-
+    
+    public void load_table(){
+                DefaultTableModel model = new DefaultTableModel();
+                model.addColumn("No");      
+                model.addColumn("Kode Obat");
+                model.addColumn("Nama");
+                model.addColumn("Tanggal Kadaluarsa");
+                model.addColumn("Kategori");
+                model.addColumn("Jenis");
+                model.addColumn("Stok");
+            try{
+                
+                int no = 1;
+                String sql = "SELECT * FROM obat JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat WHERE tgl_kadaluarsa <= '"+util.date()+"' ";
+                Connection conn = (Connection) koneksi.conn.configDB();
+                Statement stm = conn.createStatement();
+                ResultSet res = stm.executeQuery(sql);
+                while(res.next()){
+                    model.addRow(new Object[]{
+                        no++,
+                        res.getString("id_detail"),
+                        res.getString("nama"),
+                        res.getString("tgl_kadaluarsa"),
+                        res.getString("kategori"),
+                        res.getString("jenis"),
+                        res.getString("stok"), 
+                    });
+                }
+                table.setModel(model);
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(rootPane, e);
+            }
+        }
+    
+    private void load_data(){
+        lblTanggal.setText(util.dateFull());
+        lblBanyakData.setText(String.valueOf(db.dataObatSudahExp()));
+    }
+    
+    private void bersih(){
+        lblNama.setText("");
+        lblTanggalExp.setText("");
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -26,16 +83,94 @@ public class obatSudahExp extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel2 = new javax.swing.JLabel();
+        lblTanggal = new javax.swing.JLabel();
+        lblTanggalExp = new javax.swing.JLabel();
+        lblNama = new javax.swing.JLabel();
+        lblBanyakData = new javax.swing.JLabel();
+        txtSearch = new javax.swing.JTextField();
+        cmbFilter = new javax.swing.JComboBox<>();
+        btnHapusAuto = new javax.swing.JLabel();
+        btnHapus = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel2.setText("jLabel2");
-        getContentPane().add(jLabel2);
-        jLabel2.setBounds(440, 130, 240, 40);
+        lblTanggal.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        getContentPane().add(lblTanggal);
+        lblTanggal.setBounds(440, 130, 230, 40);
+
+        lblTanggalExp.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        getContentPane().add(lblTanggalExp);
+        lblTanggalExp.setBounds(480, 300, 230, 30);
+
+        lblNama.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        getContentPane().add(lblNama);
+        lblNama.setBounds(480, 260, 230, 20);
+
+        lblBanyakData.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        getContentPane().add(lblBanyakData);
+        lblBanyakData.setBounds(1010, 250, 40, 30);
+
+        txtSearch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtSearch.setBorder(null);
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchKeyReleased(evt);
+            }
+        });
+        getContentPane().add(txtSearch);
+        txtSearch.setBounds(890, 360, 180, 30);
+
+        cmbFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih Order baru", "Tanggal Awal", "Tanggal Akhir" }));
+        cmbFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbFilterActionPerformed(evt);
+            }
+        });
+        getContentPane().add(cmbFilter);
+        cmbFilter.setBounds(1120, 360, 190, 40);
+
+        btnHapusAuto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnHapusAutoMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnHapusAuto);
+        btnHapusAuto.setBounds(1180, 240, 130, 50);
+
+        btnHapus.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnHapusMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnHapus);
+        btnHapus.setBounds(660, 350, 130, 50);
+
+        table.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        table.setRowHeight(40);
+        table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(table);
+
+        getContentPane().add(jScrollPane1);
+        jScrollPane1.setBounds(312, 440, 1020, 300);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/laporan obat sudah exp.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
@@ -44,6 +179,91 @@ public class obatSudahExp extends javax.swing.JFrame {
 
         setBounds(0, 0, 1382, 886);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cmbFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbFilterActionPerformed
+//        String isi = String.valueOf(cmbFilter.getSelectedItem());
+//
+//        switch(isi){
+//            case "Tanggal Awal":
+//            loadTableFilter("ASC");
+//            break;
+//            case"Tanggal Akhir":
+//            loadTableFilter("DESC");
+//            break;
+//        }
+    }//GEN-LAST:event_cmbFilterActionPerformed
+
+    private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
+        int baris = table.rowAtPoint(evt.getPoint());
+        String idObat = table.getValueAt(baris, 1).toString();
+        String tanggal = table.getValueAt(baris, 3).toString();
+        String nama = table.getValueAt(baris, 2).toString();
+        lblNama.setText(nama);
+        lblTanggalExp.setText(tanggal);
+        id = Integer.parseInt(idObat);
+    }//GEN-LAST:event_tableMouseClicked
+
+    private void btnHapusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusMouseClicked
+      
+         int jawab =  JOptionPane.showConfirmDialog(this, "Apakah anda Yakin menghapus data?", "Hapus Data",JOptionPane.YES_NO_OPTION);
+         if(jawab == JOptionPane.YES_OPTION){
+             if(obat.hapusObatExp(id)){
+                JOptionPane.showMessageDialog(rootPane, "data berhasil di hapus");
+            }else{
+                 JOptionPane.showMessageDialog(rootPane, "data gagal di hapus");
+             }
+         }
+        bersih();
+        load_table();
+    }//GEN-LAST:event_btnHapusMouseClicked
+
+    private void btnHapusAutoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusAutoMouseClicked
+
+         int jawab =  JOptionPane.showConfirmDialog(this, "Apakah anda Yakin menghapus Semua data?", "Hapus Data",JOptionPane.YES_NO_OPTION);
+         if(jawab == JOptionPane.YES_OPTION){
+             if(obat.hapusSemuaObatExp(util.date())){
+                JOptionPane.showMessageDialog(rootPane, "data berhasil di hapus");
+            }else{
+                 JOptionPane.showMessageDialog(rootPane, "data gagal di hapus");
+             }
+         }
+         bersih();
+        load_table();
+    }//GEN-LAST:event_btnHapusAutoMouseClicked
+
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+        String cari = txtSearch.getText();
+        DefaultTableModel model = new DefaultTableModel();
+                model.addColumn("No");      
+                model.addColumn("Kode Obat");
+                model.addColumn("Nama");
+                model.addColumn("Tanggal Kadaluarsa");
+                model.addColumn("Kategori");
+                model.addColumn("Jenis");
+                model.addColumn("Stok");
+            try{
+                
+                int no = 1;
+                String sql = "SELECT * FROM obat JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat WHERE nama LIKE '%"+cari+"%' AND tgl_kadaluarsa <= '"+util.date()+"' ";
+                Connection conn = (Connection) koneksi.conn.configDB();
+                Statement stm = conn.createStatement();
+                ResultSet res = stm.executeQuery(sql);
+                while(res.next()){
+                    model.addRow(new Object[]{
+                        no++,
+                        res.getString("id_detail"),
+                        res.getString("nama"),
+                        res.getString("tgl_kadaluarsa"),
+                        res.getString("kategori"),
+                        res.getString("jenis"),
+                        res.getString("stok"), 
+                    });
+                }
+                table.setModel(model);
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(rootPane, e);
+            }
+    }//GEN-LAST:event_txtSearchKeyReleased
 
     /**
      * @param args the command line arguments
@@ -81,7 +301,16 @@ public class obatSudahExp extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnHapus;
+    private javax.swing.JLabel btnHapusAuto;
+    private javax.swing.JComboBox<String> cmbFilter;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblBanyakData;
+    private javax.swing.JLabel lblNama;
+    private javax.swing.JLabel lblTanggal;
+    private javax.swing.JLabel lblTanggalExp;
+    private javax.swing.JTable table;
+    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }

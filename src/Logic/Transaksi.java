@@ -22,12 +22,7 @@ public class Transaksi {
     public int resultKode;
     public int getId;
 
-   public String date(){
-        LocalDateTime myDateObj = LocalDateTime.now();  
-        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("E, MMM dd yyyy HH:mm:ss");  
-        String formattedDate = myDateObj.format(myFormatObj);  
-        return formattedDate;
-    } 
+   
    public String typeDate(){
         LocalDateTime myDateObj = LocalDateTime.now();  
 //        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("E, MMM dd yyyy HH:mm:ss");  

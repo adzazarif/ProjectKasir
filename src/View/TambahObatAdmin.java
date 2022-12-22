@@ -5,6 +5,7 @@
 package View;
 
 import Logic.Obat;
+import Logic.login;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -13,7 +14,7 @@ import javax.swing.JOptionPane;
  * @author WINDOWS 10
  */
 public class TambahObatAdmin extends javax.swing.JFrame {
-
+login lg = new login();
     /**
      * Creates new form TambahObatAdmin
      */
@@ -46,6 +47,7 @@ public class TambahObatAdmin extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         txtKet = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
+        cmbUser = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -125,6 +127,16 @@ public class TambahObatAdmin extends javax.swing.JFrame {
         getContentPane().add(jLabel1);
         jLabel1.setBounds(0, 0, 1370, 770);
 
+        cmbUser.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cmbUser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "----Menu----", "Profil", "Logout" }));
+        cmbUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbUserActionPerformed(evt);
+            }
+        });
+        getContentPane().add(cmbUser);
+        cmbUser.setBounds(1140, 50, 130, 26);
+
         setBounds(0, 0, 1601, 888);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -157,6 +169,22 @@ public class TambahObatAdmin extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Data gagal di simpan");
         }
     }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void cmbUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbUserActionPerformed
+        String menu = String.valueOf(cmbUser.getSelectedItem());
+        switch(menu){
+            case "Profil":
+            this.setVisible(false);
+            this.dispose();
+            new ProfilUser().setVisible(true);
+            break;
+            case "Logout":
+            this.setVisible(false);
+            this.dispose();
+            lg.logOut();
+            break;
+        }
+    }//GEN-LAST:event_cmbUserActionPerformed
 
     /**
      * @param args the command line arguments
@@ -197,6 +225,7 @@ public class TambahObatAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel btnKembali;
     private javax.swing.JComboBox<String> cmbJenis;
     private javax.swing.JComboBox<String> cmbKategori;
+    private javax.swing.JComboBox<String> cmbUser;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;

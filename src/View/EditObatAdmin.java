@@ -4,6 +4,7 @@
  */
 package View;
 import Logic.Obat;
+import Logic.login;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -14,7 +15,7 @@ import koneksi.conn;
  * @author WINDOWS 10
  */
 public class EditObatAdmin extends javax.swing.JFrame {
-
+login lg = new login();
     /**
      * Creates new form EditObatAdmin
      */
@@ -70,6 +71,7 @@ public class EditObatAdmin extends javax.swing.JFrame {
         btnKembali = new javax.swing.JLabel();
         btnSimpan = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        cmbUser = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -147,6 +149,16 @@ public class EditObatAdmin extends javax.swing.JFrame {
         getContentPane().add(jLabel1);
         jLabel1.setBounds(0, 0, 1370, 770);
 
+        cmbUser.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cmbUser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "----Menu----", "Profil", "Logout" }));
+        cmbUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbUserActionPerformed(evt);
+            }
+        });
+        getContentPane().add(cmbUser);
+        cmbUser.setBounds(1140, 50, 130, 26);
+
         setBounds(0, 0, 1595, 891);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -176,6 +188,22 @@ public class EditObatAdmin extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Data gagal di Update");
         }
     }//GEN-LAST:event_btnSimpanMouseClicked
+
+    private void cmbUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbUserActionPerformed
+        String menu = String.valueOf(cmbUser.getSelectedItem());
+        switch(menu){
+            case "Profil":
+            this.setVisible(false);
+            this.dispose();
+            new ProfilUser().setVisible(true);
+            break;
+            case "Logout":
+            this.setVisible(false);
+            this.dispose();
+            lg.logOut();
+            break;
+        }
+    }//GEN-LAST:event_cmbUserActionPerformed
 
     /**
      * @param args the command line arguments
@@ -217,6 +245,7 @@ public class EditObatAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel btnSimpan;
     private javax.swing.JComboBox<String> cmbJenis;
     private javax.swing.JComboBox<String> cmbKategori;
+    private javax.swing.JComboBox<String> cmbUser;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblKode;

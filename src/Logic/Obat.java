@@ -127,16 +127,32 @@ public class Obat {
         }
     }
     
-        public boolean getData(){
-        try{
-        String sql = "select * from obat JOIN detail_join ON obat.kode_obat = detail_obat.kode_obat ";
-        Connection koneksi = (Connection)conn.configDB();
-        Statement stm = koneksi.createStatement();
-        ResultSet res = stm.executeQuery(sql);
-        return res.next();
-    }catch(Exception e){
-        return false;
+    public boolean hapusObatExp(int id){
+        try {
+            Statement st = (Statement) conn.configDB().createStatement();
+            Connection koneksi = (Connection)conn.configDB();
+            //delete di tabel detail_obat
+            String queryHapusDetail = "DELETE FROM detail_obat WHERE id_detail = '" + id + "'";
+            PreparedStatement pstHapusDetail = koneksi.prepareStatement(queryHapusDetail);
+            pstHapusDetail.execute();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
+    
+    public boolean hapusSemuaObatExp(String tanggal){
+        try {
+            Statement st = (Statement) conn.configDB().createStatement();
+            Connection koneksi = (Connection)conn.configDB();
+            //delete di tabel detail_obat
+            String queryHapusDetail = "DELETE FROM detail_obat WHERE tgl_kadaluarsa <= '" + tanggal + "'";
+            PreparedStatement pstHapusDetail = koneksi.prepareStatement(queryHapusDetail);
+            pstHapusDetail.execute();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
          
      public boolean filter(String nama, String jenis, String kategori){

@@ -5,6 +5,8 @@
 package View;
 
 import Logic.Dashboard;
+import Logic.Util;
+import Logic.login;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,6 +20,9 @@ import koneksi.conn;
  * @author WINDOWS 10
  */
 public class ObatExp extends javax.swing.JFrame {
+    Dashboard db = new Dashboard();
+    Util util = new Util();
+    login lg = new login();
     private static int idObat;
     
     
@@ -41,7 +46,7 @@ public class ObatExp extends javax.swing.JFrame {
             try{
                 Dashboard db = new Dashboard();
                 int no = 1;
-                String sql = "SELECT * FROM obat JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat WHERE tgl_kadaluarsa BETWEEN '"+db.date()+"' AND '"+db.dateExp()+"' ";
+                String sql = "SELECT * FROM obat JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat WHERE tgl_kadaluarsa BETWEEN '"+util.date()+"' AND '"+util.dateExp()+"' ";
                 Connection conn = (Connection) koneksi.conn.configDB();
                 Statement stm = conn.createStatement();
                 ResultSet res = stm.executeQuery(sql);
@@ -78,7 +83,7 @@ public class ObatExp extends javax.swing.JFrame {
             try{
                 Dashboard db = new Dashboard();
                 int no = 1;
-                String sql = "SELECT * FROM obat JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat WHERE tgl_kadaluarsa BETWEEN '"+db.date()+"' AND '"+db.dateExp()+"' ORDER BY tgl_kadaluarsa "+filter+"";
+                String sql = "SELECT * FROM obat JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat WHERE tgl_kadaluarsa BETWEEN '"+util.date()+"' AND '"+util.dateExp()+"' ORDER BY tgl_kadaluarsa "+filter+"";
                 Connection conn = (Connection) koneksi.conn.configDB();
                 Statement stm = conn.createStatement();
                 ResultSet res = stm.executeQuery(sql);
@@ -102,10 +107,9 @@ public class ObatExp extends javax.swing.JFrame {
         }
     
     public void loadDate(){
-        Dashboard db = new Dashboard();
-        lblDateStart.setText(db.date());
-        lblDateEnd.setText(db.dateExp());
-        txtRentangWaktu.setText(String.valueOf(db.rentangWaktu));
+        lblDateStart.setText(util.date());
+        lblDateEnd.setText(util.dateExp());
+        txtRentangWaktu.setText(String.valueOf(util.rentangWaktu));
     }
     
     public void bersih(){
@@ -140,6 +144,7 @@ public class ObatExp extends javax.swing.JFrame {
         btnTambah = new javax.swing.JLabel();
         btnBersih = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        cmbUser = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -265,6 +270,16 @@ public class ObatExp extends javax.swing.JFrame {
         getContentPane().add(jLabel1);
         jLabel1.setBounds(0, 0, 1370, 768);
 
+        cmbUser.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cmbUser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "----Menu----", "Profil", "Logout" }));
+        cmbUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbUserActionPerformed(evt);
+            }
+        });
+        getContentPane().add(cmbUser);
+        cmbUser.setBounds(1140, 50, 130, 26);
+
         setBounds(0, 0, 1591, 877);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -272,7 +287,7 @@ public class ObatExp extends javax.swing.JFrame {
               int diskon = Integer.parseInt(txtAutoGenerate.getText());
         try {
             Dashboard db = new Dashboard();
-             String sql = "SELECT * FROM obat JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat WHERE tgl_kadaluarsa BETWEEN '"+db.date()+"' AND '"+db.dateExp()+"' ";
+             String sql = "SELECT * FROM obat JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat WHERE tgl_kadaluarsa BETWEEN '"+util.date()+"' AND '"+util.dateExp()+"' ";
                 Connection conn = (Connection) koneksi.conn.configDB();
                 Statement stm = conn.createStatement();
                 ResultSet res = stm.executeQuery(sql);
@@ -309,7 +324,7 @@ public class ObatExp extends javax.swing.JFrame {
             try{
                 Dashboard db = new Dashboard();
                 int no = 1;
-                String sql = "SELECT * FROM obat JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat WHERE nama LIKE '%"+search+"%' AND tgl_kadaluarsa BETWEEN '"+db.date()+"' AND '"+db.dateExp()+"'";
+                String sql = "SELECT * FROM obat JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat WHERE nama LIKE '%"+search+"%' AND tgl_kadaluarsa BETWEEN '"+util.date()+"' AND '"+util.dateExp()+"'";
                 Connection conn = (Connection) koneksi.conn.configDB();
                 Statement stm = conn.createStatement();
                 ResultSet res = stm.executeQuery(sql);
@@ -368,11 +383,10 @@ public class ObatExp extends javax.swing.JFrame {
     }//GEN-LAST:event_tableMouseClicked
 
     private void txtRentangWaktuKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRentangWaktuKeyPressed
-                int rentangWaktu = Integer.parseInt(txtRentangWaktu.getText());
-        Dashboard db = new Dashboard();
-        db.rentangWaktu = rentangWaktu;
-        lblDateStart.setText(db.date());
-        lblDateEnd.setText(db.dateExp());
+        int rentangWaktu = Integer.parseInt(txtRentangWaktu.getText());
+        util.rentangWaktu = rentangWaktu;
+        lblDateStart.setText(util.date());
+        lblDateEnd.setText(util.dateExp());
     }//GEN-LAST:event_txtRentangWaktuKeyPressed
 
     private void btnTambahMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTambahMouseClicked
@@ -413,6 +427,22 @@ public class ObatExp extends javax.swing.JFrame {
             break;
         }
     }//GEN-LAST:event_cmbFilterActionPerformed
+
+    private void cmbUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbUserActionPerformed
+        String menu = String.valueOf(cmbUser.getSelectedItem());
+        switch(menu){
+            case "Profil":
+            this.setVisible(false);
+            this.dispose();
+            new ProfilUser().setVisible(true);
+            break;
+            case "Logout":
+            this.setVisible(false);
+            this.dispose();
+            lg.logOut();
+            break;
+        }
+    }//GEN-LAST:event_cmbUserActionPerformed
     
     /**
      * @param args the command line arguments
@@ -454,6 +484,7 @@ public class ObatExp extends javax.swing.JFrame {
     private javax.swing.JLabel btnBersih;
     private javax.swing.JLabel btnTambah;
     private javax.swing.JComboBox<String> cmbFilter;
+    private javax.swing.JComboBox<String> cmbUser;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblDateEnd;

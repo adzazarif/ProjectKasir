@@ -3,6 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package View;
+import Logic.Dashboard;
+import Logic.Transaksi;
+import Logic.Util;
+import Logic.login;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,7 +20,12 @@ import javax.swing.table.DefaultTableModel;
 import koneksi.conn;
 
 public class TransaksiKasir extends javax.swing.JFrame {
-
+  
+    Dashboard db = new Dashboard();
+    Util util = new Util();
+    Transaksi ts = new Transaksi();
+    login lg = new login();
+    
     private List<listData> trns = new ArrayList<>();
     private List<listData> keywoard = new ArrayList<>();
     private listData selectData;
@@ -75,8 +84,7 @@ public class TransaksiKasir extends javax.swing.JFrame {
     
     //method untuk menampilkan kode dan tanggal
     public void setDateAndKode(){
-        Logic.Transaksi ts = new Logic.Transaksi();
-        String date = ts.date();
+        String date = util.dateFull();
         int kode = ts.kodeTransaksi();
         lblKode.setText(String.valueOf(kode));
         lblTanggal.setText(date);
@@ -86,10 +94,9 @@ public class TransaksiKasir extends javax.swing.JFrame {
     public List<listData> search(String query){
         List<listData> data = new ArrayList<>();
             keywoard = new ArrayList<>();
-            Logic.Dashboard db = new Logic.Dashboard();
             try {
             Statement st = (Statement) conn.configDB().createStatement();
-            ResultSet res = st.executeQuery("SELECT * FROM obat JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat WHERE nama LIKE '%"+ query +"%' AND tgl_kadaluarsa > '"+db.date()+"'");
+            ResultSet res = st.executeQuery("SELECT * FROM obat JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat WHERE nama LIKE '%"+ query +"%' AND tgl_kadaluarsa > '"+util.date()+"'");
             while(res.next()){
                 data.add(new listData(res.getInt("stok"),res.getString("nama"),res.getString("jenis"),res.getInt("dosis"),res.getInt("harga_jual"),res.getInt("id_detail")));      
             }
@@ -127,6 +134,7 @@ public class TransaksiKasir extends javax.swing.JFrame {
         btnSimpan = new javax.swing.JLabel();
         btnHapus = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        cmbUser = new javax.swing.JComboBox<>();
 
         list.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         list.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -249,6 +257,16 @@ public class TransaksiKasir extends javax.swing.JFrame {
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1);
         jLabel1.setBounds(0, 0, 1370, 760);
+
+        cmbUser.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cmbUser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "----Menu----", "Profil", "Logout" }));
+        cmbUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbUserActionPerformed(evt);
+            }
+        });
+        getContentPane().add(cmbUser);
+        cmbUser.setBounds(1140, 50, 130, 26);
 
         setBounds(0, 0, 1577, 909);
     }// </editor-fold>//GEN-END:initComponents
@@ -381,6 +399,22 @@ public class TransaksiKasir extends javax.swing.JFrame {
         datatable();
     }//GEN-LAST:event_btnHapusMouseClicked
 
+    private void cmbUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbUserActionPerformed
+        String menu = String.valueOf(cmbUser.getSelectedItem());
+        switch(menu){
+            case "Profil":
+            this.setVisible(false);
+            this.dispose();
+            new ProfilUser().setVisible(true);
+            break;
+            case "Logout":
+            this.setVisible(false);
+            this.dispose();
+            lg.logOut();
+            break;
+        }
+    }//GEN-LAST:event_cmbUserActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -420,6 +454,7 @@ public class TransaksiKasir extends javax.swing.JFrame {
     private javax.swing.JLabel btnHapus;
     private javax.swing.JLabel btnSimpan;
     private javax.swing.JLabel btnTambah;
+    private javax.swing.JComboBox<String> cmbUser;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

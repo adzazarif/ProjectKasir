@@ -5,6 +5,7 @@
 package View;
 
 import Logic.Pengguna;
+import Logic.login;
 import static View.ObatAdmin.id_detail;
 import static View.ObatAdmin.kd_obat;
 import java.sql.Connection;
@@ -19,7 +20,7 @@ import koneksi.conn;
  * @author WINDOWS 10
  */
 public class PenggunaAdmin extends javax.swing.JFrame {
-
+login lg = new login();
     /**
      * Creates new form PenggunaAdmin
      */
@@ -100,6 +101,7 @@ public void load_table(){
         btnEdit = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        cmbUser = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -119,6 +121,11 @@ public void load_table(){
 
         txtNama.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtNama.setBorder(null);
+        txtNama.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtNamaKeyReleased(evt);
+            }
+        });
         getContentPane().add(txtNama);
         txtNama.setBounds(470, 130, 390, 40);
 
@@ -189,6 +196,16 @@ public void load_table(){
         getContentPane().add(jLabel1);
         jLabel1.setBounds(0, 0, 1370, 770);
 
+        cmbUser.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cmbUser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "----Menu----", "Profil", "Logout" }));
+        cmbUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbUserActionPerformed(evt);
+            }
+        });
+        getContentPane().add(cmbUser);
+        cmbUser.setBounds(1140, 50, 130, 26);
+
         setBounds(0, 0, 1606, 892);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -248,6 +265,29 @@ public void load_table(){
         bersih();
     }//GEN-LAST:event_jLabel4MouseClicked
 
+    private void txtNamaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNamaKeyReleased
+        String nama = txtNama.getText();
+        nama = nama.replaceAll("\\s", "");
+        String result = nama+"@gmail.com";
+        txtEmail.setText(result);
+    }//GEN-LAST:event_txtNamaKeyReleased
+
+    private void cmbUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbUserActionPerformed
+        String menu = String.valueOf(cmbUser.getSelectedItem());
+        switch(menu){
+            case "Profil":
+            this.setVisible(false);
+            this.dispose();
+            new ProfilUser().setVisible(true);
+            break;
+            case "Logout":
+            this.setVisible(false);
+            this.dispose();
+            lg.logOut();
+            break;
+        }
+    }//GEN-LAST:event_cmbUserActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -285,6 +325,7 @@ public void load_table(){
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnEdit;
+    private javax.swing.JComboBox<String> cmbUser;
     private javax.swing.JComboBox<String> cmblevel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

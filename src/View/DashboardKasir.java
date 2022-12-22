@@ -6,13 +6,16 @@ package View;
 
 import Logic.Dashboard;
 import javax.swing.JFrame;
-
+import Logic.Util;
+import Logic.login;
 /**
  *
  * @author WINDOWS 10
  */
 public class DashboardKasir extends javax.swing.JFrame {
-
+     Dashboard db = new Dashboard();
+     Util util = new Util();
+     login lg = new login();
     /**
      * Creates new form DashboardKasir
      */
@@ -34,13 +37,13 @@ public class DashboardKasir extends javax.swing.JFrame {
             }
     }
      public void hari(){
-            Dashboard db = new Dashboard();
-            String date = db.date();
+       
+            String date = util.date();
             String sisaStock = String.valueOf(db.stockObat());
-            String obatExp = String.valueOf(db.obatExp());
-            String danaPemasukan = String.valueOf(db.Pemasukan(db.dateStart(), db.dateEnd()));
-            String keuntungan = String.valueOf(db.labaBersih(db.dateStart(), db.dateEnd()));
-            String barangTerjual = String.valueOf(db.barangTerjual(db.dateStart(), db.dateEnd()));
+            String obatExp = String.valueOf(db.obatHampirExp());
+            String danaPemasukan = String.valueOf(db.Pemasukan(util.dateStart(), util.dateEnd()));
+            String keuntungan = String.valueOf(db.labaBersih(util.dateStart(), util.dateEnd()));
+            String barangTerjual = String.valueOf(db.barangTerjual(util.dateStart(), util.dateEnd()));
             lblDate.setText(date);
             lblStokObat.setText(sisaStock);
             lblObatExp.setText(obatExp);
@@ -51,14 +54,14 @@ public class DashboardKasir extends javax.swing.JFrame {
     }
     public void bulan(){
         Dashboard db = new Dashboard();
-            String dateEnd = db.dateEnd();
-            String dateStart = db.dateMonthAgo();
+            String dateEnd = util.dateEnd();
+            String dateStart = util.dateMonthAgo();
             String sisaStock = String.valueOf(db.stockObat());
-            String obatExp = String.valueOf(db.obatExp());
+            String obatExp = String.valueOf(db.obatHampirExp());
             String danaPemasukan = String.valueOf(db.Pemasukan(dateStart, dateEnd));
             String keuntungan = String.valueOf(db.labaBersih(dateStart, dateEnd));
             String barangTerjual = String.valueOf(db.barangTerjual(dateStart, dateEnd));
-            lblDate.setText(dateStart+" Sampai " +db.date());
+            lblDate.setText(dateStart+" Sampai " +util.date());
             lblStokObat.setText(sisaStock);
             lblObatExp.setText(obatExp);
             lblDanaPemasukan.setText(danaPemasukan);
@@ -84,6 +87,8 @@ public class DashboardKasir extends javax.swing.JFrame {
         lblKeuntungan = new javax.swing.JLabel();
         lblBarangTerjual = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        cmbUser = new javax.swing.JComboBox<>();
+        lblNama = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -137,6 +142,21 @@ public class DashboardKasir extends javax.swing.JFrame {
         getContentPane().add(jLabel1);
         jLabel1.setBounds(0, 0, 1360, 770);
 
+        cmbUser.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cmbUser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "----Menu----", "Profil", "Logout" }));
+        cmbUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbUserActionPerformed(evt);
+            }
+        });
+        getContentPane().add(cmbUser);
+        cmbUser.setBounds(1140, 50, 130, 26);
+
+        lblNama.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblNama.setText("jLabel2");
+        getContentPane().add(lblNama);
+        lblNama.setBounds(1140, 10, 130, 30);
+
         setBounds(0, 0, 1607, 903);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -150,6 +170,22 @@ public class DashboardKasir extends javax.swing.JFrame {
             load_data();
         }
     }//GEN-LAST:event_cmbFilterActionPerformed
+
+    private void cmbUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbUserActionPerformed
+        String menu = String.valueOf(cmbUser.getSelectedItem());
+        switch(menu){
+            case "Profil":
+            this.setVisible(false);
+            this.dispose();
+            new ProfilUser().setVisible(true);
+            break;
+            case "Logout":
+            this.setVisible(false);
+            this.dispose();
+            lg.logOut();
+            break;
+        }
+    }//GEN-LAST:event_cmbUserActionPerformed
 
     /**
      * @param args the command line arguments
@@ -188,12 +224,14 @@ public class DashboardKasir extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cmbFilter;
+    private javax.swing.JComboBox<String> cmbUser;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel lblBarangTerjual;
     private javax.swing.JLabel lblDanaPemasukan;
     private javax.swing.JLabel lblDate;
     private javax.swing.JLabel lblKeuntungan;
+    private javax.swing.JLabel lblNama;
     private javax.swing.JLabel lblObatExp;
     private javax.swing.JLabel lblStokObat;
     // End of variables declaration//GEN-END:variables

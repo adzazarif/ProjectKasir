@@ -5,6 +5,7 @@
 package View;
 
 import Logic.Obat;
+import Logic.login;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -17,7 +18,7 @@ import koneksi.conn;
  * @author WINDOWS 10
  */
 public class ObatAdmin extends javax.swing.JFrame {
-
+login lg = new login();
     /**
      * Creates new form ObatAdmin
      */
@@ -85,6 +86,7 @@ public class ObatAdmin extends javax.swing.JFrame {
         btnPengguna = new javax.swing.JLabel();
         btnLaporan = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        cmbUser = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -205,6 +207,16 @@ public class ObatAdmin extends javax.swing.JFrame {
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1);
         jLabel1.setBounds(0, 0, 1370, 770);
+
+        cmbUser.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cmbUser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "----Menu----", "Profil", "Logout" }));
+        cmbUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbUserActionPerformed(evt);
+            }
+        });
+        getContentPane().add(cmbUser);
+        cmbUser.setBounds(1140, 50, 130, 26);
 
         setBounds(0, 0, 1604, 869);
     }// </editor-fold>//GEN-END:initComponents
@@ -342,6 +354,22 @@ public class ObatAdmin extends javax.swing.JFrame {
         new LaporanAdmin().setVisible(true);
     }//GEN-LAST:event_btnLaporanMouseClicked
 
+    private void cmbUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbUserActionPerformed
+        String menu = String.valueOf(cmbUser.getSelectedItem());
+        switch(menu){
+            case "Profil":
+            this.setVisible(false);
+            this.dispose();
+            new ProfilUser().setVisible(true);
+            break;
+            case "Logout":
+            this.setVisible(false);
+            this.dispose();
+            lg.logOut();
+            break;
+        }
+    }//GEN-LAST:event_cmbUserActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -385,6 +413,7 @@ public class ObatAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel btnPengguna;
     private javax.swing.JLabel btnTransaksi;
     private javax.swing.JComboBox<String> cmbJenis;
+    private javax.swing.JComboBox<String> cmbUser;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

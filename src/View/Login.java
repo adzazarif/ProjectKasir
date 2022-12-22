@@ -106,9 +106,11 @@ public class Login extends javax.swing.JFrame {
             String lvl = Logic.login.level;
             if(lvl.equals("admin")){
                 this.setVisible(false);
+                this.dispose();
                 new DashboardAdmin().setVisible(true);
             }else{
                 this.setVisible(false);
+                 this.dispose();
                 new DashboardKasir().setVisible(true);
             }  
         }else{

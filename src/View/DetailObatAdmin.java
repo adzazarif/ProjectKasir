@@ -4,6 +4,7 @@
  */
 package View;
 
+import Logic.login;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -15,7 +16,7 @@ import koneksi.conn;
  * @author WINDOWS 10
  */
 public class DetailObatAdmin extends javax.swing.JFrame {
-
+login lg = new login();
     /**
      * Creates new form DetailObatAdmin
      */
@@ -72,6 +73,7 @@ public class DetailObatAdmin extends javax.swing.JFrame {
         lblHargaJual = new javax.swing.JLabel();
         lblKategori = new javax.swing.JLabel();
         btnKembali = new javax.swing.JLabel();
+        cmbUser = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -133,6 +135,16 @@ public class DetailObatAdmin extends javax.swing.JFrame {
         getContentPane().add(btnKembali);
         btnKembali.setBounds(320, 570, 150, 40);
 
+        cmbUser.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cmbUser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "----Menu----", "Profil", "Logout" }));
+        cmbUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbUserActionPerformed(evt);
+            }
+        });
+        getContentPane().add(cmbUser);
+        cmbUser.setBounds(1140, 50, 130, 26);
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/detail obat.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1);
@@ -148,6 +160,22 @@ public class DetailObatAdmin extends javax.swing.JFrame {
         this.setVisible(false);
         obat.setVisible(true);
     }//GEN-LAST:event_btnKembaliMouseClicked
+
+    private void cmbUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbUserActionPerformed
+        String menu = String.valueOf(cmbUser.getSelectedItem());
+        switch(menu){
+            case "Profil":
+            this.setVisible(false);
+            this.dispose();
+            new ProfilUser().setVisible(true);
+            break;
+            case "Logout":
+            this.setVisible(false);
+            this.dispose();
+            lg.logOut();
+            break;
+        }
+    }//GEN-LAST:event_cmbUserActionPerformed
 
     /**
      * @param args the command line arguments
@@ -186,6 +214,7 @@ public class DetailObatAdmin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnKembali;
+    private javax.swing.JComboBox<String> cmbUser;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblDiskon;
     private javax.swing.JLabel lblDosis;

@@ -3,19 +3,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package View;
+import Logic.Dashboard;
+import Logic.Util;
+import Logic.Transaksi;
+import Logic.login;
 import java.sql.Connection;
-import java.sql.DriverManager;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import javax.swing.DefaultListModel;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import koneksi.conn; 
@@ -30,6 +31,12 @@ import koneksi.conn;
  */
 
 public class TransaksiAdmin extends javax.swing.JFrame {
+    
+    Dashboard db = new Dashboard();
+    Util util = new Util();
+    Transaksi ts = new Transaksi();
+    login lg = new login();
+    
     NumberFormat nf = NumberFormat.getNumberInstance(new Locale("in", "ID"));
     private List<listData> trns = new ArrayList<>();
     private List<listData> keywoard = new ArrayList<>();
@@ -92,8 +99,7 @@ public class TransaksiAdmin extends javax.swing.JFrame {
     
     //method untuk menampilkan kode dan tanggal
     public void setDateAndKode(){
-        Logic.Transaksi ts = new Logic.Transaksi();
-        String date = ts.date();
+        String date = util.dateFull();
         int kode = ts.kodeTransaksi();
         lblKode.setText(String.valueOf(kode));
         lblTanggal.setText(date);
@@ -103,10 +109,9 @@ public class TransaksiAdmin extends javax.swing.JFrame {
     public List<listData> search(String query){
         List<listData> data = new ArrayList<>();
             keywoard = new ArrayList<>();
-            Logic.Dashboard db = new Logic.Dashboard();
             try {
             Statement st = (Statement) conn.configDB().createStatement();
-            ResultSet res = st.executeQuery("SELECT * FROM obat JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat WHERE nama LIKE '%"+ query +"%' AND tgl_kadaluarsa > '"+db.date()+"'");
+            ResultSet res = st.executeQuery("SELECT * FROM obat JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat WHERE nama LIKE '%"+ query +"%' AND tgl_kadaluarsa > '"+util.date()+"'");
             while(res.next()){
                 data.add(new listData(res.getInt("stok"),res.getString("nama"),res.getString("jenis"),res.getInt("dosis"),res.getInt("harga_jual"),res.getInt("id_detail")));      
             }
@@ -179,7 +184,7 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         btnHapus = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
-        jLabel2 = new javax.swing.JLabel();
+        cmbUser = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
 
         list.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -302,14 +307,15 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         getContentPane().add(jScrollPane2);
         jScrollPane2.setBounds(312, 270, 1010, 260);
 
-        jLabel2.setText("jLabel2");
-        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel2MouseClicked(evt);
+        cmbUser.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cmbUser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "----Menu----", "Profil", "Logout" }));
+        cmbUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbUserActionPerformed(evt);
             }
         });
-        getContentPane().add(jLabel2);
-        jLabel2.setBounds(310, 40, 100, 20);
+        getContentPane().add(cmbUser);
+        cmbUser.setBounds(1140, 50, 130, 26);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/transaksi.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
@@ -455,9 +461,21 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         selectData = keywoard.get(index);
     }//GEN-LAST:event_listMouseClicked
 
-    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-//        tampilStruk();
-    }//GEN-LAST:event_jLabel2MouseClicked
+    private void cmbUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbUserActionPerformed
+        String menu = String.valueOf(cmbUser.getSelectedItem());
+        switch(menu){
+            case "Profil":
+            this.setVisible(false);
+            this.dispose();
+            new ProfilUser().setVisible(true);
+            break;
+            case "Logout":
+            this.setVisible(false);
+            this.dispose();
+            lg.logOut();
+            break;
+        }
+    }//GEN-LAST:event_cmbUserActionPerformed
 
     /**
      * @param args the command line arguments
@@ -498,8 +516,8 @@ public class TransaksiAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel btnHapus;
     private javax.swing.JLabel btnSimpan;
     private javax.swing.JLabel btnTambah;
+    private javax.swing.JComboBox<String> cmbUser;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblGrandTotal;
