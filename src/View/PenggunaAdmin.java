@@ -29,6 +29,7 @@ login lg = new login();
         initComponents();
         load_table();
         setDataEdit();
+        lblNama.setText(lg.nama);
     }
 public void load_table(){
         DefaultTableModel model = new DefaultTableModel();  
@@ -100,8 +101,9 @@ public void load_table(){
         jLabel3 = new javax.swing.JLabel();
         btnEdit = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        lblNama = new javax.swing.JLabel();
         cmbUser = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -191,10 +193,10 @@ public void load_table(){
         getContentPane().add(jLabel4);
         jLabel4.setBounds(1030, 350, 150, 40);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/pengguna.jpg"))); // NOI18N
-        jLabel1.setText("jLabel1");
-        getContentPane().add(jLabel1);
-        jLabel1.setBounds(0, 0, 1370, 770);
+        lblNama.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblNama.setText("jLabel2");
+        getContentPane().add(lblNama);
+        lblNama.setBounds(1140, 10, 130, 30);
 
         cmbUser.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cmbUser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "----Menu----", "Profil", "Logout" }));
@@ -205,6 +207,11 @@ public void load_table(){
         });
         getContentPane().add(cmbUser);
         cmbUser.setBounds(1140, 50, 130, 26);
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/pengguna.jpg"))); // NOI18N
+        jLabel1.setText("jLabel1");
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(0, 0, 1370, 770);
 
         setBounds(0, 0, 1606, 892);
     }// </editor-fold>//GEN-END:initComponents
@@ -332,6 +339,7 @@ public void load_table(){
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblNama;
     private javax.swing.JTable table;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtNama;

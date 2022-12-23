@@ -30,6 +30,7 @@ login lg = new login();
         this.setUndecorated(true);
         this.setVisible(true);
         load_table();
+        lblNama.setText(lg.nama);
     }
     public void load_table(){
             DefaultTableModel model = new DefaultTableModel();
@@ -85,8 +86,9 @@ login lg = new login();
         btnTransaksi = new javax.swing.JLabel();
         btnPengguna = new javax.swing.JLabel();
         btnLaporan = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
         cmbUser = new javax.swing.JComboBox<>();
+        lblNama = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -203,11 +205,6 @@ login lg = new login();
         getContentPane().add(btnLaporan);
         btnLaporan.setBounds(30, 460, 230, 40);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/obat.jpg"))); // NOI18N
-        jLabel1.setText("jLabel1");
-        getContentPane().add(jLabel1);
-        jLabel1.setBounds(0, 0, 1370, 770);
-
         cmbUser.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cmbUser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "----Menu----", "Profil", "Logout" }));
         cmbUser.addActionListener(new java.awt.event.ActionListener() {
@@ -217,6 +214,16 @@ login lg = new login();
         });
         getContentPane().add(cmbUser);
         cmbUser.setBounds(1140, 50, 130, 26);
+
+        lblNama.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblNama.setText("jLabel2");
+        getContentPane().add(lblNama);
+        lblNama.setBounds(1140, 10, 130, 30);
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/obat.jpg"))); // NOI18N
+        jLabel1.setText("jLabel1");
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(0, 0, 1370, 770);
 
         setBounds(0, 0, 1604, 869);
     }// </editor-fold>//GEN-END:initComponents
@@ -419,6 +426,7 @@ login lg = new login();
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblNama;
     private javax.swing.JTable table;
     private javax.swing.JTextField txtCari;
     // End of variables declaration//GEN-END:variables

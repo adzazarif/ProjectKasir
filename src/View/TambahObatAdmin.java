@@ -23,6 +23,7 @@ login lg = new login();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
         this.setUndecorated(true);
         this.setVisible(true);
+        lblNama.setText(lg.nama);
     }
 
     /**
@@ -46,8 +47,9 @@ login lg = new login();
         cmbKategori = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtKet = new javax.swing.JTextArea();
-        jLabel1 = new javax.swing.JLabel();
         cmbUser = new javax.swing.JComboBox<>();
+        lblNama = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -122,11 +124,6 @@ login lg = new login();
         getContentPane().add(jScrollPane1);
         jScrollPane1.setBounds(530, 390, 800, 140);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/tambahobat.jpg"))); // NOI18N
-        jLabel1.setText("jLabel1");
-        getContentPane().add(jLabel1);
-        jLabel1.setBounds(0, 0, 1370, 770);
-
         cmbUser.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cmbUser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "----Menu----", "Profil", "Logout" }));
         cmbUser.addActionListener(new java.awt.event.ActionListener() {
@@ -136,6 +133,16 @@ login lg = new login();
         });
         getContentPane().add(cmbUser);
         cmbUser.setBounds(1140, 50, 130, 26);
+
+        lblNama.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblNama.setText("jLabel2");
+        getContentPane().add(lblNama);
+        lblNama.setBounds(1140, 10, 130, 30);
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/tambahobat.jpg"))); // NOI18N
+        jLabel1.setText("jLabel1");
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(0, 0, 1370, 770);
 
         setBounds(0, 0, 1601, 888);
     }// </editor-fold>//GEN-END:initComponents
@@ -229,6 +236,7 @@ login lg = new login();
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblNama;
     private javax.swing.JTextField txtDosis;
     private javax.swing.JTextField txtHargaBeli;
     private javax.swing.JTextField txtHargaJual;

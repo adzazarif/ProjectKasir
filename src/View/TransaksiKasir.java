@@ -44,6 +44,7 @@ public class TransaksiKasir extends javax.swing.JFrame {
         setDateAndKode();
         datatable();
         loadResult();
+        lblNama.setText(lg.nama);
     }
     //menampilkan grand total dan diskon ke layar
     public void loadResult(){
@@ -133,8 +134,9 @@ public class TransaksiKasir extends javax.swing.JFrame {
         txtTunai = new javax.swing.JTextField();
         btnSimpan = new javax.swing.JLabel();
         btnHapus = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
         cmbUser = new javax.swing.JComboBox<>();
+        lblNama = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         list.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         list.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -253,11 +255,6 @@ public class TransaksiKasir extends javax.swing.JFrame {
         getContentPane().add(btnHapus);
         btnHapus.setBounds(1170, 630, 160, 50);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/transaksi kasir.jpg"))); // NOI18N
-        jLabel1.setText("jLabel1");
-        getContentPane().add(jLabel1);
-        jLabel1.setBounds(0, 0, 1370, 760);
-
         cmbUser.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cmbUser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "----Menu----", "Profil", "Logout" }));
         cmbUser.addActionListener(new java.awt.event.ActionListener() {
@@ -267,6 +264,16 @@ public class TransaksiKasir extends javax.swing.JFrame {
         });
         getContentPane().add(cmbUser);
         cmbUser.setBounds(1140, 50, 130, 26);
+
+        lblNama.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblNama.setText("jLabel2");
+        getContentPane().add(lblNama);
+        lblNama.setBounds(1140, 10, 130, 30);
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/transaksi kasir.jpg"))); // NOI18N
+        jLabel1.setText("jLabel1");
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(0, 0, 1370, 760);
 
         setBounds(0, 0, 1577, 909);
     }// </editor-fold>//GEN-END:initComponents
@@ -461,6 +468,7 @@ public class TransaksiKasir extends javax.swing.JFrame {
     private javax.swing.JLabel lblGrandTotal;
     private javax.swing.JLabel lblKembalian;
     private javax.swing.JLabel lblKode;
+    private javax.swing.JLabel lblNama;
     private javax.swing.JLabel lblTanggal;
     private javax.swing.JLabel lblTotalBelanja;
     private javax.swing.JLabel lblTotalDiskon;

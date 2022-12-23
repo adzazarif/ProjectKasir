@@ -59,6 +59,7 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         setDateAndKode();
         datatable();
         loadResult();
+        lblNama.setText(lg.nama);
     }
     //menampilkan grand total dan diskon ke layar
     public void loadResult(){
@@ -185,6 +186,7 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
         cmbUser = new javax.swing.JComboBox<>();
+        lblNama = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         list.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -316,6 +318,11 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         });
         getContentPane().add(cmbUser);
         cmbUser.setBounds(1140, 50, 130, 26);
+
+        lblNama.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblNama.setText("jLabel2");
+        getContentPane().add(lblNama);
+        lblNama.setBounds(1140, 10, 130, 30);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/transaksi.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
@@ -523,6 +530,7 @@ public class TransaksiAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel lblGrandTotal;
     private javax.swing.JLabel lblKembalian;
     private javax.swing.JLabel lblKode;
+    private javax.swing.JLabel lblNama;
     private javax.swing.JLabel lblTanggal;
     private javax.swing.JLabel lblTotalBelanja;
     private javax.swing.JLabel lblTotalDiskon;

@@ -10,6 +10,6 @@ package kasirapotek;
  */
 public class App {
     public static void main(String[] args) {
-        View.Login.main(args);
+        View.SplashScreen.main(args);
     }
 }

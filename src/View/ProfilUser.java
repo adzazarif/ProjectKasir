@@ -29,6 +29,7 @@ public class ProfilUser extends javax.swing.JFrame {
     }
     
     public void loadData(){
+        lblNama1.setText(lg.nama);
         try {
          
             String sql = "SELECT * FROM user WHERE id = '"+lg.userId+"'";
@@ -83,8 +84,9 @@ public class ProfilUser extends javax.swing.JFrame {
         btnUbah = new javax.swing.JLabel();
         txtUlangiPass = new javax.swing.JPasswordField();
         txtPass = new javax.swing.JPasswordField();
-        jLabel1 = new javax.swing.JLabel();
         cmbUser = new javax.swing.JComboBox<>();
+        lblNama1 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -147,11 +149,6 @@ public class ProfilUser extends javax.swing.JFrame {
         getContentPane().add(txtPass);
         txtPass.setBounds(880, 550, 390, 30);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/profil user.jpg"))); // NOI18N
-        jLabel1.setText("jLabel1");
-        getContentPane().add(jLabel1);
-        jLabel1.setBounds(0, 0, 1407, 768);
-
         cmbUser.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cmbUser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "----Menu----", "Profil", "Logout" }));
         cmbUser.addActionListener(new java.awt.event.ActionListener() {
@@ -161,6 +158,16 @@ public class ProfilUser extends javax.swing.JFrame {
         });
         getContentPane().add(cmbUser);
         cmbUser.setBounds(1140, 50, 130, 26);
+
+        lblNama1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblNama1.setText("jLabel2");
+        getContentPane().add(lblNama1);
+        lblNama1.setBounds(1140, 10, 130, 30);
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/profil user.jpg"))); // NOI18N
+        jLabel1.setText("jLabel1");
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(0, 0, 1407, 768);
 
         setBounds(0, 0, 1603, 902);
     }// </editor-fold>//GEN-END:initComponents
@@ -251,6 +258,7 @@ public class ProfilUser extends javax.swing.JFrame {
     private javax.swing.JLabel lblEmail;
     private javax.swing.JLabel lblLevel;
     private javax.swing.JLabel lblNama;
+    private javax.swing.JLabel lblNama1;
     private javax.swing.JLabel lblPass;
     private javax.swing.JLabel lblUsername;
     private javax.swing.JTextField txtEmail;

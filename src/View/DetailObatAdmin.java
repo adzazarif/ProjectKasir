@@ -26,6 +26,7 @@ login lg = new login();
     }
 
     public void setDetail(){
+        lblNama1.setText(lg.nama);
         try {
             ObatAdmin obat = new ObatAdmin();
             String sql = "SELECT * FROM obat JOIN detail_obat ON obat.kode_obat = detail_obat.kode_obat WHERE "
@@ -74,6 +75,7 @@ login lg = new login();
         lblKategori = new javax.swing.JLabel();
         btnKembali = new javax.swing.JLabel();
         cmbUser = new javax.swing.JComboBox<>();
+        lblNama1 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -144,6 +146,11 @@ login lg = new login();
         });
         getContentPane().add(cmbUser);
         cmbUser.setBounds(1140, 50, 130, 26);
+
+        lblNama1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblNama1.setText("jLabel2");
+        getContentPane().add(lblNama1);
+        lblNama1.setBounds(1140, 10, 130, 30);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/detail obat.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
@@ -225,6 +232,7 @@ login lg = new login();
     private javax.swing.JLabel lblKet;
     private javax.swing.JLabel lblKode;
     private javax.swing.JLabel lblNama;
+    private javax.swing.JLabel lblNama1;
     private javax.swing.JLabel lblStok;
     private javax.swing.JLabel lblTglExp;
     private javax.swing.JLabel lblTglMasuk;

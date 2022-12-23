@@ -8,6 +8,11 @@ import Logic.Dashboard;
 import javax.swing.JFrame;
 import Logic.Util;
 import Logic.login;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import koneksi.conn;
 /**
  *
  * @author WINDOWS 10
@@ -28,7 +33,24 @@ public class DashboardKasir extends javax.swing.JFrame {
         this.setVisible(true);
     }
     
+    public void User(){
+        
+        int id = lg.userId;
+         try {
+            String queryCek = "SELECT * FROM user WHERE id = '"+id+"'";
+            Connection koneksi = (Connection) conn.configDB();
+            Statement pstCek = koneksi.createStatement();
+            ResultSet res = pstCek.executeQuery(queryCek);
+            if(res.next()){
+                lblNama.setText(res.getString("nama"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e);
+        }
+    }
+    
      public void load_data(){
+         lblNama.setText(lg.nama);
             hari();
             if(filter.equals("hari")){
                 hari();
@@ -86,9 +108,9 @@ public class DashboardKasir extends javax.swing.JFrame {
         lblDanaPemasukan = new javax.swing.JLabel();
         lblKeuntungan = new javax.swing.JLabel();
         lblBarangTerjual = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
         cmbUser = new javax.swing.JComboBox<>();
         lblNama = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -137,11 +159,6 @@ public class DashboardKasir extends javax.swing.JFrame {
         getContentPane().add(lblBarangTerjual);
         lblBarangTerjual.setBounds(530, 570, 150, 40);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/dashboard kasir.jpg"))); // NOI18N
-        jLabel1.setText("jLabel1");
-        getContentPane().add(jLabel1);
-        jLabel1.setBounds(0, 0, 1360, 770);
-
         cmbUser.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cmbUser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "----Menu----", "Profil", "Logout" }));
         cmbUser.addActionListener(new java.awt.event.ActionListener() {
@@ -156,6 +173,11 @@ public class DashboardKasir extends javax.swing.JFrame {
         lblNama.setText("jLabel2");
         getContentPane().add(lblNama);
         lblNama.setBounds(1140, 10, 130, 30);
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/dashboard kasir.jpg"))); // NOI18N
+        jLabel1.setText("jLabel1");
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(0, 0, 1360, 770);
 
         setBounds(0, 0, 1607, 903);
     }// </editor-fold>//GEN-END:initComponents

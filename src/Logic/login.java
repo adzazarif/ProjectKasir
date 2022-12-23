@@ -21,6 +21,7 @@ import koneksi.conn;
 public class login {
     public static String level;
     public static int userId;
+    public static String nama;
     
     public boolean log(String username, String pass){
         try {
@@ -32,6 +33,7 @@ public class login {
                 String lvl = res.getString("level");
                 this.level = lvl;
                 this.userId = res.getInt("id");
+                this.nama = res.getString("nama");
                 return true;
             }else{
                   return false;
@@ -88,12 +90,13 @@ public class login {
         }
     }
     
-    
-    
+        
+ 
     //method untuk logout
     public void logOut(){
         level = "";
         userId = 0;
+        nama = "";
         new Login().setVisible(true);
     }
 }
