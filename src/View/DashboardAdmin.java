@@ -98,8 +98,12 @@ public class DashboardAdmin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnKeuntungan = new javax.swing.JLabel();
+        btnKeuntungan1 = new javax.swing.JLabel();
+        btnBarangTerjual = new javax.swing.JLabel();
         btnObatSudahExp = new javax.swing.JLabel();
         btnObatHampirExp = new javax.swing.JLabel();
+        btnStokObat = new javax.swing.JLabel();
         lblDate = new javax.swing.JLabel();
         lblObatSudahExp = new javax.swing.JLabel();
         lblObatHampirExp = new javax.swing.JLabel();
@@ -121,6 +125,30 @@ public class DashboardAdmin extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
+        btnKeuntungan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnKeuntunganMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnKeuntungan);
+        btnKeuntungan.setBounds(320, 200, 310, 110);
+
+        btnKeuntungan1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnKeuntungan1MouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnKeuntungan1);
+        btnKeuntungan1.setBounds(1010, 200, 310, 110);
+
+        btnBarangTerjual.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBarangTerjualMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnBarangTerjual);
+        btnBarangTerjual.setBounds(660, 190, 320, 120);
+
         btnObatSudahExp.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnObatSudahExpMouseClicked(evt);
@@ -136,6 +164,14 @@ public class DashboardAdmin extends javax.swing.JFrame {
         });
         getContentPane().add(btnObatHampirExp);
         btnObatHampirExp.setBounds(320, 370, 310, 120);
+
+        btnStokObat.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnStokObatMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnStokObat);
+        btnStokObat.setBounds(1010, 360, 320, 120);
 
         lblDate.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         getContentPane().add(lblDate);
@@ -241,8 +277,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         getContentPane().add(lblNama);
         lblNama.setBounds(1140, 10, 130, 30);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/dashboard adminfixed.jpg"))); // NOI18N
-        jLabel1.setText("jLabel1");
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/dashboard adminfixed (1).jpg"))); // NOI18N
         jLabel1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jLabel1KeyReleased(evt);
@@ -327,6 +362,28 @@ public class DashboardAdmin extends javax.swing.JFrame {
         new DashboardAdmin().setVisible(true);
     }//GEN-LAST:event_btnDashboardMouseClicked
 
+    private void btnStokObatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnStokObatMouseClicked
+        this.setVisible(false);
+        this.dispose();
+        new StokObat().setVisible(true);
+    }//GEN-LAST:event_btnStokObatMouseClicked
+
+    private void btnKeuntunganMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnKeuntunganMouseClicked
+            this.setVisible(false);
+        this.dispose();
+        new KeuntunganDanPemasukan().setVisible(true);
+    }//GEN-LAST:event_btnKeuntunganMouseClicked
+
+    private void btnKeuntungan1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnKeuntungan1MouseClicked
+      this.setVisible(false);
+        this.dispose();
+        new KeuntunganDanPemasukan().setVisible(true);    }//GEN-LAST:event_btnKeuntungan1MouseClicked
+
+    private void btnBarangTerjualMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBarangTerjualMouseClicked
+      this.setVisible(false);
+        this.dispose();
+        new LaporanAdmin().setVisible(true);    }//GEN-LAST:event_btnBarangTerjualMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -363,12 +420,16 @@ public class DashboardAdmin extends javax.swing.JFrame {
             }
                
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnBarangTerjual;
     private javax.swing.JLabel btnDashboard;
+    private javax.swing.JLabel btnKeuntungan;
+    private javax.swing.JLabel btnKeuntungan1;
     private javax.swing.JLabel btnLaporan;
     private javax.swing.JLabel btnObat;
     private javax.swing.JLabel btnObatHampirExp;
     private javax.swing.JLabel btnObatSudahExp;
     private javax.swing.JLabel btnPengguna;
+    private javax.swing.JLabel btnStokObat;
     private javax.swing.JLabel btnTransaksi;
     private javax.swing.JComboBox<String> cmbFilter;
     private javax.swing.JComboBox<String> cmbUser;

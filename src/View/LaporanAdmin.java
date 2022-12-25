@@ -295,10 +295,14 @@ Util util = new Util();
             String dateStart = util.dateStart();
             String dateEnd = util.dateEnd();
             load_table_waktu(dateStart, dateEnd);
+            txtDateStart.setText(dateStart);
+            txtDateEnd.setText(dateEnd);
         }else if(waktu.equals("Bulan")){
             String dateStart = util.dateMonthAgo();
             String dateEnd = util.date();
             load_table_waktu(dateStart, dateEnd);
+            txtDateStart.setText(dateStart);
+            txtDateEnd.setText(dateEnd);
         }
         
     }//GEN-LAST:event_cmbWaktuActionPerformed
