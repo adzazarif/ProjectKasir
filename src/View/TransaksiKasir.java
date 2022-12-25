@@ -6,13 +6,16 @@ package View;
 import Logic.Dashboard;
 import Logic.Transaksi;
 import Logic.Util;
+import Logic.listData;
 import Logic.login;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -25,7 +28,8 @@ public class TransaksiKasir extends javax.swing.JFrame {
     Util util = new Util();
     Transaksi ts = new Transaksi();
     login lg = new login();
-    
+        NumberFormat nf = NumberFormat.getNumberInstance(new Locale("in", "ID"));
+
     private List<listData> trns = new ArrayList<>();
     private List<listData> keywoard = new ArrayList<>();
     private listData selectData;
@@ -48,12 +52,12 @@ public class TransaksiKasir extends javax.swing.JFrame {
     }
     //menampilkan grand total dan diskon ke layar
     public void loadResult(){
-        String resultGrandTotal = String.valueOf(grandTotal);
-        lblGrandTotal.setText(resultGrandTotal);
-        String resultGrandDiskon = String.valueOf(grandDiskon);
-        lblTotalDiskon.setText(resultGrandDiskon);
-        String resultTotalBelanja = String.valueOf(totalBelanja);
-        lblTotalBelanja.setText(resultTotalBelanja);
+      
+        lblGrandTotal.setText(nf.format(grandTotal));
+
+        lblTotalDiskon.setText(nf.format(grandDiskon));
+
+        lblTotalBelanja.setText(nf.format(totalBelanja));
     }
     //menampilkan ke dalma tabel
     public void datatable(){
@@ -403,6 +407,10 @@ public class TransaksiKasir extends javax.swing.JFrame {
 
     private void btnHapusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusMouseClicked
         trns.clear();
+        grandTotal = 0;
+        grandDiskon = 0;
+        totalBelanja = 0;
+        loadResult();
         datatable();
     }//GEN-LAST:event_btnHapusMouseClicked
 
@@ -480,39 +488,4 @@ public class TransaksiKasir extends javax.swing.JFrame {
     private javax.swing.JTextField txtSearch;
     private javax.swing.JTextField txtTunai;
     // End of variables declaration//GEN-END:variables
-}
-class listData{
-    public int kode_obat;
-    public int id_detail;
-    public String nama;
-    public int harga;
-    public int banyak;
-    public int total;
-    public int stok;
-    public int diskon;
-    public String jenis;
-    public int dosis;
-    
-    public listData(int kode_obat, int id_detail, String nama,int harga, int banyak, int total, int diskon){
-        this.kode_obat = kode_obat;
-        this.id_detail = id_detail;
-        this.nama = nama;
-        this.harga = harga;
-        this.banyak = banyak;
-        this.total = total;
-        this.diskon = diskon;
-    }   
-    public listData(int stok, String nama,String jenis,int dosis, int harga, int id_detail){
-        this.nama = nama;
-        this.stok = stok;
-        this.harga = harga;
-        this.id_detail = id_detail;
-        this.jenis = jenis;
-        this.dosis = dosis;
-    }
-    public int jumlah (){
-        int result = this.harga * this.banyak;
-        return result;
-    }
-   
 }

@@ -3,10 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/E:/kuliah/code/semester%201/pengembangan%20rekayasa%20perangkat%20lunak/kasirApotek/src/View/SplashScreen.java</file>
             <file>file:/E:/kuliah/code/semester%201/pengembangan%20rekayasa%20perangkat%20lunak/kasirApotek/src/koneksi/conn.java</file>
             <file>file:/E:/kuliah/code/semester%201/pengembangan%20rekayasa%20perangkat%20lunak/kasirApotek/src/View/TambahObatAdmin.java</file>
             <file>file:/E:/kuliah/code/semester%201/pengembangan%20rekayasa%20perangkat%20lunak/kasirApotek/src/View/DetailObatAdmin.java</file>
             <file>file:/E:/kuliah/code/semester%201/pengembangan%20rekayasa%20perangkat%20lunak/kasirApotek/src/View/PenggunaAdmin.java</file>
+            <file>file:/E:/kuliah/code/semester%201/pengembangan%20rekayasa%20perangkat%20lunak/kasirApotek/src/image/transaksi%20kasir.jpg</file>
             <file>file:/E:/kuliah/code/semester%201/pengembangan%20rekayasa%20perangkat%20lunak/kasirApotek/src/View/ProfilUser.java</file>
             <file>file:/E:/kuliah/code/semester%201/pengembangan%20rekayasa%20perangkat%20lunak/kasirApotek/src/View/KonfirmasiPass.java</file>
             <file>file:/E:/kuliah/code/semester%201/pengembangan%20rekayasa%20perangkat%20lunak/kasirApotek/src/Logic/Dashboard.java</file>
@@ -23,8 +25,10 @@
             <file>file:/E:/kuliah/code/semester%201/pengembangan%20rekayasa%20perangkat%20lunak/kasirApotek/src/View/Login.java</file>
             <file>file:/E:/kuliah/code/semester%201/pengembangan%20rekayasa%20perangkat%20lunak/kasirApotek/src/View/TambahDetailObatAdmin.java</file>
             <file>file:/E:/kuliah/code/semester%201/pengembangan%20rekayasa%20perangkat%20lunak/kasirApotek/src/View/LaporanAdmin.java</file>
+            <file>file:/E:/kuliah/code/semester%201/pengembangan%20rekayasa%20perangkat%20lunak/kasirApotek/src/image/tambahobat.jpg</file>
             <file>file:/E:/kuliah/code/semester%201/pengembangan%20rekayasa%20perangkat%20lunak/kasirApotek/src/Logic/login.java</file>
             <file>file:/E:/kuliah/code/semester%201/pengembangan%20rekayasa%20perangkat%20lunak/kasirApotek/src/View/ObatExp.java</file>
+            <file>file:/E:/kuliah/code/semester%201/pengembangan%20rekayasa%20perangkat%20lunak/kasirApotek/src/Logic/listData.java</file>
             <file>file:/E:/kuliah/code/semester%201/pengembangan%20rekayasa%20perangkat%20lunak/kasirApotek/src/View/DashboardKasir.java</file>
             <file>file:/E:/kuliah/code/semester%201/pengembangan%20rekayasa%20perangkat%20lunak/kasirApotek/src/View/obatSudahExp.java</file>
             <file>file:/E:/kuliah/code/semester%201/pengembangan%20rekayasa%20perangkat%20lunak/kasirApotek/src/View/EditObatAdmin.java</file>

@@ -39,14 +39,13 @@ public class SplashScreen extends javax.swing.JFrame {
         getContentPane().setLayout(null);
 
         txtLoading.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        txtLoading.setText("jTextField1");
         txtLoading.setBorder(null);
         getContentPane().add(txtLoading);
-        txtLoading.setBounds(650, 712, 75, 30);
+        txtLoading.setBounds(650, 748, 64, 22);
 
         barLoading.setBackground(new java.awt.Color(255, 255, 255));
         getContentPane().add(barLoading);
-        barLoading.setBounds(300, 710, 720, 30);
+        barLoading.setBounds(300, 720, 720, 20);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Admin Login.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");

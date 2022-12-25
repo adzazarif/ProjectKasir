@@ -4,9 +4,11 @@
  */
 package View;
 
+import Logic.Util;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import koneksi.conn;
@@ -16,13 +18,16 @@ import koneksi.conn;
  * @author WINDOWS 10
  */
 public class LaporanAdmin extends javax.swing.JFrame {
-
+Util util = new Util();
     /**
      * Creates new form LaporanAdmin
      */
     public LaporanAdmin() {
         initComponents();
         load_table();
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        this.setUndecorated(true);
+        this.setVisible(true);
     }
     public void load_table(){
             DefaultTableModel model = new DefaultTableModel();      
@@ -35,7 +40,39 @@ public class LaporanAdmin extends javax.swing.JFrame {
             model.addColumn("Total");
         try{
             int no = 1;
-        String sql = "SELECT * FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi JOIN obat ON detail_transaksi.kode_obat = obat.kode_obat JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail";
+        String sql = "SELECT * FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi JOIN obat ON detail_transaksi.kode_obat = obat.kode_obat JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail ORDER BY detail_transaksi.kode_transaksi ASC";
+        Connection koneksi = (Connection)conn.configDB();
+        Statement stm = koneksi.createStatement();
+        ResultSet res = stm.executeQuery(sql);
+            while(res.next()){
+                model.addRow(new Object[]{
+                    res.getString("kode_transaksi"),
+                    res.getString("tgl_transaksi"), 
+                    res.getString("nama"),
+                    res.getString("jenis"), 
+                    res.getString("harga_jual"), 
+                    res.getString("banyak_barang"),
+                    res.getString("detail_transaksi.total_harga")
+                });
+            }
+            table.setModel(model);
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(rootPane, e);
+        }
+        }
+    
+     public void load_table_waktu(String dateStart , String dateEnd){
+            DefaultTableModel model = new DefaultTableModel();      
+            model.addColumn("Kode Transaksi");
+            model.addColumn("Tanggal Transaksi");
+            model.addColumn("Nama");
+            model.addColumn("Jenis");
+            model.addColumn("Harga");
+            model.addColumn("Banyak");
+            model.addColumn("Total");
+        try{
+            int no = 1;
+        String sql = "SELECT * FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi JOIN obat ON detail_transaksi.kode_obat = obat.kode_obat JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail WHERE tgl_transaksi BETWEEN '"+dateStart+"' AND '"+dateEnd+"'ORDER BY detail_transaksi.kode_transaksi ASC";
         Connection koneksi = (Connection)conn.configDB();
         Statement stm = koneksi.createStatement();
         ResultSet res = stm.executeQuery(sql);
@@ -65,17 +102,32 @@ public class LaporanAdmin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        txtDateEnd = new javax.swing.JTextField();
+        txtDateStart = new javax.swing.JTextField();
         txtSearcb = new javax.swing.JTextField();
-        txtDateEnd = new javax.swing.JLabel();
-        txtDateStart = new javax.swing.JLabel();
         cmbWaktu = new javax.swing.JComboBox<>();
         btnSearch = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
+        btnDashboard = new javax.swing.JLabel();
+        btnObat = new javax.swing.JLabel();
+        btnTransaksi = new javax.swing.JLabel();
+        btnPengguna = new javax.swing.JLabel();
+        btnLaporan = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
+
+        txtDateEnd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtDateEnd.setBorder(null);
+        getContentPane().add(txtDateEnd);
+        txtDateEnd.setBounds(1050, 170, 160, 30);
+
+        txtDateStart.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtDateStart.setBorder(null);
+        getContentPane().add(txtDateStart);
+        txtDateStart.setBounds(820, 170, 170, 30);
 
         txtSearcb.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtSearcb.setBorder(null);
@@ -87,15 +139,12 @@ public class LaporanAdmin extends javax.swing.JFrame {
         getContentPane().add(txtSearcb);
         txtSearcb.setBounds(340, 170, 320, 30);
 
-        txtDateEnd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        getContentPane().add(txtDateEnd);
-        txtDateEnd.setBounds(1050, 170, 160, 30);
-
-        txtDateStart.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        getContentPane().add(txtDateStart);
-        txtDateStart.setBounds(820, 170, 170, 30);
-
         cmbWaktu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "------Pilih Waktu------", "Hari", "Bulan" }));
+        cmbWaktu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbWaktuActionPerformed(evt);
+            }
+        });
         getContentPane().add(cmbWaktu);
         cmbWaktu.setBounds(820, 120, 170, 40);
 
@@ -125,7 +174,47 @@ public class LaporanAdmin extends javax.swing.JFrame {
         getContentPane().add(jScrollPane1);
         jScrollPane1.setBounds(340, 260, 970, 470);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/laporan penjulanrevisi .jpg"))); // NOI18N
+        btnDashboard.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnDashboardMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnDashboard);
+        btnDashboard.setBounds(10, 150, 250, 50);
+
+        btnObat.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnObatMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnObat);
+        btnObat.setBounds(10, 220, 250, 60);
+
+        btnTransaksi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnTransaksiMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnTransaksi);
+        btnTransaksi.setBounds(10, 300, 250, 50);
+
+        btnPengguna.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnPenggunaMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnPengguna);
+        btnPengguna.setBounds(10, 370, 250, 60);
+
+        btnLaporan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLaporanMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnLaporan);
+        btnLaporan.setBounds(20, 450, 250, 60);
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/laporan penjulan.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1);
         jLabel1.setBounds(0, 0, 1407, 768);
@@ -134,11 +223,41 @@ public class LaporanAdmin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSearchMouseClicked
-        // TODO add your handling code here:
+        String dateStart = txtDateStart.getText();
+        String dateEnd = txtDateEnd.getText();
+        DefaultTableModel model = new DefaultTableModel();
+                model.addColumn("Kode Transaksi");
+            model.addColumn("Tanggal Transaksi");
+            model.addColumn("Nama");
+            model.addColumn("Jenis");
+            model.addColumn("Harga");
+            model.addColumn("Banyak");
+            model.addColumn("Total");
+    try{
+        int no = 1;
+        String sql = "SELECT * FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi JOIN obat ON detail_transaksi.kode_obat = obat.kode_obat JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail WHERE tgl_transaksi BETWEEN '"+dateStart+"' AND '"+dateEnd+"'";
+        Connection conn = (Connection) koneksi.conn.configDB();
+        Statement stm = conn.createStatement();
+        ResultSet res = stm.executeQuery(sql);
+        while(res.next()){
+            model.addRow(new Object[]{
+                    res.getString("kode_transaksi"),
+                    res.getString("tgl_transaksi"), 
+                    res.getString("nama"),
+                    res.getString("jenis"), 
+                    res.getString("harga_jual"), 
+                    res.getString("banyak_barang"),
+                    res.getString("detail_transaksi.total_harga")
+            });
+        }
+        table.setModel(model);
+    }catch(Exception e){
+        JOptionPane.showMessageDialog(rootPane, e);
+    }
     }//GEN-LAST:event_btnSearchMouseClicked
 
     private void txtSearcbKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearcbKeyReleased
-         String cari = txtSearcb.getText();
+        String cari = txtSearcb.getText();
         DefaultTableModel model = new DefaultTableModel();
                 model.addColumn("Kode Transaksi");
             model.addColumn("Tanggal Transaksi");
@@ -166,8 +285,53 @@ public class LaporanAdmin extends javax.swing.JFrame {
         }
         table.setModel(model);
     }catch(Exception e){
+        JOptionPane.showMessageDialog(rootPane, e);
     }
     }//GEN-LAST:event_txtSearcbKeyReleased
+
+    private void cmbWaktuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbWaktuActionPerformed
+        String waktu = String.valueOf(cmbWaktu.getSelectedItem());
+        if(waktu.equals("Hari")){
+            String dateStart = util.dateStart();
+            String dateEnd = util.dateEnd();
+            load_table_waktu(dateStart, dateEnd);
+        }else if(waktu.equals("Bulan")){
+            String dateStart = util.dateMonthAgo();
+            String dateEnd = util.date();
+            load_table_waktu(dateStart, dateEnd);
+        }
+        
+    }//GEN-LAST:event_cmbWaktuActionPerformed
+
+    private void btnDashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDashboardMouseClicked
+        this.setVisible(false);
+        this.dispose();
+        new DashboardAdmin().setVisible(true);
+    }//GEN-LAST:event_btnDashboardMouseClicked
+
+    private void btnObatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnObatMouseClicked
+        this.setVisible(false);
+        this.dispose();
+        new ObatAdmin().setVisible(true);
+    }//GEN-LAST:event_btnObatMouseClicked
+
+    private void btnTransaksiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTransaksiMouseClicked
+        this.setVisible(false);
+        this.dispose();
+        new TransaksiAdmin().setVisible(true);
+    }//GEN-LAST:event_btnTransaksiMouseClicked
+
+    private void btnPenggunaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPenggunaMouseClicked
+        this.setVisible(false);
+        this.dispose();
+        new PenggunaAdmin().setVisible(true);
+    }//GEN-LAST:event_btnPenggunaMouseClicked
+
+    private void btnLaporanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLaporanMouseClicked
+        this.setVisible(false);
+        this.dispose();
+        new LaporanAdmin().setVisible(true);
+    }//GEN-LAST:event_btnLaporanMouseClicked
 
     /**
      * @param args the command line arguments
@@ -205,13 +369,18 @@ public class LaporanAdmin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnDashboard;
+    private javax.swing.JLabel btnLaporan;
+    private javax.swing.JLabel btnObat;
+    private javax.swing.JLabel btnPengguna;
     private javax.swing.JLabel btnSearch;
+    private javax.swing.JLabel btnTransaksi;
     private javax.swing.JComboBox<String> cmbWaktu;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable table;
-    private javax.swing.JLabel txtDateEnd;
-    private javax.swing.JLabel txtDateStart;
+    private javax.swing.JTextField txtDateEnd;
+    private javax.swing.JTextField txtDateStart;
     private javax.swing.JTextField txtSearcb;
     // End of variables declaration//GEN-END:variables
 }

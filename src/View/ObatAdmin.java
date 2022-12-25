@@ -343,6 +343,7 @@ login lg = new login();
 
     private void btnDashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDashboardMouseClicked
         this.setVisible(false);
+        this.dispose();
         new DashboardAdmin().setVisible(true);
     }//GEN-LAST:event_btnDashboardMouseClicked
 

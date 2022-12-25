@@ -11,6 +11,8 @@ import Logic.login;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.NumberFormat;
+import java.util.Locale;
 import javax.swing.JOptionPane;
 import koneksi.conn;
 /**
@@ -21,6 +23,8 @@ public class DashboardKasir extends javax.swing.JFrame {
      Dashboard db = new Dashboard();
      Util util = new Util();
      login lg = new login();
+     
+     NumberFormat nf = NumberFormat.getNumberInstance(new Locale("in", "ID"));
     /**
      * Creates new form DashboardKasir
      */
@@ -63,29 +67,32 @@ public class DashboardKasir extends javax.swing.JFrame {
             String date = util.date();
             String sisaStock = String.valueOf(db.stockObat());
             String obatExp = String.valueOf(db.obatHampirExp());
-            String danaPemasukan = String.valueOf(db.Pemasukan(util.dateStart(), util.dateEnd()));
-            String keuntungan = String.valueOf(db.labaBersih(util.dateStart(), util.dateEnd()));
+            String danaPemasukan = String.valueOf(nf.format(db.Pemasukan(util.dateStart(), util.dateEnd())));
+            String keuntungan = String.valueOf(nf.format(db.labaBersih(util.dateStart(), util.dateEnd())));
             String barangTerjual = String.valueOf(db.barangTerjual(util.dateStart(), util.dateEnd()));
+            String obatSudahExp = String.valueOf(db.obatSudahExp());
             lblDate.setText(date);
             lblStokObat.setText(sisaStock);
-            lblObatExp.setText(obatExp);
+            lblObatHampirExp.setText(obatExp);
+            lblObatSudahExp.setText(obatSudahExp);
             lblDanaPemasukan.setText(danaPemasukan);
             lblKeuntungan.setText(keuntungan);
             lblBarangTerjual.setText(barangTerjual);
 
     }
     public void bulan(){
-        Dashboard db = new Dashboard();
-            String dateEnd = util.dateEnd();
+       String dateEnd = util.dateEnd();
             String dateStart = util.dateMonthAgo();
             String sisaStock = String.valueOf(db.stockObat());
             String obatExp = String.valueOf(db.obatHampirExp());
-            String danaPemasukan = String.valueOf(db.Pemasukan(dateStart, dateEnd));
-            String keuntungan = String.valueOf(db.labaBersih(dateStart, dateEnd));
+            String danaPemasukan = String.valueOf(nf.format(db.Pemasukan(dateStart, dateEnd)));
+            String keuntungan = String.valueOf(nf.format(db.labaBersih(dateStart, dateEnd)));
             String barangTerjual = String.valueOf(db.barangTerjual(dateStart, dateEnd));
+            String obatSudahExp = String.valueOf(db.obatSudahExp());
             lblDate.setText(dateStart+" Sampai " +util.date());
             lblStokObat.setText(sisaStock);
-            lblObatExp.setText(obatExp);
+            lblObatHampirExp.setText(obatExp);
+            lblObatSudahExp.setText(obatSudahExp);
             lblDanaPemasukan.setText(danaPemasukan);
             lblKeuntungan.setText(keuntungan);
             lblBarangTerjual.setText(barangTerjual);
@@ -103,13 +110,16 @@ public class DashboardKasir extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         lblDate = new javax.swing.JLabel();
         cmbFilter = new javax.swing.JComboBox<>();
-        lblStokObat = new javax.swing.JLabel();
-        lblObatExp = new javax.swing.JLabel();
-        lblDanaPemasukan = new javax.swing.JLabel();
-        lblKeuntungan = new javax.swing.JLabel();
-        lblBarangTerjual = new javax.swing.JLabel();
         cmbUser = new javax.swing.JComboBox<>();
         lblNama = new javax.swing.JLabel();
+        btnObatSudahExp = new javax.swing.JLabel();
+        btnObatHampirExp = new javax.swing.JLabel();
+        lblObatSudahExp = new javax.swing.JLabel();
+        lblObatHampirExp = new javax.swing.JLabel();
+        lblKeuntungan = new javax.swing.JLabel();
+        lblBarangTerjual = new javax.swing.JLabel();
+        lblDanaPemasukan = new javax.swing.JLabel();
+        lblStokObat = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -134,31 +144,6 @@ public class DashboardKasir extends javax.swing.JFrame {
         getContentPane().add(cmbFilter);
         cmbFilter.setBounds(950, 140, 200, 30);
 
-        lblStokObat.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        lblStokObat.setForeground(new java.awt.Color(255, 255, 255));
-        getContentPane().add(lblStokObat);
-        lblStokObat.setBounds(530, 250, 150, 40);
-
-        lblObatExp.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        lblObatExp.setForeground(new java.awt.Color(255, 255, 255));
-        getContentPane().add(lblObatExp);
-        lblObatExp.setBounds(1010, 240, 150, 40);
-
-        lblDanaPemasukan.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        lblDanaPemasukan.setForeground(new java.awt.Color(255, 255, 255));
-        getContentPane().add(lblDanaPemasukan);
-        lblDanaPemasukan.setBounds(530, 410, 150, 40);
-
-        lblKeuntungan.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        lblKeuntungan.setForeground(new java.awt.Color(255, 255, 255));
-        getContentPane().add(lblKeuntungan);
-        lblKeuntungan.setBounds(1000, 410, 150, 40);
-
-        lblBarangTerjual.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        lblBarangTerjual.setForeground(new java.awt.Color(255, 255, 255));
-        getContentPane().add(lblBarangTerjual);
-        lblBarangTerjual.setBounds(530, 570, 150, 40);
-
         cmbUser.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cmbUser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "----Menu----", "Profil", "Logout" }));
         cmbUser.addActionListener(new java.awt.event.ActionListener() {
@@ -173,6 +158,52 @@ public class DashboardKasir extends javax.swing.JFrame {
         lblNama.setText("jLabel2");
         getContentPane().add(lblNama);
         lblNama.setBounds(1140, 10, 130, 30);
+
+        btnObatSudahExp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnObatSudahExpMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnObatSudahExp);
+        btnObatSudahExp.setBounds(660, 360, 320, 120);
+
+        btnObatHampirExp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnObatHampirExpMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnObatHampirExp);
+        btnObatHampirExp.setBounds(320, 370, 310, 120);
+
+        lblObatSudahExp.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        lblObatSudahExp.setForeground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(lblObatSudahExp);
+        lblObatSudahExp.setBounds(780, 430, 150, 40);
+
+        lblObatHampirExp.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        lblObatHampirExp.setForeground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(lblObatHampirExp);
+        lblObatHampirExp.setBounds(430, 430, 150, 40);
+
+        lblKeuntungan.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        lblKeuntungan.setForeground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(lblKeuntungan);
+        lblKeuntungan.setBounds(1120, 260, 150, 40);
+
+        lblBarangTerjual.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        lblBarangTerjual.setForeground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(lblBarangTerjual);
+        lblBarangTerjual.setBounds(780, 260, 150, 40);
+
+        lblDanaPemasukan.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        lblDanaPemasukan.setForeground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(lblDanaPemasukan);
+        lblDanaPemasukan.setBounds(430, 260, 150, 40);
+
+        lblStokObat.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        lblStokObat.setForeground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(lblStokObat);
+        lblStokObat.setBounds(1120, 430, 150, 40);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/dashboard kasir.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
@@ -208,6 +239,18 @@ public class DashboardKasir extends javax.swing.JFrame {
             break;
         }
     }//GEN-LAST:event_cmbUserActionPerformed
+
+    private void btnObatSudahExpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnObatSudahExpMouseClicked
+        this.setVisible(false);
+        this.dispose();
+        new obatSudahExp().setVisible(true);
+    }//GEN-LAST:event_btnObatSudahExpMouseClicked
+
+    private void btnObatHampirExpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnObatHampirExpMouseClicked
+        this.setVisible(false);
+        this.dispose();
+        new ObatExp().setVisible(true);
+    }//GEN-LAST:event_btnObatHampirExpMouseClicked
 
     /**
      * @param args the command line arguments
@@ -245,6 +288,8 @@ public class DashboardKasir extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnObatHampirExp;
+    private javax.swing.JLabel btnObatSudahExp;
     private javax.swing.JComboBox<String> cmbFilter;
     private javax.swing.JComboBox<String> cmbUser;
     private javax.swing.JLabel jLabel1;
@@ -254,7 +299,8 @@ public class DashboardKasir extends javax.swing.JFrame {
     private javax.swing.JLabel lblDate;
     private javax.swing.JLabel lblKeuntungan;
     private javax.swing.JLabel lblNama;
-    private javax.swing.JLabel lblObatExp;
+    private javax.swing.JLabel lblObatHampirExp;
+    private javax.swing.JLabel lblObatSudahExp;
     private javax.swing.JLabel lblStokObat;
     // End of variables declaration//GEN-END:variables
 }

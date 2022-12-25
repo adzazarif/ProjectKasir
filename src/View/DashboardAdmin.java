@@ -58,7 +58,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
             String sisaStock = String.valueOf(db.stockObat());
             String obatExp = String.valueOf(db.obatHampirExp());
             String danaPemasukan = String.valueOf(nf.format(db.Pemasukan(util.dateStart(), util.dateEnd())));
-            String keuntungan = String.valueOf(db.labaBersih(util.dateStart(), util.dateEnd()));
+            String keuntungan = String.valueOf(nf.format(db.labaBersih(util.dateStart(), util.dateEnd())));
             String barangTerjual = String.valueOf(db.barangTerjual(util.dateStart(), util.dateEnd()));
             String obatSudahExp = String.valueOf(db.obatSudahExp());
             lblDate.setText(date);
@@ -77,7 +77,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
             String sisaStock = String.valueOf(db.stockObat());
             String obatExp = String.valueOf(db.obatHampirExp());
             String danaPemasukan = String.valueOf(nf.format(db.Pemasukan(dateStart, dateEnd)));
-            String keuntungan = String.valueOf(db.labaBersih(dateStart, dateEnd));
+            String keuntungan = String.valueOf(nf.format(db.labaBersih(dateStart, dateEnd)));
             String barangTerjual = String.valueOf(db.barangTerjual(dateStart, dateEnd));
             String obatSudahExp = String.valueOf(db.obatSudahExp());
             lblDate.setText(dateStart+" Sampai " +util.date());
@@ -113,6 +113,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         btnTransaksi = new javax.swing.JLabel();
         btnLaporan = new javax.swing.JLabel();
         btnPengguna = new javax.swing.JLabel();
+        btnDashboard = new javax.swing.JLabel();
         btnObat = new javax.swing.JLabel();
         lblNama = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -219,6 +220,14 @@ public class DashboardAdmin extends javax.swing.JFrame {
         getContentPane().add(btnPengguna);
         btnPengguna.setBounds(10, 370, 250, 60);
 
+        btnDashboard.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnDashboardMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnDashboard);
+        btnDashboard.setBounds(10, 150, 250, 50);
+
         btnObat.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnObatMouseClicked(evt);
@@ -262,27 +271,32 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
     private void btnObatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnObatMouseClicked
         this.setVisible(false);
+        this.dispose();
         new ObatAdmin().setVisible(true);
     }//GEN-LAST:event_btnObatMouseClicked
 
     private void btnTransaksiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTransaksiMouseClicked
         this.setVisible(false);
+        this.dispose();
         new TransaksiAdmin().setVisible(true);
     }//GEN-LAST:event_btnTransaksiMouseClicked
 
     private void btnPenggunaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPenggunaMouseClicked
         this.setVisible(false);
+        this.dispose();
         new PenggunaAdmin().setVisible(true);
     }//GEN-LAST:event_btnPenggunaMouseClicked
 
     private void btnLaporanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLaporanMouseClicked
         this.setVisible(false);
+        this.dispose();
         new LaporanAdmin().setVisible(true);
     }//GEN-LAST:event_btnLaporanMouseClicked
 
     private void btnObatHampirExpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnObatHampirExpMouseClicked
         this.setVisible(false);
-        new LaporanAdmin().setVisible(true);
+        this.dispose();
+        new ObatExp().setVisible(true);
     }//GEN-LAST:event_btnObatHampirExpMouseClicked
 
     private void cmbUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbUserActionPerformed
@@ -302,8 +316,16 @@ public class DashboardAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_cmbUserActionPerformed
 
     private void btnObatSudahExpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnObatSudahExpMouseClicked
-        // TODO add your handling code here:
+        this.setVisible(false);
+        this.dispose();
+        new obatSudahExp().setVisible(true);
     }//GEN-LAST:event_btnObatSudahExpMouseClicked
+
+    private void btnDashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDashboardMouseClicked
+        this.setVisible(false);
+        this.dispose();
+        new DashboardAdmin().setVisible(true);
+    }//GEN-LAST:event_btnDashboardMouseClicked
 
     /**
      * @param args the command line arguments
@@ -341,6 +363,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
             }
                
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnDashboard;
     private javax.swing.JLabel btnLaporan;
     private javax.swing.JLabel btnObat;
     private javax.swing.JLabel btnObatHampirExp;

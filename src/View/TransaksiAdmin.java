@@ -5,6 +5,7 @@
 package View;
 import Logic.Dashboard;
 import Logic.Util;
+import Logic.listData;
 import Logic.Transaksi;
 import Logic.login;
 import java.sql.Connection;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import koneksi.conn; 
@@ -50,9 +52,9 @@ public class TransaksiAdmin extends javax.swing.JFrame {
      */
     public TransaksiAdmin() {
         initComponents();
-//        this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-//        this.setUndecorated(true);
-//        this.setVisible(true);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        this.setUndecorated(true);
+        this.setVisible(true);
         menu.add(panel);
         mod = new DefaultListModel();
         list.setModel(mod);
@@ -187,6 +189,11 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         table = new javax.swing.JTable();
         cmbUser = new javax.swing.JComboBox<>();
         lblNama = new javax.swing.JLabel();
+        btnTransaksi = new javax.swing.JLabel();
+        btnLaporan = new javax.swing.JLabel();
+        btnPengguna = new javax.swing.JLabel();
+        btnDashboard = new javax.swing.JLabel();
+        btnObat = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         list.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -206,7 +213,7 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE)
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -323,6 +330,46 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         lblNama.setText("jLabel2");
         getContentPane().add(lblNama);
         lblNama.setBounds(1140, 10, 130, 30);
+
+        btnTransaksi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnTransaksiMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnTransaksi);
+        btnTransaksi.setBounds(10, 300, 250, 50);
+
+        btnLaporan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLaporanMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnLaporan);
+        btnLaporan.setBounds(20, 450, 250, 60);
+
+        btnPengguna.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnPenggunaMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnPengguna);
+        btnPengguna.setBounds(10, 370, 250, 60);
+
+        btnDashboard.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnDashboardMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnDashboard);
+        btnDashboard.setBounds(10, 150, 250, 50);
+
+        btnObat.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnObatMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnObat);
+        btnObat.setBounds(10, 220, 250, 60);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/transaksi.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
@@ -484,6 +531,36 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cmbUserActionPerformed
 
+    private void btnTransaksiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTransaksiMouseClicked
+        this.setVisible(false);
+        this.dispose();
+        new TransaksiAdmin().setVisible(true);
+    }//GEN-LAST:event_btnTransaksiMouseClicked
+
+    private void btnLaporanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLaporanMouseClicked
+        this.setVisible(false);
+        this.dispose();
+        new LaporanAdmin().setVisible(true);
+    }//GEN-LAST:event_btnLaporanMouseClicked
+
+    private void btnPenggunaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPenggunaMouseClicked
+        this.setVisible(false);
+        this.dispose();
+        new PenggunaAdmin().setVisible(true);
+    }//GEN-LAST:event_btnPenggunaMouseClicked
+
+    private void btnDashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDashboardMouseClicked
+        this.setVisible(false);
+        this.dispose();
+        new DashboardAdmin().setVisible(true);
+    }//GEN-LAST:event_btnDashboardMouseClicked
+
+    private void btnObatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnObatMouseClicked
+        this.setVisible(false);
+        this.dispose();
+        new ObatAdmin().setVisible(true);
+    }//GEN-LAST:event_btnObatMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -520,9 +597,14 @@ public class TransaksiAdmin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnDashboard;
     private javax.swing.JLabel btnHapus;
+    private javax.swing.JLabel btnLaporan;
+    private javax.swing.JLabel btnObat;
+    private javax.swing.JLabel btnPengguna;
     private javax.swing.JLabel btnSimpan;
     private javax.swing.JLabel btnTambah;
+    private javax.swing.JLabel btnTransaksi;
     private javax.swing.JComboBox<String> cmbUser;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
@@ -542,39 +624,4 @@ public class TransaksiAdmin extends javax.swing.JFrame {
     private javax.swing.JTextField txtSearch;
     private javax.swing.JTextField txtTunai;
     // End of variables declaration//GEN-END:variables
-}
-class listData{
-    public int kode_obat;
-    public int id_detail;
-    public String nama;
-    public int harga;
-    public int banyak;
-    public int total;
-    public int stok;
-    public int diskon;
-    public String jenis;
-    public int dosis;
-    
-    public listData(int kode_obat, int id_detail, String nama,int harga, int banyak, int total, int diskon){
-        this.kode_obat = kode_obat;
-        this.id_detail = id_detail;
-        this.nama = nama;
-        this.harga = harga;
-        this.banyak = banyak;
-        this.total = total;
-        this.diskon = diskon;
-    }   
-    public listData(int stok, String nama,String jenis,int dosis, int harga, int id_detail){
-        this.nama = nama;
-        this.stok = stok;
-        this.harga = harga;
-        this.id_detail = id_detail;
-        this.jenis = jenis;
-        this.dosis = dosis;
-    }
-    public int jumlah (){
-        int result = this.harga * this.banyak;
-        return result;
-    }
-   
 }

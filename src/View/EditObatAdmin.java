@@ -8,6 +8,7 @@ import Logic.login;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import koneksi.conn;
 /**
@@ -22,6 +23,9 @@ login lg = new login();
     public EditObatAdmin() {
         initComponents();
         setData();
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        this.setUndecorated(true);
+        this.setVisible(true);
     }
     
     public void setData(){
@@ -73,6 +77,10 @@ login lg = new login();
         btnSimpan = new javax.swing.JLabel();
         cmbUser = new javax.swing.JComboBox<>();
         lblNama1 = new javax.swing.JLabel();
+        btnDashboard = new javax.swing.JLabel();
+        btnTransaksi = new javax.swing.JLabel();
+        btnPengguna = new javax.swing.JLabel();
+        btnLaporan = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -123,6 +131,7 @@ login lg = new login();
         txtStok.setBounds(1090, 190, 240, 30);
 
         txtKet.setColumns(20);
+        txtKet.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtKet.setRows(5);
         txtKet.setBorder(null);
         jScrollPane1.setViewportView(txtKet);
@@ -160,6 +169,38 @@ login lg = new login();
         lblNama1.setText("jLabel2");
         getContentPane().add(lblNama1);
         lblNama1.setBounds(1140, 10, 130, 30);
+
+        btnDashboard.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnDashboardMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnDashboard);
+        btnDashboard.setBounds(10, 150, 250, 50);
+
+        btnTransaksi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnTransaksiMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnTransaksi);
+        btnTransaksi.setBounds(10, 300, 250, 50);
+
+        btnPengguna.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnPenggunaMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnPengguna);
+        btnPengguna.setBounds(10, 370, 250, 60);
+
+        btnLaporan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLaporanMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnLaporan);
+        btnLaporan.setBounds(20, 450, 250, 60);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Edit obat.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
@@ -212,6 +253,30 @@ login lg = new login();
         }
     }//GEN-LAST:event_cmbUserActionPerformed
 
+    private void btnDashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDashboardMouseClicked
+        this.setVisible(false);
+        this.dispose();
+        new DashboardAdmin().setVisible(true);
+    }//GEN-LAST:event_btnDashboardMouseClicked
+
+    private void btnTransaksiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTransaksiMouseClicked
+        this.setVisible(false);
+        this.dispose();
+        new TransaksiAdmin().setVisible(true);
+    }//GEN-LAST:event_btnTransaksiMouseClicked
+
+    private void btnPenggunaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPenggunaMouseClicked
+        this.setVisible(false);
+        this.dispose();
+        new PenggunaAdmin().setVisible(true);
+    }//GEN-LAST:event_btnPenggunaMouseClicked
+
+    private void btnLaporanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLaporanMouseClicked
+        this.setVisible(false);
+        this.dispose();
+        new LaporanAdmin().setVisible(true);
+    }//GEN-LAST:event_btnLaporanMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -248,8 +313,12 @@ login lg = new login();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnDashboard;
     private javax.swing.JLabel btnKembali;
+    private javax.swing.JLabel btnLaporan;
+    private javax.swing.JLabel btnPengguna;
     private javax.swing.JLabel btnSimpan;
+    private javax.swing.JLabel btnTransaksi;
     private javax.swing.JComboBox<String> cmbJenis;
     private javax.swing.JComboBox<String> cmbKategori;
     private javax.swing.JComboBox<String> cmbUser;
