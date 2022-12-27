@@ -94,7 +94,7 @@ public void load_table(){
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel2 = new javax.swing.JLabel();
+        btnTambah = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
         txtNama = new javax.swing.JTextField();
         txtUsername = new javax.swing.JTextField();
@@ -102,7 +102,7 @@ public void load_table(){
         cmblevel = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
-        jLabel3 = new javax.swing.JLabel();
+        btnHapus = new javax.swing.JLabel();
         btnEdit = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         lblNama = new javax.swing.JLabel();
@@ -117,13 +117,13 @@ public void load_table(){
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
-        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnTambah.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel2MouseClicked(evt);
+                btnTambahMouseClicked(evt);
             }
         });
-        getContentPane().add(jLabel2);
-        jLabel2.setBounds(1030, 130, 150, 50);
+        getContentPane().add(btnTambah);
+        btnTambah.setBounds(950, 130, 150, 50);
 
         txtEmail.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtEmail.setBorder(null);
@@ -178,13 +178,13 @@ public void load_table(){
         getContentPane().add(jScrollPane1);
         jScrollPane1.setBounds(310, 420, 1020, 290);
 
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnHapus.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
+                btnHapusMouseClicked(evt);
             }
         });
-        getContentPane().add(jLabel3);
-        jLabel3.setBounds(1030, 200, 150, 50);
+        getContentPane().add(btnHapus);
+        btnHapus.setBounds(1150, 130, 150, 50);
 
         btnEdit.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -192,7 +192,7 @@ public void load_table(){
             }
         });
         getContentPane().add(btnEdit);
-        btnEdit.setBounds(1030, 270, 150, 50);
+        btnEdit.setBounds(950, 210, 150, 50);
 
         jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -200,7 +200,7 @@ public void load_table(){
             }
         });
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(1030, 350, 150, 40);
+        jLabel4.setBounds(1150, 210, 150, 40);
 
         lblNama.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblNama.setText("jLabel2");
@@ -265,24 +265,29 @@ public void load_table(){
         setBounds(0, 0, 1606, 892);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+    private void btnTambahMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTambahMouseClicked
         String nama = txtNama.getText();
         String username = txtUsername.getText();
         String email = txtEmail.getText();
         String pass = txtPass.getText();
         String level = String.valueOf(cmblevel.getSelectedItem());
         Pengguna p = new Pengguna();
-        boolean result = p.tambah(nama, username, email, level, pass);
+        if(pass.length() >= 8){
+             boolean result = p.tambah(nama, username, email, level, pass);
         if(result){
             JOptionPane.showMessageDialog(rootPane, "Data berhasil ditambbahkan");
+             load_table();
+        bersih();
         }else{
             JOptionPane.showMessageDialog(rootPane, "Data gagal ditambbahkan");
         }
-        load_table();
-        bersih();
-    }//GEN-LAST:event_jLabel2MouseClicked
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "password harus lebih dari 8 kata");
+        }
+       
+    }//GEN-LAST:event_btnTambahMouseClicked
 
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+    private void btnHapusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusMouseClicked
         Pengguna p = new Pengguna();
         boolean result = p.hapus(idUser);
         if(result){
@@ -291,7 +296,7 @@ public void load_table(){
             JOptionPane.showMessageDialog(rootPane, "Data gagal Di hapus");
         }
         bersih();
-    }//GEN-LAST:event_jLabel3MouseClicked
+    }//GEN-LAST:event_btnHapusMouseClicked
 
     private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
         int baris = table.rowAtPoint(evt.getPoint());
@@ -412,15 +417,15 @@ public void load_table(){
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnDashboard;
     private javax.swing.JLabel btnEdit;
+    private javax.swing.JLabel btnHapus;
     private javax.swing.JLabel btnLaporan;
     private javax.swing.JLabel btnObat;
     private javax.swing.JLabel btnPengguna;
+    private javax.swing.JLabel btnTambah;
     private javax.swing.JLabel btnTransaksi;
     private javax.swing.JComboBox<String> cmbUser;
     private javax.swing.JComboBox<String> cmblevel;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblNama;

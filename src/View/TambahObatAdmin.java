@@ -69,9 +69,9 @@ login lg = new login();
 
         txtStok.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtStok.setBorder(null);
-        txtStok.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtStokActionPerformed(evt);
+        txtStok.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtStokKeyPressed(evt);
             }
         });
         getContentPane().add(txtStok);
@@ -267,6 +267,17 @@ login lg = new login();
         this.dispose();
         new ObatAdmin().setVisible(true);
     }//GEN-LAST:event_btnObatMouseClicked
+
+    private void txtStokKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtStokKeyPressed
+        String value = txtStok.getText();
+        int i = value.length();
+        if(evt.getKeyChar() >= '0' && evt.getKeyChar() <= '9'){
+            txtStok.setEditable(true);
+        }else{
+            txtStok.setEditable(false);
+            JOptionPane.showMessageDialog(rootPane, "masukan input dalam bentuk integer");
+        }
+    }//GEN-LAST:event_txtStokKeyPressed
 
     /**
      * @param args the command line arguments
