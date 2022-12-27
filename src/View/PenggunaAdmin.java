@@ -85,6 +85,18 @@ public void load_table(){
         cmblevel.setSelectedItem(this);
         idUser = 0;
     }
+
+    
+    public boolean validateRequired(){
+        if(txtNama.getText().length() < 1 || txtUsername.getText().length() < 1 || txtEmail.getText().length() < 1 || txtPass.getText().length() < 1 ){
+            JOptionPane.showMessageDialog(rootPane, "Input harus di isi semua");
+            return false;
+        }else{
+                    return true;
+
+        }
+    
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -272,7 +284,8 @@ public void load_table(){
         String pass = txtPass.getText();
         String level = String.valueOf(cmblevel.getSelectedItem());
         Pengguna p = new Pengguna();
-        if(pass.length() >= 8){
+        if(validateRequired()){
+            if(pass.length() >= 8){
              boolean result = p.tambah(nama, username, email, level, pass);
         if(result){
             JOptionPane.showMessageDialog(rootPane, "Data berhasil ditambbahkan");
@@ -283,6 +296,7 @@ public void load_table(){
         }
         }else{
             JOptionPane.showMessageDialog(rootPane, "password harus lebih dari 8 kata");
+        }
         }
        
     }//GEN-LAST:event_btnTambahMouseClicked
