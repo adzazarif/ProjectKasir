@@ -24,7 +24,9 @@ public class KeuntunganDanPemasukan extends javax.swing.JFrame {
     Util util = new Util();
     Dashboard db = new Dashboard();
     
-        NumberFormat nf = NumberFormat.getNumberInstance(new Locale("in", "ID"));
+    NumberFormat nf = NumberFormat.getNumberInstance(new Locale("in", "ID"));
+    public String dateFilterStart = "Default";
+    public String dateFilterEnd = "Default";
 
     /**
      * Creates new form KeuntunganDanPemasukan
@@ -47,7 +49,7 @@ public class KeuntunganDanPemasukan extends javax.swing.JFrame {
             model.addColumn("Keuntungan");
         try{
             int no = 1;
-        String sql = "SELECT detail_transaksi.kode_transaksi,tgl_transaksi,nama,harga_jual,harga_beli,(harga_jual-harga_beli) AS keuntungan FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi JOIN obat ON detail_transaksi.kode_obat = obat.kode_obat JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail ";
+        String sql = "SELECT detail_transaksi.kode_transaksi,tgl_transaksi,nama,(detail_obat.harga_jual*detail_transaksi.banyak_barang) AS HJ,(detail_obat.harga_beli*detail_transaksi.banyak_barang) AS HB,((harga_jual*banyak_barang)-(harga_beli*banyak_barang)) AS keuntungan FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi JOIN obat ON detail_transaksi.kode_obat = obat.kode_obat JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail ";
         Connection koneksi = (Connection)conn.configDB();
         Statement stm = koneksi.createStatement();
         ResultSet res = stm.executeQuery(sql);
@@ -56,8 +58,8 @@ public class KeuntunganDanPemasukan extends javax.swing.JFrame {
                     res.getString("kode_transaksi"),
                     res.getString("tgl_transaksi"), 
                     res.getString("nama"),
-                    res.getString("harga_jual"), 
-                    res.getString("harga_beli"), 
+                    res.getString("HJ"), 
+                    res.getString("HB"), 
                     res.getString("keuntungan"),
                 });
             }
@@ -68,6 +70,7 @@ public class KeuntunganDanPemasukan extends javax.swing.JFrame {
         }
     
      public void load_table_waktu(String dateStart,String dateEnd){
+         String sql;
             DefaultTableModel model = new DefaultTableModel();      
             model.addColumn("Kode Transaksi");
             model.addColumn("Tanggal Transaksi");
@@ -77,7 +80,11 @@ public class KeuntunganDanPemasukan extends javax.swing.JFrame {
             model.addColumn("Keuntungan");
         try{
             int no = 1;
-        String sql = "SELECT detail_transaksi.kode_transaksi,tgl_transaksi,nama,harga_jual,harga_beli,(harga_jual-harga_beli) AS keuntungan FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi JOIN obat ON detail_transaksi.kode_obat = obat.kode_obat JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail WHERE tgl_transaksi BETWEEN '"+dateStart+"' AND '"+dateEnd+"'";
+        if(dateFilterEnd.equals("Default") && dateFilterStart.equals("default")){
+             sql = "SELECT detail_transaksi.kode_transaksi,tgl_transaksi,nama,(detail_obat.harga_jual*detail_transaksi.banyak_barang) AS HJ,(detail_obat.harga_beli*detail_transaksi.banyak_barang) AS HB,((harga_jual*banyak_barang)-(harga_beli*banyak_barang)) AS keuntungan FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi  JOIN obat ON detail_transaksi.kode_obat = obat.kode_obat JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail ";
+        }else{
+             sql = "SELECT detail_transaksi.kode_transaksi,tgl_transaksi,nama,(detail_obat.harga_jual*detail_transaksi.banyak_barang) AS HJ,(detail_obat.harga_beli*detail_transaksi.banyak_barang) AS HB,((harga_jual*banyak_barang)-(harga_beli*banyak_barang)) AS keuntungan FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi  JOIN obat ON detail_transaksi.kode_obat = obat.kode_obat JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail WHERE tgl_transaksi BETWEEN '"+dateStart+"' AND '"+dateEnd+"'";
+        }
         Connection koneksi = (Connection)conn.configDB();
         Statement stm = koneksi.createStatement();
         ResultSet res = stm.executeQuery(sql);
@@ -86,8 +93,8 @@ public class KeuntunganDanPemasukan extends javax.swing.JFrame {
                     res.getString("kode_transaksi"),
                     res.getString("tgl_transaksi"), 
                     res.getString("nama"),
-                    res.getString("harga_jual"), 
-                    res.getString("harga_beli"), 
+                    res.getString("HJ"), 
+                    res.getString("HB"), 
                     res.getString("keuntungan"),
                 });
             }
@@ -126,6 +133,7 @@ public class KeuntunganDanPemasukan extends javax.swing.JFrame {
         cmbWaktu = new javax.swing.JComboBox<>();
         lblKeuntungan = new javax.swing.JLabel();
         lblPemasukan = new javax.swing.JLabel();
+        btnCari = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -191,6 +199,11 @@ public class KeuntunganDanPemasukan extends javax.swing.JFrame {
 
         txtCari.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         txtCari.setBorder(null);
+        txtCari.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCariKeyReleased(evt);
+            }
+        });
         getContentPane().add(txtCari);
         txtCari.setBounds(340, 170, 260, 30);
 
@@ -204,7 +217,7 @@ public class KeuntunganDanPemasukan extends javax.swing.JFrame {
         getContentPane().add(txtDateStart);
         txtDateStart.setBounds(790, 170, 160, 30);
 
-        cmbWaktu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "------Pilih Waktu------", "Hari", "Bulan" }));
+        cmbWaktu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "------Pilih Waktu------", "Semua", "Hari", "Bulan" }));
         cmbWaktu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbWaktuActionPerformed(evt);
@@ -221,6 +234,14 @@ public class KeuntunganDanPemasukan extends javax.swing.JFrame {
         getContentPane().add(lblPemasukan);
         lblPemasukan.setBounds(490, 690, 190, 40);
 
+        btnCari.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCariMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnCari);
+        btnCari.setBounds(1220, 170, 80, 30);
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/pemasukan dan keuntungan.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1);
@@ -232,19 +253,29 @@ public class KeuntunganDanPemasukan extends javax.swing.JFrame {
     private void cmbWaktuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbWaktuActionPerformed
         String waktu = String.valueOf(cmbWaktu.getSelectedItem());
         if(waktu.equals("Hari")){
-            String dateStart = util.dateStart();
-            String dateEnd = util.dateEnd();
-            load_table_waktu(dateStart, dateEnd);
-            setData(dateStart, dateEnd);
-            txtDateStart.setText(dateStart);
-            txtDateEnd.setText(dateEnd);
+            dateFilterStart = util.dateStart();
+            dateFilterEnd = util.dateEnd();
+            load_table_waktu(dateFilterStart, dateFilterEnd);
+            setData(dateFilterStart, dateFilterEnd);
+            txtDateStart.setText(dateFilterStart);
+            txtDateEnd.setText(dateFilterEnd);
         }else if(waktu.equals("Bulan")){
-            String dateStart = util.dateMonthAgo();
-            String dateEnd = util.date();
-            load_table_waktu(dateStart, dateEnd);
-            setData(dateStart, dateEnd);
-            txtDateStart.setText(dateStart);
-            txtDateEnd.setText(dateEnd);
+            dateFilterStart = util.dateMonthAgo();
+            dateFilterEnd = util.dateEnd();
+            load_table_waktu(dateFilterStart, dateFilterEnd);
+            setData(dateFilterStart, dateFilterEnd);
+            txtDateStart.setText(dateFilterStart);
+            txtDateEnd.setText(dateFilterEnd);
+        }else if(waktu.equals("Semua")){
+            load_table();
+            dateFilterStart = "Default";
+            dateFilterEnd = "Default";
+            String pemasukan = String.valueOf(nf.format(db.Pemasukan(dateFilterStart, dateFilterEnd)));
+            String keuntungan = String.valueOf(nf.format(db.labaBersih(dateFilterStart, dateFilterEnd)));
+            lblKeuntungan.setText(keuntungan);
+            lblPemasukan.setText(pemasukan);
+            txtDateStart.setText(null);
+            txtDateEnd.setText(null);
         }
 
     }//GEN-LAST:event_cmbWaktuActionPerformed
@@ -278,6 +309,76 @@ public class KeuntunganDanPemasukan extends javax.swing.JFrame {
         this.dispose();
         new TransaksiAdmin().setVisible(true);
     }//GEN-LAST:event_btnTransaksiMouseClicked
+
+    private void txtCariKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCariKeyReleased
+        DefaultTableModel model = new DefaultTableModel();      
+            model.addColumn("Kode Transaksi");
+            model.addColumn("Tanggal Transaksi");
+            model.addColumn("Nama");
+            model.addColumn("Harga Jual");
+            model.addColumn("Harga Beli");
+            model.addColumn("Keuntungan");
+        try{
+            String sql;
+            int no = 1;
+         if(dateFilterEnd.equals("Default") && dateFilterStart.equals("Default")){
+            sql = "SELECT detail_transaksi.kode_transaksi,tgl_transaksi,nama,(detail_obat.harga_jual*detail_transaksi.banyak_barang) AS HJ,(detail_obat.harga_beli*detail_transaksi.banyak_barang) AS HB,((harga_jual*banyak_barang)-(harga_beli*banyak_barang)) AS keuntungan FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi JOIN obat ON detail_transaksi.kode_obat = obat.kode_obat JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail WHERE nama LIKE '%"+txtCari.getText()+"%'";
+        }else{
+            sql = "SELECT detail_transaksi.kode_transaksi,tgl_transaksi,nama,(detail_obat.harga_jual*detail_transaksi.banyak_barang) AS HJ,(detail_obat.harga_beli*detail_transaksi.banyak_barang) AS HB,((harga_jual*banyak_barang)-(harga_beli*banyak_barang)) AS keuntungan FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi JOIN obat ON detail_transaksi.kode_obat = obat.kode_obat JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail WHERE tgl_transaksi BETWEEN '"+dateFilterStart+"' AND '"+dateFilterEnd+"' AND nama LIKE '%"+txtCari.getText()+"%'";
+        }
+        
+        Connection koneksi = (Connection)conn.configDB();
+        Statement stm = koneksi.createStatement();
+        ResultSet res = stm.executeQuery(sql);
+            while(res.next()){
+                model.addRow(new Object[]{
+                    res.getString("kode_transaksi"),
+                    res.getString("tgl_transaksi"), 
+                    res.getString("nama"),
+                    res.getString("HJ"), 
+                    res.getString("HB"), 
+                    res.getString("keuntungan"),
+                });
+            }
+            table.setModel(model);
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(rootPane, e);
+        }
+    }//GEN-LAST:event_txtCariKeyReleased
+
+    private void btnCariMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCariMouseClicked
+        dateFilterStart = txtDateStart.getText();
+        dateFilterEnd = txtDateEnd.getText();
+          setData(dateFilterStart, dateFilterEnd);
+        DefaultTableModel model = new DefaultTableModel();      
+            model.addColumn("Kode Transaksi");
+            model.addColumn("Tanggal Transaksi");
+            model.addColumn("Nama");
+            model.addColumn("Harga Jual");
+            model.addColumn("Harga Beli");
+            model.addColumn("Keuntungan");
+        try{
+            int no = 1;
+         
+        String sql = "SELECT detail_transaksi.kode_transaksi,tgl_transaksi,nama,(detail_obat.harga_jual*detail_transaksi.banyak_barang) AS HJ,(detail_obat.harga_beli*detail_transaksi.banyak_barang) AS HB,((harga_jual*banyak_barang)-(harga_beli*banyak_barang)) AS keuntungan FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi JOIN obat ON detail_transaksi.kode_obat = obat.kode_obat JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail WHERE tgl_transaksi BETWEEN '"+dateFilterStart+"' AND '"+dateFilterEnd+"'";
+        Connection koneksi = (Connection)conn.configDB();
+        Statement stm = koneksi.createStatement();
+        ResultSet res = stm.executeQuery(sql);
+            while(res.next()){
+                model.addRow(new Object[]{
+                    res.getString("kode_transaksi"),
+                    res.getString("tgl_transaksi"), 
+                    res.getString("nama"),
+                    res.getString("HJ"), 
+                    res.getString("HB"), 
+                    res.getString("keuntungan"),
+                });
+            }
+            table.setModel(model);
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(rootPane, e);
+        }
+    }//GEN-LAST:event_btnCariMouseClicked
 
     /**
      * @param args the command line arguments
@@ -315,6 +416,7 @@ public class KeuntunganDanPemasukan extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnCari;
     private javax.swing.JLabel btnDashboard;
     private javax.swing.JLabel btnLaporan;
     private javax.swing.JLabel btnObat;

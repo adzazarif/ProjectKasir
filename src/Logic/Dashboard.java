@@ -49,7 +49,13 @@ public class Dashboard {
     
     public int Pemasukan(String dateStart ,String dateEnd ){
         try {
-        String queryCek = "SELECT SUM(grand_total) AS jml FROM transaksi WHERE tgl_transaksi BETWEEN '"+dateStart+"' AND '"+dateEnd+"'";
+            String queryCek;
+            if(dateStart.equals("Default") && dateEnd.equals("Default")){
+                queryCek = "SELECT SUM(grand_total) AS jml FROM transaksi ";
+            }else{
+                queryCek = "SELECT SUM(grand_total) AS jml FROM transaksi WHERE tgl_transaksi BETWEEN '"+dateStart+"' AND '"+dateEnd+"'";
+            }
+        
         Connection koneksi = (Connection) conn.configDB();
         Statement pstCek = koneksi.createStatement();
         ResultSet res = pstCek.executeQuery(queryCek);
@@ -64,7 +70,13 @@ public class Dashboard {
     
     public int labaBersih(String dateStart,String dateEnd){
         try {
-        String queryCek = "SELECT SUM(detail_obat.harga_jual*detail_transaksi.banyak_barang) AS hargaJual, SUM(detail_obat.harga_beli*detail_transaksi.banyak_barang) AS hargaBeli FROM detail_transaksi JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi WHERE transaksi.tgl_transaksi BETWEEN '"+dateStart+"' AND '"+dateEnd+"'";
+            String queryCek;
+            if(dateStart.equals("Default") && dateEnd.equals("Default")){
+                queryCek = "SELECT SUM(detail_obat.harga_jual*detail_transaksi.banyak_barang) AS hargaJual, SUM(detail_obat.harga_beli*detail_transaksi.banyak_barang) AS hargaBeli FROM detail_transaksi JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi ";
+            }else{
+                queryCek = "SELECT SUM(detail_obat.harga_jual*detail_transaksi.banyak_barang) AS hargaJual, SUM(detail_obat.harga_beli*detail_transaksi.banyak_barang) AS hargaBeli FROM detail_transaksi JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi WHERE transaksi.tgl_transaksi BETWEEN '"+dateStart+"' AND '"+dateEnd+"'";
+            }
+        
         Connection koneksi = (Connection) conn.configDB();
         Statement pstCek = koneksi.createStatement();
         ResultSet res = pstCek.executeQuery(queryCek);

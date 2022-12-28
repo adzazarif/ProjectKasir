@@ -84,6 +84,11 @@ login lg = new login();
 
         txtDosis.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtDosis.setBorder(null);
+        txtDosis.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtDosisKeyReleased(evt);
+            }
+        });
         getContentPane().add(txtDosis);
         txtDosis.setBounds(530, 320, 250, 40);
 
@@ -278,6 +283,11 @@ login lg = new login();
             JOptionPane.showMessageDialog(rootPane, "masukan input dalam bentuk integer");
         }
     }//GEN-LAST:event_txtStokKeyPressed
+
+    private void txtDosisKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDosisKeyReleased
+        String str = txtDosis.getText();
+        txtDosis.setText(str.replaceAll("[^\\d]", ""));
+    }//GEN-LAST:event_txtDosisKeyReleased
 
     /**
      * @param args the command line arguments

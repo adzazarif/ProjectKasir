@@ -19,6 +19,8 @@ import koneksi.conn;
  */
 public class LaporanAdmin extends javax.swing.JFrame {
 Util util = new Util();
+public String dateFilterStart = "default";
+public String dateFilterEnd = "default";
     /**
      * Creates new form LaporanAdmin
      */
@@ -40,7 +42,7 @@ Util util = new Util();
             model.addColumn("Total");
         try{
             int no = 1;
-        String sql = "SELECT * FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi JOIN obat ON detail_transaksi.kode_obat = obat.kode_obat JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail ORDER BY detail_transaksi.kode_transaksi ASC";
+        String sql = "SELECT * FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi JOIN obat ON detail_transaksi.kode_obat = obat.kode_obat JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail ORDER BY detail_transaksi.kode_transaksi ASC";
         Connection koneksi = (Connection)conn.configDB();
         Statement stm = koneksi.createStatement();
         ResultSet res = stm.executeQuery(sql);
@@ -70,9 +72,10 @@ Util util = new Util();
             model.addColumn("Harga");
             model.addColumn("Banyak");
             model.addColumn("Total");
+            model.addColumn("Grand Total");
         try{
             int no = 1;
-        String sql = "SELECT * FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi JOIN obat ON detail_transaksi.kode_obat = obat.kode_obat JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail WHERE tgl_transaksi BETWEEN '"+dateStart+"' AND '"+dateEnd+"'ORDER BY detail_transaksi.kode_transaksi ASC";
+        String sql = "SELECT * FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi JOIN obat ON detail_transaksi.kode_obat = obat.kode_obat JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail WHERE transaksi.tgl_transaksi BETWEEN '"+dateStart+"' AND '"+dateEnd+"'ORDER BY detail_transaksi.kode_transaksi ASC";
         Connection koneksi = (Connection)conn.configDB();
         Statement stm = koneksi.createStatement();
         ResultSet res = stm.executeQuery(sql);
@@ -84,7 +87,8 @@ Util util = new Util();
                     res.getString("jenis"), 
                     res.getString("harga_jual"), 
                     res.getString("banyak_barang"),
-                    res.getString("detail_transaksi.total_harga")
+                    res.getString("detail_transaksi.total_harga"),
+                    res.getString("grand_total")
                 });
             }
             table.setModel(model);
@@ -139,7 +143,7 @@ Util util = new Util();
         getContentPane().add(txtSearcb);
         txtSearcb.setBounds(340, 170, 320, 30);
 
-        cmbWaktu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "------Pilih Waktu------", "Hari", "Bulan" }));
+        cmbWaktu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "------Pilih Waktu------", "Semua", "Hari", "Bulan" }));
         cmbWaktu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbWaktuActionPerformed(evt);
@@ -225,6 +229,8 @@ Util util = new Util();
     private void btnSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSearchMouseClicked
         String dateStart = txtDateStart.getText();
         String dateEnd = txtDateEnd.getText();
+        dateFilterStart = dateStart;
+        dateFilterEnd = dateEnd;
         DefaultTableModel model = new DefaultTableModel();
                 model.addColumn("Kode Transaksi");
             model.addColumn("Tanggal Transaksi");
@@ -235,7 +241,7 @@ Util util = new Util();
             model.addColumn("Total");
     try{
         int no = 1;
-        String sql = "SELECT * FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi JOIN obat ON detail_transaksi.kode_obat = obat.kode_obat JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail WHERE tgl_transaksi BETWEEN '"+dateStart+"' AND '"+dateEnd+"'";
+        String sql = "SELECT * FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi JOIN obat ON detail_transaksi.kode_obat = obat.kode_obat JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail WHERE tgl_transaksi BETWEEN '"+dateStart+"' AND '"+dateEnd+"'";
         Connection conn = (Connection) koneksi.conn.configDB();
         Statement stm = conn.createStatement();
         ResultSet res = stm.executeQuery(sql);
@@ -268,7 +274,13 @@ Util util = new Util();
             model.addColumn("Total");
     try{
         int no = 1;
-        String sql = "SELECT * FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi JOIN obat ON detail_transaksi.kode_obat = obat.kode_obat JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail WHERE nama LIKE '%"+cari+"%'";
+        String sql;
+        if(dateFilterStart.equals("default")&& dateFilterEnd.equals("default")){
+            sql = "SELECT * FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi JOIN obat ON detail_transaksi.kode_obat = obat.kode_obat JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail WHERE nama LIKE '%"+cari+"%'";
+        }else{
+            sql = "SELECT * FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi JOIN obat ON detail_transaksi.kode_obat = obat.kode_obat JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail WHERE nama LIKE '%"+cari+"%' AND tgl_transaksi BETWEEN '"+dateFilterStart+"' AND '"+dateFilterEnd+"'";
+        }
+        
         Connection conn = (Connection) koneksi.conn.configDB();
         Statement stm = conn.createStatement();
         ResultSet res = stm.executeQuery(sql);
@@ -292,17 +304,23 @@ Util util = new Util();
     private void cmbWaktuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbWaktuActionPerformed
         String waktu = String.valueOf(cmbWaktu.getSelectedItem());
         if(waktu.equals("Hari")){
-            String dateStart = util.dateStart();
-            String dateEnd = util.dateEnd();
-            load_table_waktu(dateStart, dateEnd);
-            txtDateStart.setText(dateStart);
-            txtDateEnd.setText(dateEnd);
+            dateFilterStart = util.dateStart();
+            dateFilterEnd = util.dateEnd();
+            load_table_waktu(dateFilterStart, dateFilterEnd);
+            txtDateStart.setText(dateFilterStart);
+            txtDateEnd.setText(dateFilterEnd);
         }else if(waktu.equals("Bulan")){
-            String dateStart = util.dateMonthAgo();
-            String dateEnd = util.date();
-            load_table_waktu(dateStart, dateEnd);
-            txtDateStart.setText(dateStart);
-            txtDateEnd.setText(dateEnd);
+            dateFilterStart = util.dateMonthAgo();
+            dateFilterEnd = util.dateEnd();
+            load_table_waktu(dateFilterStart, dateFilterEnd);
+            txtDateStart.setText(dateFilterStart);
+            txtDateEnd.setText(dateFilterEnd);
+        }else if(waktu.equals("Semua")){
+            load_table();
+            dateFilterStart = "default";
+            dateFilterEnd = "default";
+            txtDateStart.setText(null);
+            txtDateEnd.setText(null);
         }
         
     }//GEN-LAST:event_cmbWaktuActionPerformed
