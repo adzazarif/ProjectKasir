@@ -91,7 +91,7 @@ login lg = new login();
 
         lblKet.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         getContentPane().add(lblKet);
-        lblKet.setBounds(500, 430, 280, 170);
+        lblKet.setBounds(500, 430, 280, 40);
 
         lblKode.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         getContentPane().add(lblKode);
@@ -107,7 +107,7 @@ login lg = new login();
 
         lblHargaBeli.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         getContentPane().add(lblHargaBeli);
-        lblHargaBeli.setBounds(500, 330, 250, 40);
+        lblHargaBeli.setBounds(500, 320, 250, 50);
 
         lblDosis.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         getContentPane().add(lblDosis);

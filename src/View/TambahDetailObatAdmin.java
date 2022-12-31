@@ -9,6 +9,7 @@ import Logic.login;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import koneksi.conn;
@@ -19,6 +20,7 @@ import koneksi.conn;
  */
 public class TambahDetailObatAdmin extends javax.swing.JFrame {
 login lg = new login();
+SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
     /**
      * Creates new form TambahDetailObatAdmin
      */
@@ -59,7 +61,6 @@ login lg = new login();
         lblKode = new javax.swing.JLabel();
         lblKategori = new javax.swing.JLabel();
         lblNama = new javax.swing.JLabel();
-        txtTglexp = new javax.swing.JTextField();
         cmbJenis = new javax.swing.JComboBox<>();
         txtDosis = new javax.swing.JTextField();
         txtStok = new javax.swing.JTextField();
@@ -75,6 +76,7 @@ login lg = new login();
         btnPengguna = new javax.swing.JLabel();
         btnDashboard = new javax.swing.JLabel();
         btnObat = new javax.swing.JLabel();
+        txtTglexp = new com.toedter.calendar.JDateChooser();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -99,11 +101,6 @@ login lg = new login();
         lblNama.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         getContentPane().add(lblNama);
         lblNama.setBounds(530, 190, 200, 30);
-
-        txtTglexp.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtTglexp.setBorder(null);
-        getContentPane().add(txtTglexp);
-        txtTglexp.setBounds(1080, 130, 250, 40);
 
         cmbJenis.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cmbJenis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tablet", "Cair", "Kapsul", "Oles", "Suntik", "Implam" }));
@@ -206,6 +203,8 @@ login lg = new login();
         });
         getContentPane().add(btnObat);
         btnObat.setBounds(10, 220, 250, 60);
+        getContentPane().add(txtTglexp);
+        txtTglexp.setBounds(1070, 130, 270, 40);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/tambah detail obat.jpg"))); // NOI18N
         jLabel2.setText("jLabel2");
@@ -232,7 +231,7 @@ login lg = new login();
         String dosis = txtDosis.getText();
         String harga_jual = txtHargaJual.getText();
         String harga_beli = txtHargaBeli.getText();
-        String tgl_exp = txtTglexp.getText();
+        String tgl_exp = dcn.format(txtTglexp.getDate());
         String ket = txtKet.getText(); 
          
         try {
@@ -252,6 +251,9 @@ login lg = new login();
                   }else{
                       JOptionPane.showMessageDialog(rootPane, "Data gagal ditambahkan");
                   }
+                  this.setVisible(false);
+        this.dispose();
+        new ObatAdmin().setVisible(true);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, e);
         }
@@ -359,6 +361,6 @@ login lg = new login();
     private javax.swing.JTextArea txtKet;
     private javax.swing.JLabel txtSimpan;
     private javax.swing.JTextField txtStok;
-    private javax.swing.JTextField txtTglexp;
+    private com.toedter.calendar.JDateChooser txtTglexp;
     // End of variables declaration//GEN-END:variables
 }

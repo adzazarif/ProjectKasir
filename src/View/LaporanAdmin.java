@@ -8,6 +8,9 @@ import Logic.Util;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -19,8 +22,9 @@ import koneksi.conn;
  */
 public class LaporanAdmin extends javax.swing.JFrame {
 Util util = new Util();
-public String dateFilterStart = "default";
-public String dateFilterEnd = "default";
+public String dateFilterStart = "2022-12-20";
+public String dateFilterEnd = "2022-12-20";
+SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
     /**
      * Creates new form LaporanAdmin
      */
@@ -106,8 +110,6 @@ public String dateFilterEnd = "default";
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        txtDateEnd = new javax.swing.JTextField();
-        txtDateStart = new javax.swing.JTextField();
         txtSearcb = new javax.swing.JTextField();
         cmbWaktu = new javax.swing.JComboBox<>();
         btnSearch = new javax.swing.JLabel();
@@ -118,20 +120,12 @@ public String dateFilterEnd = "default";
         btnTransaksi = new javax.swing.JLabel();
         btnPengguna = new javax.swing.JLabel();
         btnLaporan = new javax.swing.JLabel();
+        txtDateEnd = new com.toedter.calendar.JDateChooser();
+        txtDateStart = new com.toedter.calendar.JDateChooser();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
-
-        txtDateEnd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtDateEnd.setBorder(null);
-        getContentPane().add(txtDateEnd);
-        txtDateEnd.setBounds(1050, 170, 160, 30);
-
-        txtDateStart.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtDateStart.setBorder(null);
-        getContentPane().add(txtDateStart);
-        txtDateStart.setBounds(820, 170, 170, 30);
 
         txtSearcb.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtSearcb.setBorder(null);
@@ -217,6 +211,10 @@ public String dateFilterEnd = "default";
         });
         getContentPane().add(btnLaporan);
         btnLaporan.setBounds(20, 450, 250, 60);
+        getContentPane().add(txtDateEnd);
+        txtDateEnd.setBounds(1030, 165, 190, 40);
+        getContentPane().add(txtDateStart);
+        txtDateStart.setBounds(810, 165, 190, 40);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/laporan penjulan.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
@@ -227,8 +225,8 @@ public String dateFilterEnd = "default";
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSearchMouseClicked
-        String dateStart = txtDateStart.getText();
-        String dateEnd = txtDateEnd.getText();
+        String dateStart= dcn.format(txtDateStart.getDate());
+        String dateEnd= dcn.format(txtDateEnd.getDate());
         dateFilterStart = dateStart;
         dateFilterEnd = dateEnd;
         DefaultTableModel model = new DefaultTableModel();
@@ -304,23 +302,38 @@ public String dateFilterEnd = "default";
     private void cmbWaktuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbWaktuActionPerformed
         String waktu = String.valueOf(cmbWaktu.getSelectedItem());
         if(waktu.equals("Hari")){
+            
             dateFilterStart = util.dateStart();
             dateFilterEnd = util.dateEnd();
             load_table_waktu(dateFilterStart, dateFilterEnd);
-            txtDateStart.setText(dateFilterStart);
-            txtDateEnd.setText(dateFilterEnd);
+           
+            try {
+                 DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                 Date dateStart = format.parse(dateFilterStart);
+                Date dateEnd = format.parse(dateFilterEnd);
+                txtDateStart.setDate(dateStart);
+                txtDateEnd.setDate(dateEnd);
+            } catch (Exception e) {
+            }
+            
         }else if(waktu.equals("Bulan")){
             dateFilterStart = util.dateMonthAgo();
             dateFilterEnd = util.dateEnd();
             load_table_waktu(dateFilterStart, dateFilterEnd);
-            txtDateStart.setText(dateFilterStart);
-            txtDateEnd.setText(dateFilterEnd);
+            try {
+                 DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                 Date dateStart = format.parse(dateFilterStart);
+                Date dateEnd = format.parse(dateFilterEnd);
+                txtDateStart.setDate(dateStart);
+                txtDateEnd.setDate(dateEnd);
+            } catch (Exception e) {
+            }
         }else if(waktu.equals("Semua")){
             load_table();
             dateFilterStart = "default";
             dateFilterEnd = "default";
-            txtDateStart.setText(null);
-            txtDateEnd.setText(null);
+            txtDateStart.setDate(null);
+            txtDateEnd.setDate(null);
         }
         
     }//GEN-LAST:event_cmbWaktuActionPerformed
@@ -401,8 +414,8 @@ public String dateFilterEnd = "default";
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable table;
-    private javax.swing.JTextField txtDateEnd;
-    private javax.swing.JTextField txtDateStart;
+    private com.toedter.calendar.JDateChooser txtDateEnd;
+    private com.toedter.calendar.JDateChooser txtDateStart;
     private javax.swing.JTextField txtSearcb;
     // End of variables declaration//GEN-END:variables
 }

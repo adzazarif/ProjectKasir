@@ -82,7 +82,7 @@ public class Obat {
         }
     }
     
-    public boolean hapus(int id){
+    public boolean hapus(int id , int id_detail){
         try {
             Statement st = (Statement) conn.configDB().createStatement();
             Connection koneksi = (Connection)conn.configDB();
@@ -92,14 +92,24 @@ public class Obat {
             pstHapusTransaksi.execute();
             
             //delete di tabel detail_obat
-            String queryHapusDetail = "DELETE FROM detail_obat WHERE kode_obat = '" + id + "'";
+            
+            
+            
+            String queryHapusDetail = "DELETE FROM detail_obat WHERE id_detail = '" + id_detail + "'";
             PreparedStatement pstHapusDetail = koneksi.prepareStatement(queryHapusDetail);
             pstHapusDetail.execute();
             
-            //delete di tabel obat
-            String queryHapusObat = "DELETE FROM obat WHERE kode_obat = '" + id + "'";
+            String queryCek = "SELECT COUNT(*) AS banyak FROM detail_obat WHERE id_detail = '" + id_detail +"'";
+            Statement pstCek = koneksi.createStatement();
+            ResultSet res = pstCek.executeQuery(queryCek);
+            if(res.next()){
+                if(res.getInt("banyak")<1){
+                 String queryHapusObat = "DELETE FROM obat WHERE kode_obat = '" + id + "'";
             PreparedStatement pstHapusObat = koneksi.prepareStatement(queryHapusObat);
-            pstHapusObat.execute();      
+            pstHapusObat.execute();    
+                }
+                     
+            }
             return true;
         } catch (Exception e) {
             return false;

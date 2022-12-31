@@ -175,7 +175,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
         lblDate.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         getContentPane().add(lblDate);
-        lblDate.setBounds(470, 130, 380, 40);
+        lblDate.setBounds(410, 130, 380, 50);
 
         lblObatSudahExp.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         lblObatSudahExp.setForeground(new java.awt.Color(255, 255, 255));

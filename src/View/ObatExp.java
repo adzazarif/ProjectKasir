@@ -155,6 +155,7 @@ public class ObatExp extends javax.swing.JFrame {
         btnObat = new javax.swing.JLabel();
         btnLaporan = new javax.swing.JLabel();
         btnDashboard = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -220,11 +221,11 @@ public class ObatExp extends javax.swing.JFrame {
 
         lblDateEnd.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         getContentPane().add(lblDateEnd);
-        lblDateEnd.setBounds(610, 130, 130, 30);
+        lblDateEnd.setBounds(610, 130, 130, 40);
 
         lblDateStart.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         getContentPane().add(lblDateStart);
-        lblDateStart.setBounds(440, 130, 130, 30);
+        lblDateStart.setBounds(440, 130, 130, 40);
 
         txtDiskon.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtDiskon.setBorder(null);
@@ -330,6 +331,11 @@ public class ObatExp extends javax.swing.JFrame {
         });
         getContentPane().add(btnDashboard);
         btnDashboard.setBounds(10, 150, 250, 50);
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel2.setText("-");
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(570, 140, 37, 20);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/laporan obat exp.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
@@ -578,6 +584,7 @@ public class ObatExp extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmbFilter;
     private javax.swing.JComboBox<String> cmbUser;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblDateEnd;
     private javax.swing.JLabel lblDateStart;

@@ -256,12 +256,16 @@ login lg = new login();
 
     private void btnHapusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusMouseClicked
         Obat obat = new Obat();
-        boolean result = obat.hapus(kd_obat);
+           int jawab =  JOptionPane.showConfirmDialog(this, "Apakah kamu yakin menghapus?", "Print Struk",JOptionPane.YES_NO_OPTION);
+        if(jawab == JOptionPane.YES_OPTION){
+boolean result = obat.hapus(kd_obat,id_detail);
         if(result){
             JOptionPane.showMessageDialog(rootPane, "Data berhasil di hapus");
         }else{
             JOptionPane.showMessageDialog(rootPane, "Data gagal di hapus");
         }
+        }
+        
         kd_obat = 0; 
         id_detail = 0;
         load_table();

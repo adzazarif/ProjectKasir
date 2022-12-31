@@ -120,6 +120,8 @@ public class DashboardKasir extends javax.swing.JFrame {
         lblBarangTerjual = new javax.swing.JLabel();
         lblDanaPemasukan = new javax.swing.JLabel();
         lblStokObat = new javax.swing.JLabel();
+        btnDashboard = new javax.swing.JLabel();
+        btnTransaksi = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -132,7 +134,7 @@ public class DashboardKasir extends javax.swing.JFrame {
 
         lblDate.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         getContentPane().add(lblDate);
-        lblDate.setBounds(480, 120, 380, 40);
+        lblDate.setBounds(410, 130, 380, 50);
 
         cmbFilter.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         cmbFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hari", "Bulan" }));
@@ -205,6 +207,22 @@ public class DashboardKasir extends javax.swing.JFrame {
         getContentPane().add(lblStokObat);
         lblStokObat.setBounds(1120, 430, 150, 40);
 
+        btnDashboard.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnDashboardMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnDashboard);
+        btnDashboard.setBounds(20, 140, 240, 70);
+
+        btnTransaksi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnTransaksiMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnTransaksi);
+        btnTransaksi.setBounds(20, 220, 240, 60);
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/dashboard kasir.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1);
@@ -230,7 +248,7 @@ public class DashboardKasir extends javax.swing.JFrame {
             case "Profil":
             this.setVisible(false);
             this.dispose();
-            new ProfilUser().setVisible(true);
+            new ProfilKasir().setVisible(true);
             break;
             case "Logout":
             this.setVisible(false);
@@ -251,6 +269,18 @@ public class DashboardKasir extends javax.swing.JFrame {
         this.dispose();
         new ObatExp().setVisible(true);
     }//GEN-LAST:event_btnObatHampirExpMouseClicked
+
+    private void btnTransaksiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTransaksiMouseClicked
+                this.setVisible(false);
+        this.dispose();
+        new TransaksiKasir().setVisible(true);
+    }//GEN-LAST:event_btnTransaksiMouseClicked
+
+    private void btnDashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDashboardMouseClicked
+         this.setVisible(false);
+        this.dispose();
+        new DashboardKasir().setVisible(true);
+    }//GEN-LAST:event_btnDashboardMouseClicked
 
     /**
      * @param args the command line arguments
@@ -288,8 +318,10 @@ public class DashboardKasir extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnDashboard;
     private javax.swing.JLabel btnObatHampirExp;
     private javax.swing.JLabel btnObatSudahExp;
+    private javax.swing.JLabel btnTransaksi;
     private javax.swing.JComboBox<String> cmbFilter;
     private javax.swing.JComboBox<String> cmbUser;
     private javax.swing.JLabel jLabel1;

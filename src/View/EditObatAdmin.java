@@ -8,6 +8,8 @@ import Logic.login;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import koneksi.conn;
@@ -17,6 +19,7 @@ import koneksi.conn;
  */
 public class EditObatAdmin extends javax.swing.JFrame {
 login lg = new login();
+SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
     /**
      * Creates new form EditObatAdmin
      */
@@ -44,9 +47,10 @@ login lg = new login();
             cmbKategori.setSelectedItem(res.getString("kategori"));
             txtStok.setText(res.getString("stok"));
             txtDosis.setText(res.getString("dosis"));
+            Jdate.setDate(res.getDate("tgl_kadaluarsa"));
             txtHargaJual.setText(res.getString("harga_jual"));
             txtHargaBeli.setText(res.getString("harga_beli"));
-            txtTglExp.setText(res.getString("tgl_kadaluarsa"));
+
             txtKet.setText(res.getString("keterangan"));  
         }
         } catch (Exception e) {
@@ -63,12 +67,12 @@ login lg = new login();
     private void initComponents() {
 
         lblKode = new javax.swing.JLabel();
-        txtTglExp = new javax.swing.JTextField();
         cmbKategori = new javax.swing.JComboBox<>();
         cmbJenis = new javax.swing.JComboBox<>();
         txtNama = new javax.swing.JTextField();
         txtDosis = new javax.swing.JTextField();
         txtHargaJual = new javax.swing.JTextField();
+        Jdate = new com.toedter.calendar.JDateChooser();
         txtHargaBeli = new javax.swing.JTextField();
         txtStok = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -89,11 +93,6 @@ login lg = new login();
         lblKode.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         getContentPane().add(lblKode);
         lblKode.setBounds(530, 130, 130, 40);
-
-        txtTglExp.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtTglExp.setBorder(null);
-        getContentPane().add(txtTglExp);
-        txtTglExp.setBounds(1090, 130, 240, 40);
 
         cmbKategori.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cmbKategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Obat BebasTerbatas", "Obat Bebas", "Obat Keras", "Obat Wajib Apotek", "Obat Gol Narkotika", "Obat Psikotropika", "Obat Herbal", " " }));
@@ -119,6 +118,8 @@ login lg = new login();
         txtHargaJual.setBorder(null);
         getContentPane().add(txtHargaJual);
         txtHargaJual.setBounds(1090, 310, 240, 40);
+        getContentPane().add(Jdate);
+        Jdate.setBounds(1068, 130, 270, 40);
 
         txtHargaBeli.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtHargaBeli.setBorder(null);
@@ -226,7 +227,7 @@ login lg = new login();
         String dosis = txtDosis.getText();
         String harga_jual = txtHargaJual.getText();
         String harga_beli = txtHargaBeli.getText();
-        String tgl_exp = txtTglExp.getText();
+        String tgl_exp= dcn.format(Jdate.getDate() );
         String ket = txtKet.getText();
         Obat obat = new Obat();
         Boolean edit = obat.edit(ObatAdmin.kd_obat, nama, jenis, kategori, stok, dosis, harga_beli, harga_jual, tgl_exp, ket);
@@ -235,6 +236,9 @@ login lg = new login();
         }else{
             JOptionPane.showMessageDialog(rootPane, "Data gagal di Update");
         }
+        this.setVisible(false);
+        this.dispose();
+        new ObatAdmin().setVisible(true);
     }//GEN-LAST:event_btnSimpanMouseClicked
 
     private void cmbUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbUserActionPerformed
@@ -313,6 +317,7 @@ login lg = new login();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JDateChooser Jdate;
     private javax.swing.JLabel btnDashboard;
     private javax.swing.JLabel btnKembali;
     private javax.swing.JLabel btnLaporan;
@@ -332,6 +337,5 @@ login lg = new login();
     private javax.swing.JTextArea txtKet;
     private javax.swing.JTextField txtNama;
     private javax.swing.JTextField txtStok;
-    private javax.swing.JTextField txtTglExp;
     // End of variables declaration//GEN-END:variables
 }

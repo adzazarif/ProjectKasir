@@ -6,6 +6,7 @@ package View;
 
 import Logic.Obat;
 import Logic.login;
+import java.text.SimpleDateFormat;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -15,6 +16,7 @@ import javax.swing.JOptionPane;
  */
 public class TambahObatAdmin extends javax.swing.JFrame {
 login lg = new login();
+SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
     /**
      * Creates new form TambahObatAdmin
      */
@@ -40,7 +42,6 @@ login lg = new login();
         txtNama = new javax.swing.JTextField();
         txtDosis = new javax.swing.JTextField();
         txtHargaJual = new javax.swing.JTextField();
-        txtTglexp = new javax.swing.JTextField();
         txtHargaBeli = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         cmbJenis = new javax.swing.JComboBox<>();
@@ -54,6 +55,7 @@ login lg = new login();
         btnPengguna = new javax.swing.JLabel();
         btnDashboard = new javax.swing.JLabel();
         btnObat = new javax.swing.JLabel();
+        JdateKadaluarsa = new com.toedter.calendar.JDateChooser();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -70,8 +72,8 @@ login lg = new login();
         txtStok.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtStok.setBorder(null);
         txtStok.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtStokKeyPressed(evt);
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtStokKeyReleased(evt);
             }
         });
         getContentPane().add(txtStok);
@@ -94,16 +96,21 @@ login lg = new login();
 
         txtHargaJual.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtHargaJual.setBorder(null);
+        txtHargaJual.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtHargaJualKeyReleased(evt);
+            }
+        });
         getContentPane().add(txtHargaJual);
         txtHargaJual.setBounds(1080, 310, 250, 40);
 
-        txtTglexp.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtTglexp.setBorder(null);
-        getContentPane().add(txtTglexp);
-        txtTglexp.setBounds(1080, 130, 250, 40);
-
         txtHargaBeli.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtHargaBeli.setBorder(null);
+        txtHargaBeli.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtHargaBeliKeyReleased(evt);
+            }
+        });
         getContentPane().add(txtHargaBeli);
         txtHargaBeli.setBounds(1080, 250, 250, 40);
 
@@ -188,6 +195,8 @@ login lg = new login();
         });
         getContentPane().add(btnObat);
         btnObat.setBounds(10, 220, 250, 60);
+        getContentPane().add(JdateKadaluarsa);
+        JdateKadaluarsa.setBounds(1070, 130, 270, 40);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/tambahobat.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
@@ -216,7 +225,7 @@ login lg = new login();
         String dosis = txtDosis.getText();
         String harga_jual = txtHargaJual.getText();
         String harga_beli = txtHargaBeli.getText();
-        String tgl_exp = txtTglexp.getText();
+        String tgl_exp= dcn.format(JdateKadaluarsa.getDate());
         String ket = txtKet.getText();
         Obat obat = new Obat();
         Boolean tambah = obat.tambah(nama, jenis, kategori, stok, dosis, harga_beli, harga_jual, tgl_exp, ket);
@@ -225,6 +234,9 @@ login lg = new login();
         }else{
             JOptionPane.showMessageDialog(rootPane, "Data gagal di simpan");
         }
+        this.setVisible(false);
+        this.dispose();
+        new ObatAdmin().setVisible(true);
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void cmbUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbUserActionPerformed
@@ -273,21 +285,25 @@ login lg = new login();
         new ObatAdmin().setVisible(true);
     }//GEN-LAST:event_btnObatMouseClicked
 
-    private void txtStokKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtStokKeyPressed
-        String value = txtStok.getText();
-        int i = value.length();
-        if(evt.getKeyChar() >= '0' && evt.getKeyChar() <= '9'){
-            txtStok.setEditable(true);
-        }else{
-            txtStok.setEditable(false);
-            JOptionPane.showMessageDialog(rootPane, "masukan input dalam bentuk integer");
-        }
-    }//GEN-LAST:event_txtStokKeyPressed
-
     private void txtDosisKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDosisKeyReleased
         String str = txtDosis.getText();
         txtDosis.setText(str.replaceAll("[^\\d]", ""));
     }//GEN-LAST:event_txtDosisKeyReleased
+
+    private void txtStokKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtStokKeyReleased
+         String str = txtStok.getText();
+        txtStok.setText(str.replaceAll("[^\\d]", ""));
+    }//GEN-LAST:event_txtStokKeyReleased
+
+    private void txtHargaBeliKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHargaBeliKeyReleased
+         String str = txtHargaBeli.getText();
+        txtHargaBeli.setText(str.replaceAll("[^\\d]", ""));
+    }//GEN-LAST:event_txtHargaBeliKeyReleased
+
+    private void txtHargaJualKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHargaJualKeyReleased
+         String str = txtHargaJual.getText();
+        txtHargaJual.setText(str.replaceAll("[^\\d]", ""));
+    }//GEN-LAST:event_txtHargaJualKeyReleased
 
     /**
      * @param args the command line arguments
@@ -325,6 +341,7 @@ login lg = new login();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JDateChooser JdateKadaluarsa;
     private javax.swing.JLabel btnDashboard;
     private javax.swing.JLabel btnKembali;
     private javax.swing.JLabel btnLaporan;
@@ -344,6 +361,5 @@ login lg = new login();
     private javax.swing.JTextArea txtKet;
     private javax.swing.JTextField txtNama;
     private javax.swing.JTextField txtStok;
-    private javax.swing.JTextField txtTglexp;
     // End of variables declaration//GEN-END:variables
 }

@@ -140,6 +140,8 @@ public class TransaksiKasir extends javax.swing.JFrame {
         btnHapus = new javax.swing.JLabel();
         cmbUser = new javax.swing.JComboBox<>();
         lblNama = new javax.swing.JLabel();
+        btnDashboard = new javax.swing.JLabel();
+        btnTransaksi = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         list.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -273,6 +275,22 @@ public class TransaksiKasir extends javax.swing.JFrame {
         lblNama.setText("jLabel2");
         getContentPane().add(lblNama);
         lblNama.setBounds(1140, 10, 130, 30);
+
+        btnDashboard.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnDashboardMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnDashboard);
+        btnDashboard.setBounds(20, 140, 240, 60);
+
+        btnTransaksi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnTransaksiMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnTransaksi);
+        btnTransaksi.setBounds(20, 210, 240, 70);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/transaksi kasir.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
@@ -420,7 +438,7 @@ public class TransaksiKasir extends javax.swing.JFrame {
             case "Profil":
             this.setVisible(false);
             this.dispose();
-            new ProfilUser().setVisible(true);
+            new ProfilKasir().setVisible(true);
             break;
             case "Logout":
             this.setVisible(false);
@@ -429,6 +447,18 @@ public class TransaksiKasir extends javax.swing.JFrame {
             break;
         }
     }//GEN-LAST:event_cmbUserActionPerformed
+
+    private void btnDashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDashboardMouseClicked
+        this.setVisible(false);
+        this.dispose();
+        new DashboardKasir().setVisible(true);
+    }//GEN-LAST:event_btnDashboardMouseClicked
+
+    private void btnTransaksiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTransaksiMouseClicked
+        this.setVisible(false);
+        this.dispose();
+        new TransaksiKasir().setVisible(true);
+    }//GEN-LAST:event_btnTransaksiMouseClicked
 
     /**
      * @param args the command line arguments
@@ -466,9 +496,11 @@ public class TransaksiKasir extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnDashboard;
     private javax.swing.JLabel btnHapus;
     private javax.swing.JLabel btnSimpan;
     private javax.swing.JLabel btnTambah;
+    private javax.swing.JLabel btnTransaksi;
     private javax.swing.JComboBox<String> cmbUser;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;

@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import javax.swing.DefaultListModel;
@@ -22,11 +23,11 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import koneksi.conn; 
-//import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.*;
 //import net.sf.jasperreports.engine.JasperFillManager;
 //import net.sf.jasperreports.engine.JasperPrint;
 //import net.sf.jasperreports.engine.JasperReport;
-//import net.sf.jasperreports.view.JasperViewer;
+import net.sf.jasperreports.view.JasperViewer;
 /**
  *
  * @author WINDOWS 10
@@ -125,41 +126,26 @@ public class TransaksiAdmin extends javax.swing.JFrame {
             return data;
     }
     
-//    public void tampilStruk(){
-//        
-////            Logic.Transaksi ts = new Logic.Transaksi();
-////            int kode = ts.kodeTransaksi() - 1;
-//    String kode = "70";
-//            
-//            java.sql.Connection con = null;
-//            try{
-//                String jdbcDriver = "com.mysql.jdbc.Driver";
-//                Class.forName(jdbcDriver);
-//                
-//                String url = "jdbc:mysql://localhost:3306/db_apotek";
-//                String user = "root";
-//                String pass = "";
-//                
-//                con = DriverManager.getConnection(url, user, pass);
-//                Statement stm = (Statement) con.createStatement();
-//                try{
-////                    Connection con = (Connection) conn.configDB();
-//                    String report = ("E:\\kuliah\\code\\semester 1\\pengembangan rekayasa perangkat lunak\\kasirApotek\\src\\View\\report1.jrxml");
-//                    HashMap hash = new HashMap();
-//                    hash.put("kode", "56");
-//                    JasperReport JRpt = JasperCompileManager.compileReport(report);
-//                    JasperPrint JPrint = JasperFillManager.fillReport(JRpt, hash, con);
-//                    JasperViewer.viewReport(JPrint, false);
-//                } catch (Exception rptexcpt){
-//                    JOptionPane.showMessageDialog(rootPane, rptexcpt);
-//                }
-//                } catch (Exception e){
-//                    JOptionPane.showMessageDialog(rootPane, e);
-//            }
-//            
-//           
-//        
-//    }
+    public void tampilStruk(){
+            try{
+                Connection conn = koneksi.conn.configDB();
+                Statement stm = conn.createStatement();
+
+                String report = ("E:\\kuliah\\code\\semester 1\\pengembangan rekayasa perangkat lunak\\kasirApotek\\src\\View\\nota.jrxml");
+                HashMap hash = new HashMap();
+                hash.put("kode_transaksi", 81);
+                JasperReport jasper = JasperCompileManager.compileReport(report);
+                JasperPrint jasperP = JasperFillManager.fillReport(jasper, hash, conn);
+                JasperViewer.viewReport(jasperP, false);
+                System.out.println("test");
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null, "Error iReport");
+                System.out.println(e.getMessage());
+            }
+            
+           
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -414,12 +400,12 @@ public class TransaksiAdmin extends javax.swing.JFrame {
                 }
                 trns.add(new listData(res.getInt("kode_obat"), res.getInt("id_detail"), res.getString("nama"),res.getInt("harga_jual"),
                     Integer.parseInt(txtBanyak.getText()), (res.getInt("harga_jual")*Integer.parseInt(txtBanyak.getText())),
-                    (res.getInt("diskon")*Integer.parseInt(txtBanyak.getText()))
+                    (res.getInt("diskon"))
                 ));
             }
             for(listData i:trns){
                 dtotal = i.total;
-                subDiskon = i.diskon;
+                subDiskon = i.diskon*Integer.parseInt(txtBanyak.getText());
             }
             grandDiskon = grandDiskon + subDiskon;
             grandTotal = grandTotal + dtotal;
@@ -462,16 +448,6 @@ public class TransaksiAdmin extends javax.swing.JFrame {
             if(res.next()){
                 int kd_transaksi = res.getInt("kode_transaksi");
                 for(listData i:trns){
-                    String queryStok = "SELECT * FROM detail_obat WHERE id_detail = '" + i.id_detail +"'";
-                    Statement pststok = koneksi.createStatement();
-                    ResultSet resStok = pststok.executeQuery(queryStok);
-                    if(resStok.next()){
-                        int stok = resStok.getInt("stok");
-                        int resultStok = stok - i.banyak;
-                        String sql = "UPDATE detail_obat SET stok='"+resultStok+"'WHERE id_detail = '"+i.id_detail+"'";
-                        PreparedStatement pstStok=koneksi.prepareStatement(sql);
-                        pstStok.execute();
-                    }
                     String queryDetailTransaksi = "INSERT INTO detail_transaksi(`kode_transaksi`,`kode_obat`,`id_detail_obat`,`banyak_barang`,`total_harga`) VALUES ('"
                     + kd_transaksi + "','"
                     + i.kode_obat + "','"

@@ -264,6 +264,7 @@ public class obatSudahExp extends javax.swing.JFrame {
          }
         bersih();
         load_table();
+        load_data();
     }//GEN-LAST:event_btnHapusMouseClicked
 
     private void btnHapusAutoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusAutoMouseClicked
@@ -278,6 +279,7 @@ public class obatSudahExp extends javax.swing.JFrame {
          }
          bersih();
         load_table();
+        load_data();
     }//GEN-LAST:event_btnHapusAutoMouseClicked
 
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased

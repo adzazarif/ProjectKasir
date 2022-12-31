@@ -9,7 +9,10 @@ import Logic.Dashboard;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.DateFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -23,6 +26,7 @@ import koneksi.conn;
 public class KeuntunganDanPemasukan extends javax.swing.JFrame {
     Util util = new Util();
     Dashboard db = new Dashboard();
+    SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
     
     NumberFormat nf = NumberFormat.getNumberInstance(new Locale("in", "ID"));
     public String dateFilterStart = "Default";
@@ -128,12 +132,12 @@ public class KeuntunganDanPemasukan extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
         txtCari = new javax.swing.JTextField();
-        txtDateEnd = new javax.swing.JTextField();
-        txtDateStart = new javax.swing.JTextField();
         cmbWaktu = new javax.swing.JComboBox<>();
         lblKeuntungan = new javax.swing.JLabel();
         lblPemasukan = new javax.swing.JLabel();
         btnCari = new javax.swing.JLabel();
+        txtDateEnd = new com.toedter.calendar.JDateChooser();
+        txtDateStart = new com.toedter.calendar.JDateChooser();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -207,16 +211,6 @@ public class KeuntunganDanPemasukan extends javax.swing.JFrame {
         getContentPane().add(txtCari);
         txtCari.setBounds(340, 170, 260, 30);
 
-        txtDateEnd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtDateEnd.setBorder(null);
-        getContentPane().add(txtDateEnd);
-        txtDateEnd.setBounds(1030, 170, 160, 30);
-
-        txtDateStart.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtDateStart.setBorder(null);
-        getContentPane().add(txtDateStart);
-        txtDateStart.setBounds(790, 170, 160, 30);
-
         cmbWaktu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "------Pilih Waktu------", "Semua", "Hari", "Bulan" }));
         cmbWaktu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -241,6 +235,10 @@ public class KeuntunganDanPemasukan extends javax.swing.JFrame {
         });
         getContentPane().add(btnCari);
         btnCari.setBounds(1220, 170, 80, 30);
+        getContentPane().add(txtDateEnd);
+        txtDateEnd.setBounds(1010, 165, 190, 40);
+        getContentPane().add(txtDateStart);
+        txtDateStart.setBounds(780, 165, 190, 40);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/pemasukan dan keuntungan.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
@@ -257,15 +255,27 @@ public class KeuntunganDanPemasukan extends javax.swing.JFrame {
             dateFilterEnd = util.dateEnd();
             load_table_waktu(dateFilterStart, dateFilterEnd);
             setData(dateFilterStart, dateFilterEnd);
-            txtDateStart.setText(dateFilterStart);
-            txtDateEnd.setText(dateFilterEnd);
+             try {
+                 DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                 Date dateStart = format.parse(dateFilterStart);
+                Date dateEnd = format.parse(dateFilterEnd);
+                txtDateStart.setDate(dateStart);
+                txtDateEnd.setDate(dateEnd);
+            } catch (Exception e) {
+            }
         }else if(waktu.equals("Bulan")){
             dateFilterStart = util.dateMonthAgo();
             dateFilterEnd = util.dateEnd();
             load_table_waktu(dateFilterStart, dateFilterEnd);
             setData(dateFilterStart, dateFilterEnd);
-            txtDateStart.setText(dateFilterStart);
-            txtDateEnd.setText(dateFilterEnd);
+             try {
+                 DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                 Date dateStart = format.parse(dateFilterStart);
+                Date dateEnd = format.parse(dateFilterEnd);
+                txtDateStart.setDate(dateStart);
+                txtDateEnd.setDate(dateEnd);
+            } catch (Exception e) {
+            }
         }else if(waktu.equals("Semua")){
             load_table();
             dateFilterStart = "Default";
@@ -274,8 +284,8 @@ public class KeuntunganDanPemasukan extends javax.swing.JFrame {
             String keuntungan = String.valueOf(nf.format(db.labaBersih(dateFilterStart, dateFilterEnd)));
             lblKeuntungan.setText(keuntungan);
             lblPemasukan.setText(pemasukan);
-            txtDateStart.setText(null);
-            txtDateEnd.setText(null);
+            txtDateStart.setDate(null);
+            txtDateEnd.setDate(null);
         }
 
     }//GEN-LAST:event_cmbWaktuActionPerformed
@@ -347,8 +357,8 @@ public class KeuntunganDanPemasukan extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCariKeyReleased
 
     private void btnCariMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCariMouseClicked
-        dateFilterStart = txtDateStart.getText();
-        dateFilterEnd = txtDateEnd.getText();
+        dateFilterStart = dcn.format(txtDateStart.getDate());
+        dateFilterEnd = dcn.format(txtDateEnd.getDate());
           setData(dateFilterStart, dateFilterEnd);
         DefaultTableModel model = new DefaultTableModel();      
             model.addColumn("Kode Transaksi");
@@ -429,7 +439,7 @@ public class KeuntunganDanPemasukan extends javax.swing.JFrame {
     private javax.swing.JLabel lblPemasukan;
     private javax.swing.JTable table;
     private javax.swing.JTextField txtCari;
-    private javax.swing.JTextField txtDateEnd;
-    private javax.swing.JTextField txtDateStart;
+    private com.toedter.calendar.JDateChooser txtDateEnd;
+    private com.toedter.calendar.JDateChooser txtDateStart;
     // End of variables declaration//GEN-END:variables
 }
