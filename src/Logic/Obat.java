@@ -86,28 +86,33 @@ public class Obat {
         try {
             Statement st = (Statement) conn.configDB().createStatement();
             Connection koneksi = (Connection)conn.configDB();
+            
+                        String queryCek = "SELECT COUNT(kode_obat) AS banyak FROM detail_obat WHERE kode_obat = '" + id +"'";
+            Statement pstCek = koneksi.createStatement();
+            ResultSet res = pstCek.executeQuery(queryCek);
             //delete di tabel detail_obat
-            String queryHapusTransaksi = "DELETE FROM detail_transaksi WHERE kode_obat = '" + id + "'";
+            String queryHapusTransaksi = "DELETE FROM detail_transaksi WHERE id_detail_obat = '" + id_detail + "'";
             PreparedStatement pstHapusTransaksi = koneksi.prepareStatement(queryHapusTransaksi);
             pstHapusTransaksi.execute();
             
             //delete di tabel detail_obat
             
             
-            
             String queryHapusDetail = "DELETE FROM detail_obat WHERE id_detail = '" + id_detail + "'";
             PreparedStatement pstHapusDetail = koneksi.prepareStatement(queryHapusDetail);
             pstHapusDetail.execute();
             
-            String queryCek = "SELECT COUNT(*) AS banyak FROM detail_obat WHERE id_detail = '" + id_detail +"'";
-            Statement pstCek = koneksi.createStatement();
-            ResultSet res = pstCek.executeQuery(queryCek);
+
             if(res.next()){
-                if(res.getInt("banyak")<1){
-                 String queryHapusObat = "DELETE FROM obat WHERE kode_obat = '" + id + "'";
+                if(res.getInt("banyak") == 1){
+                                String queryHapusObat = "DELETE FROM obat WHERE kode_obat = '" + id + "'";
             PreparedStatement pstHapusObat = koneksi.prepareStatement(queryHapusObat);
             pstHapusObat.execute();    
+                return true;
                 }
+                    
+     
+                
                      
             }
             return true;

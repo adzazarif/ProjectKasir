@@ -8,6 +8,7 @@ import Logic.login;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import koneksi.conn;
@@ -42,13 +43,14 @@ login lg = new login();
             lblKode.setText(res.getString("kode_obat"));
             lblNama.setText(res.getString("nama"));
             lblJenis.setText(res.getString("jenis"));
-            lblKategori.setText(res.getString("kategori"));
+            lblHargaBeli.setText(res.getString("kategori"));
             lblStok.setText(res.getString("stok"));
             lblDosis.setText(res.getString("dosis"));
             lblHargaJual.setText(res.getString("harga_jual"));
-            lblHargaBeli.setText(res.getString("harga_beli"));
-            lblTglExp.setText(res.getString("tgl_kadaluarsa"));
-            lblTglMasuk.setText(res.getString("tgl_masuk"));
+            lblKategori.setText(res.getString("harga_beli"));
+            SimpleDateFormat dt = new SimpleDateFormat("EEE, dd-MM-yyyy");
+            lblTglExp.setText(dt.format(res.getDate("tgl_kadaluarsa")));
+            lblTglMasuk.setText(dt.format(res.getDate("tgl_masuk")));
             lblKet.setText(res.getString("keterangan"));  
             lblDiskon.setText(res.getString("diskon"));
         }
@@ -69,14 +71,14 @@ login lg = new login();
         lblKode = new javax.swing.JLabel();
         lblNama = new javax.swing.JLabel();
         lblJenis = new javax.swing.JLabel();
-        lblHargaBeli = new javax.swing.JLabel();
+        lblKategori = new javax.swing.JLabel();
         lblDosis = new javax.swing.JLabel();
         lblTglExp = new javax.swing.JLabel();
         lblTglMasuk = new javax.swing.JLabel();
         lblStok = new javax.swing.JLabel();
         lblDiskon = new javax.swing.JLabel();
         lblHargaJual = new javax.swing.JLabel();
-        lblKategori = new javax.swing.JLabel();
+        lblHargaBeli = new javax.swing.JLabel();
         btnKembali = new javax.swing.JLabel();
         cmbUser = new javax.swing.JComboBox<>();
         lblNama1 = new javax.swing.JLabel();
@@ -105,9 +107,9 @@ login lg = new login();
         getContentPane().add(lblJenis);
         lblJenis.setBounds(500, 270, 250, 40);
 
-        lblHargaBeli.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        getContentPane().add(lblHargaBeli);
-        lblHargaBeli.setBounds(500, 320, 250, 50);
+        lblKategori.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        getContentPane().add(lblKategori);
+        lblKategori.setBounds(500, 320, 250, 50);
 
         lblDosis.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         getContentPane().add(lblDosis);
@@ -119,23 +121,23 @@ login lg = new login();
 
         lblTglMasuk.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         getContentPane().add(lblTglMasuk);
-        lblTglMasuk.setBounds(1050, 210, 250, 40);
+        lblTglMasuk.setBounds(1050, 210, 250, 50);
 
         lblStok.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         getContentPane().add(lblStok);
-        lblStok.setBounds(1050, 270, 250, 40);
+        lblStok.setBounds(1050, 260, 250, 50);
 
         lblDiskon.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         getContentPane().add(lblDiskon);
-        lblDiskon.setBounds(1050, 380, 250, 40);
+        lblDiskon.setBounds(1050, 430, 240, 50);
 
         lblHargaJual.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         getContentPane().add(lblHargaJual);
-        lblHargaJual.setBounds(1050, 430, 250, 40);
+        lblHargaJual.setBounds(1050, 380, 250, 40);
 
-        lblKategori.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        getContentPane().add(lblKategori);
-        lblKategori.setBounds(1050, 330, 250, 40);
+        lblHargaBeli.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        getContentPane().add(lblHargaBeli);
+        lblHargaBeli.setBounds(1050, 330, 250, 30);
 
         btnKembali.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

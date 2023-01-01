@@ -8,19 +8,24 @@ import Logic.Util;
 import Logic.listData;
 import Logic.Transaksi;
 import Logic.login;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 import koneksi.conn; 
 import net.sf.jasperreports.engine.*;
@@ -60,6 +65,7 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         mod = new DefaultListModel();
         list.setModel(mod);
         setDateAndKode();
+        showTime();
         datatable();
         loadResult();
         lblNama.setText(lg.nama);
@@ -86,12 +92,12 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         try {
             for(listData ls:trns){
                  tbl.addRow(new Object[]{
-                    ls.kode_obat,
+                    ls.id_detail,
                     ls.nama,
-                    ls.harga,
-                    ls.diskon,
+                    nf.format(ls.harga),
+                    nf.format(ls.diskon),
                     ls.banyak,
-                    ls.total
+                    nf.format(ls.total)
                 });
                  
             }
@@ -107,6 +113,16 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         int kode = ts.kodeTransaksi();
         lblKode.setText(String.valueOf(kode));
         lblTanggal.setText(date);
+    }
+    public void showTime(){
+        new Timer(0, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Date d = new Date();
+                SimpleDateFormat s = new SimpleDateFormat("hh-mm-ss");
+                String time = s.format(d);
+                lblWaktu.setText(time);            }
+        }).start();
     }
     
     //method untuk query ke database dan di tampilkan ke list
@@ -160,6 +176,7 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         list = new javax.swing.JList<>();
         menu = new javax.swing.JPopupMenu();
         lblKode = new javax.swing.JLabel();
+        lblWaktu = new javax.swing.JLabel();
         lblTanggal = new javax.swing.JLabel();
         txtSearch = new javax.swing.JTextField();
         txtBanyak = new javax.swing.JTextField();
@@ -182,6 +199,8 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         btnObat = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
+        jScrollPane1.setBorder(null);
+
         list.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         list.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { " " };
@@ -199,7 +218,9 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE)
+            .addGroup(panelLayout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 491, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -215,9 +236,13 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         getContentPane().add(lblKode);
         lblKode.setBounds(480, 130, 110, 40);
 
+        lblWaktu.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        getContentPane().add(lblWaktu);
+        lblWaktu.setBounds(930, 130, 270, 40);
+
         lblTanggal.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         getContentPane().add(lblTanggal);
-        lblTanggal.setBounds(750, 130, 460, 40);
+        lblTanggal.setBounds(750, 130, 170, 40);
 
         txtSearch.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtSearch.setBorder(null);
@@ -371,7 +396,7 @@ public class TransaksiAdmin extends javax.swing.JFrame {
             if(!search.equals("")){
                 mod.removeAllElements();
                 for(listData item:search(search)){
-                    mod.addElement(item.nama+ " | Stok = " + item.stok + " | Jenis = "+item.jenis + " | Dosis = "+item.dosis);
+                    mod.addElement(item.nama+ " | Stok = " + item.stok + " | Jenis = "+item.jenis + " | Dosis = "+item.dosis+" | Harga = "+item.harga+" | Diskon = "+item.diskon);
                     keywoard.add(item);
                 }
                 //            System.out.println(search);
@@ -594,6 +619,7 @@ public class TransaksiAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel lblTanggal;
     private javax.swing.JLabel lblTotalBelanja;
     private javax.swing.JLabel lblTotalDiskon;
+    private javax.swing.JLabel lblWaktu;
     private javax.swing.JList<String> list;
     private javax.swing.JPopupMenu menu;
     private javax.swing.JPanel panel;

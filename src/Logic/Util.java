@@ -53,7 +53,7 @@ public class Util {
     }
     public String dateFull(){
         LocalDateTime myDateObj = LocalDateTime.now();  
-        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("E, MMM dd yyyy HH:mm:ss");  
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("E, MMM dd yyyy ");  
         String formattedDate = myDateObj.format(myFormatObj);  
         return formattedDate;
     } 

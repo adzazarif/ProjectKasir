@@ -8,17 +8,22 @@ import Logic.Transaksi;
 import Logic.Util;
 import Logic.listData;
 import Logic.login;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 import koneksi.conn;
 
@@ -48,6 +53,7 @@ public class TransaksiKasir extends javax.swing.JFrame {
         setDateAndKode();
         datatable();
         loadResult();
+        showTime();
         lblNama.setText(lg.nama);
     }
     //menampilkan grand total dan diskon ke layar
@@ -72,12 +78,12 @@ public class TransaksiKasir extends javax.swing.JFrame {
         try {
             for(listData ls:trns){
                  tbl.addRow(new Object[]{
-                    ls.kode_obat,
+                    ls.id_detail,
                     ls.nama,
-                    ls.harga,
-                    ls.diskon,
+                    nf.format(ls.harga),
+                    nf.format(ls.diskon),
                     ls.banyak,
-                    ls.total
+                    nf.format(ls.total)
                 });
                  
             }
@@ -94,7 +100,16 @@ public class TransaksiKasir extends javax.swing.JFrame {
         lblKode.setText(String.valueOf(kode));
         lblTanggal.setText(date);
     }
-    
+    public void showTime(){
+        new Timer(0, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Date d = new Date();
+                SimpleDateFormat s = new SimpleDateFormat("hh-mm-ss");
+                String time = s.format(d);
+                lblWaktu.setText(time);            }
+        }).start();
+    }
     //method untuk query ke database dan di tampilkan ke list
     public List<listData> search(String query){
         List<listData> data = new ArrayList<>();
@@ -142,7 +157,10 @@ public class TransaksiKasir extends javax.swing.JFrame {
         lblNama = new javax.swing.JLabel();
         btnDashboard = new javax.swing.JLabel();
         btnTransaksi = new javax.swing.JLabel();
+        lblWaktu = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+
+        jScrollPane1.setBorder(null);
 
         list.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         list.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -195,11 +213,11 @@ public class TransaksiKasir extends javax.swing.JFrame {
 
         lblTanggal.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         getContentPane().add(lblTanggal);
-        lblTanggal.setBounds(750, 130, 460, 40);
+        lblTanggal.setBounds(750, 120, 160, 50);
 
         lblKode.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         getContentPane().add(lblKode);
-        lblKode.setBounds(480, 130, 110, 40);
+        lblKode.setBounds(480, 120, 110, 50);
 
         table.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         table.setModel(new javax.swing.table.DefaultTableModel(
@@ -292,6 +310,10 @@ public class TransaksiKasir extends javax.swing.JFrame {
         getContentPane().add(btnTransaksi);
         btnTransaksi.setBounds(20, 210, 240, 70);
 
+        lblWaktu.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        getContentPane().add(lblWaktu);
+        lblWaktu.setBounds(930, 120, 270, 50);
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/transaksi kasir.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1);
@@ -306,8 +328,8 @@ public class TransaksiKasir extends javax.swing.JFrame {
         if(!search.equals("")){
             mod.removeAllElements();
             for(listData item:search(search)){
-                mod.addElement(item.nama+ " | Stok = " + item.stok + " | Jenis = "+item.jenis + " | Dosis = "+item.dosis);
-                keywoard.add(item);
+                mod.addElement(item.nama+ " | Stok = " + item.stok + " | Jenis = "+item.jenis + " | Dosis = "+item.dosis+" | Harga = "+item.harga+" | Diskon = "+item.diskon);
+                    keywoard.add(item);
             }
 //            System.out.println(search);
            menu.show(txtSearch, 0, txtSearch.getHeight());
@@ -508,6 +530,7 @@ public class TransaksiKasir extends javax.swing.JFrame {
     private javax.swing.JLabel lblTanggal;
     private javax.swing.JLabel lblTotalBelanja;
     private javax.swing.JLabel lblTotalDiskon;
+    private javax.swing.JLabel lblWaktu;
     private javax.swing.JList<String> list;
     private javax.swing.JPopupMenu menu;
     private javax.swing.JPanel panel;

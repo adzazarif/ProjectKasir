@@ -25,7 +25,6 @@ public class Transaksi {
    
    public String typeDate(){
         LocalDateTime myDateObj = LocalDateTime.now();  
-//        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("E, MMM dd yyyy HH:mm:ss");  
             DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");  
         String formattedDate = myDateObj.format(myFormatObj);  
         return formattedDate;

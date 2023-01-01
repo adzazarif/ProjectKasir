@@ -9,6 +9,8 @@ import Logic.login;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.NumberFormat;
+import java.util.Locale;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -19,6 +21,7 @@ import koneksi.conn;
  */
 public class ObatAdmin extends javax.swing.JFrame {
 login lg = new login();
+    NumberFormat nf = NumberFormat.getNumberInstance(new Locale("in", "ID"));
     /**
      * Creates new form ObatAdmin
      */
@@ -57,7 +60,7 @@ login lg = new login();
                     res.getString("kategori"), 
                     res.getString("jenis"), 
                     res.getString("stok"), 
-                    res.getString("harga_jual"),
+                    nf.format(res.getInt("harga_jual")),
                 });
             }
             table.setModel(model);
@@ -244,7 +247,6 @@ login lg = new login();
         int result = Integer.parseInt(kode_obat);
         String detail = table.getValueAt(baris, 2).toString();
         int resultDetail = Integer.parseInt(detail);
-        System.out.println(kd_obat);
         kd_obat = result;
         id_detail = resultDetail;
     }//GEN-LAST:event_tableMouseClicked
@@ -302,7 +304,7 @@ boolean result = obat.hapus(kd_obat,id_detail);
                 res.getString("kategori"), 
                 res.getString("jenis"), 
                 res.getString("stok"), 
-                res.getString("harga_jual"),
+                nf.format(res.getInt("harga_jual")),
             });
         }
         table.setModel(model);
@@ -336,7 +338,7 @@ boolean result = obat.hapus(kd_obat,id_detail);
                 res.getString("kategori"), 
                 res.getString("jenis"), 
                 res.getString("stok"), 
-                res.getString("harga_jual"),
+                nf.format(res.getInt("harga_jual")),
             });
         }
         table.setModel(model);

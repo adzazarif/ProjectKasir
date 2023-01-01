@@ -114,21 +114,41 @@ SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
 
         txtDosis.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtDosis.setBorder(null);
+        txtDosis.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtDosisKeyReleased(evt);
+            }
+        });
         getContentPane().add(txtDosis);
         txtDosis.setBounds(530, 380, 250, 30);
 
         txtStok.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtStok.setBorder(null);
+        txtStok.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtStokKeyReleased(evt);
+            }
+        });
         getContentPane().add(txtStok);
-        txtStok.setBounds(1080, 190, 250, 30);
+        txtStok.setBounds(1090, 190, 240, 30);
 
         txtHargaBeli.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtHargaBeli.setBorder(null);
+        txtHargaBeli.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtHargaBeliKeyReleased(evt);
+            }
+        });
         getContentPane().add(txtHargaBeli);
         txtHargaBeli.setBounds(1090, 250, 240, 40);
 
         txtHargaJual.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtHargaJual.setBorder(null);
+        txtHargaJual.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtHargaJualKeyReleased(evt);
+            }
+        });
         getContentPane().add(txtHargaJual);
         txtHargaJual.setBounds(1090, 310, 240, 40);
 
@@ -304,6 +324,26 @@ SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
         this.dispose();
         new ObatAdmin().setVisible(true);
     }//GEN-LAST:event_btnObatMouseClicked
+
+    private void txtStokKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtStokKeyReleased
+         String str = txtStok.getText();
+        txtStok.setText(str.replaceAll("[^\\d]", ""));
+    }//GEN-LAST:event_txtStokKeyReleased
+
+    private void txtHargaBeliKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHargaBeliKeyReleased
+                String str = txtHargaBeli.getText();
+        txtHargaBeli.setText(str.replaceAll("[^\\d]", ""));
+    }//GEN-LAST:event_txtHargaBeliKeyReleased
+
+    private void txtHargaJualKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHargaJualKeyReleased
+        String str = txtHargaJual.getText();
+        txtHargaJual.setText(str.replaceAll("[^\\d]", ""));
+    }//GEN-LAST:event_txtHargaJualKeyReleased
+
+    private void txtDosisKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDosisKeyReleased
+        String str = txtDosis.getText();
+        txtDosis.setText(str.replaceAll("[^\\d]", ""));
+    }//GEN-LAST:event_txtDosisKeyReleased
 
     /**
      * @param args the command line arguments
