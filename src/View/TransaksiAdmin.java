@@ -400,12 +400,12 @@ public class TransaksiAdmin extends javax.swing.JFrame {
                 }
                 trns.add(new listData(res.getInt("kode_obat"), res.getInt("id_detail"), res.getString("nama"),res.getInt("harga_jual"),
                     Integer.parseInt(txtBanyak.getText()), (res.getInt("harga_jual")*Integer.parseInt(txtBanyak.getText())),
-                    (res.getInt("diskon"))
+                    (res.getInt("diskon")),(res.getInt("diskon")*Integer.parseInt(txtBanyak.getText()))
                 ));
             }
             for(listData i:trns){
                 dtotal = i.total;
-                subDiskon = i.diskon*Integer.parseInt(txtBanyak.getText());
+                subDiskon = i.subDiskon;
             }
             grandDiskon = grandDiskon + subDiskon;
             grandTotal = grandTotal + dtotal;
@@ -435,9 +435,10 @@ public class TransaksiAdmin extends javax.swing.JFrame {
         try {
             Logic.Transaksi ts = new Logic.Transaksi();
             String date = ts.typeDate();
-            String queryTransaksi = "INSERT INTO transaksi (`tgl_transaksi`, `grand_total`) VALUES ('"
+            String queryTransaksi = "INSERT INTO transaksi (`tgl_transaksi`,`grand_diskon`, `grand_total`) VALUES ('"
             + date + "','"
-            + grandTotal + "');";
+            + grandDiskon + "','"
+            + (grandTotal-grandDiskon) + "');";
             Connection koneksi = (Connection)conn.configDB();
             PreparedStatement pstDetail = koneksi.prepareStatement(queryTransaksi);
             pstDetail.execute();
@@ -448,11 +449,12 @@ public class TransaksiAdmin extends javax.swing.JFrame {
             if(res.next()){
                 int kd_transaksi = res.getInt("kode_transaksi");
                 for(listData i:trns){
-                    String queryDetailTransaksi = "INSERT INTO detail_transaksi(`kode_transaksi`,`kode_obat`,`id_detail_obat`,`banyak_barang`,`total_harga`) VALUES ('"
+                    String queryDetailTransaksi = "INSERT INTO detail_transaksi(`kode_transaksi`,`kode_obat`,`id_detail_obat`,`banyak_barang`,`total_diskon`, `total_harga`) VALUES ('"
                     + kd_transaksi + "','"
                     + i.kode_obat + "','"
                     + i.id_detail + "','"
                     + i.banyak + "','"
+                    + i.subDiskon + "','"
                     + i.total + "');";
                     PreparedStatement pstObat = koneksi.prepareStatement(queryDetailTransaksi);
                     pstObat.execute();

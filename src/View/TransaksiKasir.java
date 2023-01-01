@@ -322,8 +322,8 @@ public class TransaksiKasir extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSearchKeyReleased
 
     private void btnTambahMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTambahMouseClicked
-         try {
-            
+       try {
+
             int dtotal = 0 ;
             int subDiskon = 0;
             Statement st = (Statement) conn.configDB().createStatement();
@@ -334,19 +334,19 @@ public class TransaksiKasir extends javax.swing.JFrame {
                     return ;
                 }
                 trns.add(new listData(res.getInt("kode_obat"), res.getInt("id_detail"), res.getString("nama"),res.getInt("harga_jual"),
-                                        Integer.parseInt(txtBanyak.getText()), (res.getInt("harga_jual")*Integer.parseInt(txtBanyak.getText())),
-                                        (res.getInt("diskon")*Integer.parseInt(txtBanyak.getText()))
-                                    ));
+                    Integer.parseInt(txtBanyak.getText()), (res.getInt("harga_jual")*Integer.parseInt(txtBanyak.getText())),
+                    (res.getInt("diskon")),(res.getInt("diskon")*Integer.parseInt(txtBanyak.getText()))
+                ));
             }
             for(listData i:trns){
                 dtotal = i.total;
-                subDiskon = i.diskon;
+                subDiskon = i.subDiskon;
             }
             grandDiskon = grandDiskon + subDiskon;
             grandTotal = grandTotal + dtotal;
             totalBelanja = grandTotal - grandDiskon;
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(rootPane, e); 
+            JOptionPane.showMessageDialog(rootPane, e);
         }
         txtSearch.setText(null);
         txtBanyak.setText(null);
@@ -355,51 +355,47 @@ public class TransaksiKasir extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTambahMouseClicked
 
     private void btnSimpanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSimpanMouseClicked
-        try {
-        Logic.Transaksi ts = new Logic.Transaksi();
-        String date = ts.typeDate();
-        String queryTransaksi = "INSERT INTO transaksi (`tgl_transaksi`, `total_harga`) VALUES ('"
-                                                             + date + "','"
-                                                            + grandTotal + "');";
-        Connection koneksi = (Connection)conn.configDB();
-        PreparedStatement pstDetail = koneksi.prepareStatement(queryTransaksi);
-        pstDetail.execute();
-       
-        String queryCek = "SELECT * FROM transaksi WHERE tgl_transaksi = '" + date +"'";
-        Statement pstCek = koneksi.createStatement();
-        ResultSet res = pstCek.executeQuery(queryCek);
-         if(res.next()){
+         try {
+            Logic.Transaksi ts = new Logic.Transaksi();
+            String date = ts.typeDate();
+            String queryTransaksi = "INSERT INTO transaksi (`tgl_transaksi`,`grand_diskon`, `grand_total`) VALUES ('"
+            + date + "','"
+            + grandDiskon + "','"
+            + grandTotal + "');";
+            Connection koneksi = (Connection)conn.configDB();
+            PreparedStatement pstDetail = koneksi.prepareStatement(queryTransaksi);
+            pstDetail.execute();
+
+            String queryCek = "SELECT * FROM transaksi WHERE tgl_transaksi = '" + date +"'";
+            Statement pstCek = koneksi.createStatement();
+            ResultSet res = pstCek.executeQuery(queryCek);
+            if(res.next()){
                 int kd_transaksi = res.getInt("kode_transaksi");
                 for(listData i:trns){
-                    String queryStok = "SELECT * FROM detail_obat WHERE id_detail = '" + i.id_detail +"'";
-                    Statement pststok = koneksi.createStatement();
-                    ResultSet resStok = pststok.executeQuery(queryStok);
-                    if(resStok.next()){
-                        int stok = resStok.getInt("stok");
-                        int resultStok = stok - i.banyak;
-                        String sql = "UPDATE detail_obat SET stok='"+resultStok+"'WHERE id_detail = '"+i.id_detail+"'";       
-                        PreparedStatement pstStok=koneksi.prepareStatement(sql);
-                        pstStok.execute();
-                    }
-                    String queryDetailTransaksi = "INSERT INTO detail_transaksi (`kode_transaksi`,`kode_obat`,`id_detail_obat`,`banyak_barang`,`total_harga`)  VALUES ('"
-                                                            + kd_transaksi + "','"
-                                                            + i.kode_obat + "','"
-                                                            + i.id_detail + "','"
-                                                            + i.banyak + "','"
-                                                            + i.total + "');";
+                    String queryDetailTransaksi = "INSERT INTO detail_transaksi(`kode_transaksi`,`kode_obat`,`id_detail_obat`,`banyak_barang`,`total_diskon`, `total_harga`) VALUES ('"
+                    + kd_transaksi + "','"
+                    + i.kode_obat + "','"
+                    + i.id_detail + "','"
+                    + i.banyak + "','"
+                    + i.subDiskon + "','"
+                    + i.total + "');";
                     PreparedStatement pstObat = koneksi.prepareStatement(queryDetailTransaksi);
                     pstObat.execute();
                 }
             }
-         trns.clear();
-         datatable();
-         setDateAndKode();
-         grandTotal = 0;
-         grandDiskon = 0;
-         totalBelanja = 0;
-         lblGrandTotal.setText(null);
-         loadResult();
-        JOptionPane.showMessageDialog(rootPane, "Transaksi berhasil");
+            int jawab =  JOptionPane.showConfirmDialog(this, "Ingin mencetak struk?", "Print Struk",JOptionPane.YES_NO_OPTION);
+        if(jawab == JOptionPane.YES_OPTION){
+//            tampilStruk();
+        }
+            trns.clear();
+            datatable();
+            setDateAndKode();
+            grandTotal = 0;
+            grandDiskon = 0;
+            totalBelanja = 0;
+            lblGrandTotal.setText(null);
+            loadResult();
+            JOptionPane.showMessageDialog(rootPane, "Transaksi berhasil");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, e);
         }
