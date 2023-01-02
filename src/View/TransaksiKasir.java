@@ -78,7 +78,7 @@ public class TransaksiKasir extends javax.swing.JFrame {
         try {
             for(listData ls:trns){
                  tbl.addRow(new Object[]{
-                    ls.id_detail,
+                    ls.kode_obat,
                     ls.nama,
                     nf.format(ls.harga),
                     nf.format(ls.diskon),
@@ -105,7 +105,7 @@ public class TransaksiKasir extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Date d = new Date();
-                SimpleDateFormat s = new SimpleDateFormat("hh-mm-ss");
+                SimpleDateFormat s = new SimpleDateFormat("hh:mm:ss");
                 String time = s.format(d);
                 lblWaktu.setText(time);            }
         }).start();
@@ -394,9 +394,8 @@ public class TransaksiKasir extends javax.swing.JFrame {
             if(res.next()){
                 int kd_transaksi = res.getInt("kode_transaksi");
                 for(listData i:trns){
-                    String queryDetailTransaksi = "INSERT INTO detail_transaksi(`kode_transaksi`,`kode_obat`,`id_detail_obat`,`banyak_barang`,`total_diskon`, `total_harga`) VALUES ('"
+                    String queryDetailTransaksi = "INSERT INTO detail_transaksi(`kode_transaksi`,`id_detail_obat`,`banyak_barang`,`total_diskon`, `total_harga`) VALUES ('"
                     + kd_transaksi + "','"
-                    + i.kode_obat + "','"
                     + i.id_detail + "','"
                     + i.banyak + "','"
                     + i.subDiskon + "','"
@@ -405,10 +404,10 @@ public class TransaksiKasir extends javax.swing.JFrame {
                     pstObat.execute();
                 }
             }
-            int jawab =  JOptionPane.showConfirmDialog(this, "Ingin mencetak struk?", "Print Struk",JOptionPane.YES_NO_OPTION);
-        if(jawab == JOptionPane.YES_OPTION){
-//            tampilStruk();
-        }
+//            int jawab =  JOptionPane.showConfirmDialog(this, "Ingin mencetak struk?", "Print Struk",JOptionPane.YES_NO_OPTION);
+//        if(jawab == JOptionPane.YES_OPTION){
+////            tampilStruk();
+//        }
             trns.clear();
             datatable();
             setDateAndKode();
@@ -416,6 +415,8 @@ public class TransaksiKasir extends javax.swing.JFrame {
             grandDiskon = 0;
             totalBelanja = 0;
             lblGrandTotal.setText(null);
+            txtTunai.setText(null);
+            lblKembalian.setText(null);
             loadResult();
             JOptionPane.showMessageDialog(rootPane, "Transaksi berhasil");
         } catch (Exception e) {
@@ -434,7 +435,7 @@ public class TransaksiKasir extends javax.swing.JFrame {
         int tunai = Integer.parseInt(StrTunai);
         int result = tunai - totalBelanja ;
         if(result >= 0){
-            lblKembalian.setText(String.valueOf(result));
+            lblKembalian.setText(String.valueOf(nf.format(result)));
         }else{
             lblKembalian.setText("Uang nya tidak memenuhi");
         }

@@ -72,7 +72,12 @@ public void load_table(){
               txtUsername.setText(res.getString("username"));
               txtEmail.setText(res.getString("email"));
               cmblevel.setSelectedItem(res.getString("level"));
-              txtPass.setText(res.getString("password"));
+              if(idUser != 0){
+                  String pass = "*".repeat(res.getString("password").length());
+                  txtPass.disable();
+                  txtPass.setText(pass);
+              }
+              
             }
         } catch (Exception e) {
         }
@@ -160,7 +165,7 @@ public void load_table(){
         txtPass.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtPass.setBorder(null);
         getContentPane().add(txtPass);
-        txtPass.setBounds(470, 350, 390, 30);
+        txtPass.setBounds(470, 350, 390, 40);
 
         cmblevel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         cmblevel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "admin", "kasir" }));

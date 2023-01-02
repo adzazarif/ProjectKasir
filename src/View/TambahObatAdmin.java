@@ -27,7 +27,16 @@ SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
         this.setVisible(true);
         lblNama.setText(lg.nama);
     }
+public boolean validateRequired(){
+        if(txtNama.getText().length() < 1 || txtStok.getText().length() < 1 || txtDosis.getText().length() < 1 || txtHargaBeli.getText().length() < 1 || txtHargaJual.getText().length() < 1 || txtKet.getText().length() < 1 ){
+            JOptionPane.showMessageDialog(rootPane, "Input harus di isi ");
+            return false;
+        }else{
+                    return true;
 
+        }
+    
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -228,15 +237,18 @@ SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
         String tgl_exp= dcn.format(JdateKadaluarsa.getDate());
         String ket = txtKet.getText();
         Obat obat = new Obat();
-        Boolean tambah = obat.tambah(nama, jenis, kategori, stok, dosis, harga_beli, harga_jual, tgl_exp, ket);
-        if(tambah){
-            JOptionPane.showMessageDialog(rootPane, "Data berhasil di Simpan");
-        }else{
-            JOptionPane.showMessageDialog(rootPane, "Data gagal di simpan");
-        }
-        this.setVisible(false);
+        if(validateRequired()){
+            Boolean tambah = obat.tambah(nama, jenis, kategori, stok, dosis, harga_beli, harga_jual, tgl_exp, ket);
+            if(tambah){
+                JOptionPane.showMessageDialog(rootPane, "Data berhasil di Simpan");
+            }else{
+                JOptionPane.showMessageDialog(rootPane, "Data gagal di simpan");
+            }
+            this.setVisible(false);
         this.dispose();
         new ObatAdmin().setVisible(true);
+        }
+        
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void cmbUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbUserActionPerformed

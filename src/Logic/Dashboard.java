@@ -51,9 +51,9 @@ public class Dashboard {
         try {
             String queryCek;
             if(dateStart.equals("Default") && dateEnd.equals("Default")){
-                queryCek = "SELECT SUM(grand_total) AS jml FROM transaksi ";
+                queryCek = "SELECT SUM(grand_total) AS jml FROM transaksi JOIN detail_transaksi ON transaksi.kode_transaksi = detail_transaksi.kode_transaksi ";
             }else{
-                queryCek = "SELECT SUM(grand_total) AS jml FROM transaksi WHERE tgl_transaksi BETWEEN '"+dateStart+"' AND '"+dateEnd+"'";
+                queryCek = "SELECT SUM(grand_total) AS jml FROM transaksi JOIN detail_transaksi ON transaksi.kode_transaksi = detail_transaksi.kode_transaksi  WHERE tgl_transaksi BETWEEN '"+dateStart+"' AND '"+dateEnd+"'";
             }
         
         Connection koneksi = (Connection) conn.configDB();

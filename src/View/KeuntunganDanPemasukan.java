@@ -48,12 +48,15 @@ public class KeuntunganDanPemasukan extends javax.swing.JFrame {
             model.addColumn("Kode Transaksi");
             model.addColumn("Tanggal Transaksi");
             model.addColumn("Nama");
-            model.addColumn("Harga Jual");
-            model.addColumn("Harga Beli");
+             model.addColumn("Harga Jual Satuan");
+            model.addColumn("Harga Beli Satuan");
+             model.addColumn("Banyak barang");
+            model.addColumn("Total Harga Jual");
+            model.addColumn("Total Harga Beli");
             model.addColumn("Keuntungan");
         try{
             int no = 1;
-        String sql = "SELECT detail_transaksi.kode_transaksi,tgl_transaksi,nama,(detail_obat.harga_jual*detail_transaksi.banyak_barang) AS HJ,(detail_obat.harga_beli*detail_transaksi.banyak_barang) AS HB,((harga_jual*banyak_barang)-(harga_beli*banyak_barang)) AS keuntungan FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi JOIN obat ON detail_transaksi.kode_obat = obat.kode_obat JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail ";
+        String sql = "SELECT detail_transaksi.kode_transaksi,tgl_transaksi,nama,banyak_barang,harga_jual,harga_beli,(detail_obat.harga_jual*detail_transaksi.banyak_barang) AS HJ,(detail_obat.harga_beli*detail_transaksi.banyak_barang) AS HB,((harga_jual*banyak_barang)-(harga_beli*banyak_barang)) AS keuntungan FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail JOIN obat ON detail_obat.kode_obat = obat.kode_obat";
         Connection koneksi = (Connection)conn.configDB();
         Statement stm = koneksi.createStatement();
         ResultSet res = stm.executeQuery(sql);
@@ -62,9 +65,12 @@ public class KeuntunganDanPemasukan extends javax.swing.JFrame {
                     res.getString("kode_transaksi"),
                     res.getString("tgl_transaksi"), 
                     res.getString("nama"),
-                    res.getString("HJ"), 
-                    res.getString("HB"), 
-                    res.getString("keuntungan"),
+                    nf.format(res.getInt("harga_jual")), 
+                    nf.format(res.getInt("harga_beli")), 
+                    nf.format(res.getInt("banyak_barang")), 
+                    nf.format(res.getInt("HJ")), 
+                    nf.format(res.getInt("HB")), 
+                    nf.format(res.getInt("keuntungan")),
                 });
             }
             table.setModel(model);
@@ -76,30 +82,36 @@ public class KeuntunganDanPemasukan extends javax.swing.JFrame {
      public void load_table_waktu(String dateStart,String dateEnd){
          String sql;
             DefaultTableModel model = new DefaultTableModel();      
-            model.addColumn("Kode Transaksi");
+        model.addColumn("Kode Transaksi");
             model.addColumn("Tanggal Transaksi");
             model.addColumn("Nama");
-            model.addColumn("Harga Jual");
-            model.addColumn("Harga Beli");
+             model.addColumn("Harga Jual Satuan");
+            model.addColumn("Harga Beli Satuan");
+             model.addColumn("Banyak barang");
+            model.addColumn("Total Harga Jual");
+            model.addColumn("Total Harga Beli");
             model.addColumn("Keuntungan");
         try{
             int no = 1;
         if(dateFilterEnd.equals("Default") && dateFilterStart.equals("default")){
-             sql = "SELECT detail_transaksi.kode_transaksi,tgl_transaksi,nama,(detail_obat.harga_jual*detail_transaksi.banyak_barang) AS HJ,(detail_obat.harga_beli*detail_transaksi.banyak_barang) AS HB,((harga_jual*banyak_barang)-(harga_beli*banyak_barang)) AS keuntungan FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi  JOIN obat ON detail_transaksi.kode_obat = obat.kode_obat JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail ";
+             sql = "SELECT detail_transaksi.kode_transaksi,tgl_transaksi,nama,banyak_barang,harga_jual,harga_beli,(detail_obat.harga_jual*detail_transaksi.banyak_barang) AS HJ,(detail_obat.harga_beli*detail_transaksi.banyak_barang) AS HB,((harga_jual*banyak_barang)-(harga_beli*banyak_barang)) AS keuntungan FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail JOIN obat ON detail_obat.kode_obat = obat.kode_obat  ";
         }else{
-             sql = "SELECT detail_transaksi.kode_transaksi,tgl_transaksi,nama,(detail_obat.harga_jual*detail_transaksi.banyak_barang) AS HJ,(detail_obat.harga_beli*detail_transaksi.banyak_barang) AS HB,((harga_jual*banyak_barang)-(harga_beli*banyak_barang)) AS keuntungan FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi  JOIN obat ON detail_transaksi.kode_obat = obat.kode_obat JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail WHERE tgl_transaksi BETWEEN '"+dateStart+"' AND '"+dateEnd+"'";
+             sql = "SELECT detail_transaksi.kode_transaksi,tgl_transaksi,nama,banyak_barang,harga_jual,harga_beli,(detail_obat.harga_jual*detail_transaksi.banyak_barang) AS HJ,(detail_obat.harga_beli*detail_transaksi.banyak_barang) AS HB,((harga_jual*banyak_barang)-(harga_beli*banyak_barang)) AS keuntungan FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail JOIN obat ON detail_obat.kode_obat = obat.kode_obat WHERE tgl_transaksi BETWEEN '"+dateStart+"' AND '"+dateEnd+"'";
         }
         Connection koneksi = (Connection)conn.configDB();
         Statement stm = koneksi.createStatement();
         ResultSet res = stm.executeQuery(sql);
             while(res.next()){
                 model.addRow(new Object[]{
-                    res.getString("kode_transaksi"),
+                   res.getString("kode_transaksi"),
                     res.getString("tgl_transaksi"), 
                     res.getString("nama"),
-                    res.getString("HJ"), 
-                    res.getString("HB"), 
-                    res.getString("keuntungan"),
+                    nf.format(res.getInt("harga_jual")), 
+                    nf.format(res.getInt("harga_beli")), 
+                    nf.format(res.getInt("banyak_barang")), 
+                    nf.format(res.getInt("HJ")), 
+                    nf.format(res.getInt("HB")), 
+                    nf.format(res.getInt("keuntungan")),
                 });
             }
             table.setModel(model);
@@ -322,19 +334,22 @@ public class KeuntunganDanPemasukan extends javax.swing.JFrame {
 
     private void txtCariKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCariKeyReleased
         DefaultTableModel model = new DefaultTableModel();      
-            model.addColumn("Kode Transaksi");
+           model.addColumn("Kode Transaksi");
             model.addColumn("Tanggal Transaksi");
             model.addColumn("Nama");
-            model.addColumn("Harga Jual");
-            model.addColumn("Harga Beli");
+             model.addColumn("Harga Jual Satuan");
+            model.addColumn("Harga Beli Satuan");
+             model.addColumn("Banyak barang");
+            model.addColumn("Total Harga Jual");
+            model.addColumn("Total Harga Beli");
             model.addColumn("Keuntungan");
         try{
             String sql;
             int no = 1;
          if(dateFilterEnd.equals("Default") && dateFilterStart.equals("Default")){
-            sql = "SELECT detail_transaksi.kode_transaksi,tgl_transaksi,nama,(detail_obat.harga_jual*detail_transaksi.banyak_barang) AS HJ,(detail_obat.harga_beli*detail_transaksi.banyak_barang) AS HB,((harga_jual*banyak_barang)-(harga_beli*banyak_barang)) AS keuntungan FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi JOIN obat ON detail_transaksi.kode_obat = obat.kode_obat JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail WHERE nama LIKE '%"+txtCari.getText()+"%'";
+            sql = "SELECT detail_transaksi.kode_transaksi,tgl_transaksi,nama,banyak_barang,harga_jual,harga_beli,(detail_obat.harga_jual*detail_transaksi.banyak_barang) AS HJ,(detail_obat.harga_beli*detail_transaksi.banyak_barang) AS HB,((harga_jual*banyak_barang)-(harga_beli*banyak_barang)) AS keuntungan FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail JOIN obat ON detail_obat.kode_obat = obat.kode_obat WHERE nama LIKE '%"+txtCari.getText()+"%'";
         }else{
-            sql = "SELECT detail_transaksi.kode_transaksi,tgl_transaksi,nama,(detail_obat.harga_jual*detail_transaksi.banyak_barang) AS HJ,(detail_obat.harga_beli*detail_transaksi.banyak_barang) AS HB,((harga_jual*banyak_barang)-(harga_beli*banyak_barang)) AS keuntungan FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi JOIN obat ON detail_transaksi.kode_obat = obat.kode_obat JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail WHERE tgl_transaksi BETWEEN '"+dateFilterStart+"' AND '"+dateFilterEnd+"' AND nama LIKE '%"+txtCari.getText()+"%'";
+            sql = "SELECT detail_transaksi.kode_transaksi,tgl_transaksi,nama,banyak_barang,harga_jual,harga_beli,(detail_obat.harga_jual*detail_transaksi.banyak_barang) AS HJ,(detail_obat.harga_beli*detail_transaksi.banyak_barang) AS HB,((harga_jual*banyak_barang)-(harga_beli*banyak_barang)) AS keuntungan FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail JOIN obat ON detail_obat.kode_obat = obat.kode_obat WHERE tgl_transaksi BETWEEN '"+dateFilterStart+"' AND '"+dateFilterEnd+"' AND nama LIKE '%"+txtCari.getText()+"%'";
         }
         
         Connection koneksi = (Connection)conn.configDB();
@@ -342,12 +357,15 @@ public class KeuntunganDanPemasukan extends javax.swing.JFrame {
         ResultSet res = stm.executeQuery(sql);
             while(res.next()){
                 model.addRow(new Object[]{
-                    res.getString("kode_transaksi"),
+                   res.getString("kode_transaksi"),
                     res.getString("tgl_transaksi"), 
                     res.getString("nama"),
-                    res.getString("HJ"), 
-                    res.getString("HB"), 
-                    res.getString("keuntungan"),
+                    nf.format(res.getInt("harga_jual")), 
+                    nf.format(res.getInt("harga_beli")), 
+                    nf.format(res.getInt("banyak_barang")), 
+                    nf.format(res.getInt("HJ")), 
+                    nf.format(res.getInt("HB")), 
+                    nf.format(res.getInt("keuntungan")),
                 });
             }
             table.setModel(model);
@@ -361,16 +379,19 @@ public class KeuntunganDanPemasukan extends javax.swing.JFrame {
         dateFilterEnd = dcn.format(txtDateEnd.getDate());
           setData(dateFilterStart, dateFilterEnd);
         DefaultTableModel model = new DefaultTableModel();      
-            model.addColumn("Kode Transaksi");
+         model.addColumn("Kode Transaksi");
             model.addColumn("Tanggal Transaksi");
             model.addColumn("Nama");
-            model.addColumn("Harga Jual");
-            model.addColumn("Harga Beli");
+             model.addColumn("Harga Jual Satuan");
+            model.addColumn("Harga Beli Satuan");
+             model.addColumn("Banyak barang");
+            model.addColumn("Total Harga Jual");
+            model.addColumn("Total Harga Beli");
             model.addColumn("Keuntungan");
         try{
             int no = 1;
          
-        String sql = "SELECT detail_transaksi.kode_transaksi,tgl_transaksi,nama,(detail_obat.harga_jual*detail_transaksi.banyak_barang) AS HJ,(detail_obat.harga_beli*detail_transaksi.banyak_barang) AS HB,((harga_jual*banyak_barang)-(harga_beli*banyak_barang)) AS keuntungan FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi JOIN obat ON detail_transaksi.kode_obat = obat.kode_obat JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail WHERE tgl_transaksi BETWEEN '"+dateFilterStart+"' AND '"+dateFilterEnd+"'";
+        String sql = "SELECT detail_transaksi.kode_transaksi,tgl_transaksi,nama,banyak_barang,harga_jual,harga_beli,(detail_obat.harga_jual*detail_transaksi.banyak_barang) AS HJ,(detail_obat.harga_beli*detail_transaksi.banyak_barang) AS HB,((harga_jual*banyak_barang)-(harga_beli*banyak_barang)) AS keuntungan FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail JOIN obat ON detail_obat.kode_obat = obat.kode_obat WHERE tgl_transaksi BETWEEN '"+dateFilterStart+"' AND '"+dateFilterEnd+"'";
         Connection koneksi = (Connection)conn.configDB();
         Statement stm = koneksi.createStatement();
         ResultSet res = stm.executeQuery(sql);
@@ -379,9 +400,9 @@ public class KeuntunganDanPemasukan extends javax.swing.JFrame {
                     res.getString("kode_transaksi"),
                     res.getString("tgl_transaksi"), 
                     res.getString("nama"),
-                    res.getString("HJ"), 
-                    res.getString("HB"), 
-                    res.getString("keuntungan"),
+                    nf.format(res.getInt("HJ")), 
+                    nf.format(res.getInt("HB")), 
+                    nf.format(res.getInt("keuntungan")),
                 });
             }
             table.setModel(model);

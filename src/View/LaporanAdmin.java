@@ -9,10 +9,17 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.DateFormat;
+import java.text.MessageFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.standard.OrientationRequested;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import koneksi.conn;
 
@@ -25,6 +32,7 @@ Util util = new Util();
 public String dateFilterStart = "2022-12-20";
 public String dateFilterEnd = "2022-12-20";
 SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
+NumberFormat nf = NumberFormat.getNumberInstance(new Locale("in", "ID"));
     /**
      * Creates new form LaporanAdmin
      */
@@ -37,28 +45,31 @@ SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
     }
     public void load_table(){
             DefaultTableModel model = new DefaultTableModel();      
-            model.addColumn("Kode Transaksi");
+         model.addColumn("Kode Transaksi");
             model.addColumn("Tanggal Transaksi");
             model.addColumn("Nama");
             model.addColumn("Jenis");
             model.addColumn("Harga");
             model.addColumn("Banyak");
             model.addColumn("Total");
+            model.addColumn("Grand Total");
         try{
-            int no = 1;
-        String sql = "SELECT * FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi JOIN obat ON detail_transaksi.kode_obat = obat.kode_obat JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail ORDER BY detail_transaksi.kode_transaksi ASC";
+            int no = 1;        
+
+        String sql = "SELECT * FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail JOIN obat ON detail_obat.kode_obat = obat.kode_obat  ORDER BY detail_transaksi.kode_transaksi ASC" ;
         Connection koneksi = (Connection)conn.configDB();
         Statement stm = koneksi.createStatement();
         ResultSet res = stm.executeQuery(sql);
             while(res.next()){
                 model.addRow(new Object[]{
-                    res.getString("kode_transaksi"),
+              res.getString("kode_transaksi"),
                     res.getString("tgl_transaksi"), 
                     res.getString("nama"),
                     res.getString("jenis"), 
-                    res.getString("harga_jual"), 
+                    nf.format(res.getInt("harga_jual")), 
                     res.getString("banyak_barang"),
-                    res.getString("detail_transaksi.total_harga")
+                    nf.format(res.getInt("detail_transaksi.total_harga")),
+                    nf.format(res.getInt("grand_total"))
                 });
             }
             table.setModel(model);
@@ -79,7 +90,7 @@ SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
             model.addColumn("Grand Total");
         try{
             int no = 1;
-        String sql = "SELECT * FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi JOIN obat ON detail_transaksi.kode_obat = obat.kode_obat JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail WHERE transaksi.tgl_transaksi BETWEEN '"+dateStart+"' AND '"+dateEnd+"'ORDER BY detail_transaksi.kode_transaksi ASC";
+        String sql = "SELECT * FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail JOIN obat ON detail_obat.kode_obat = obat.kode_obat  WHERE transaksi.tgl_transaksi BETWEEN '"+dateStart+"' AND '"+dateEnd+"'ORDER BY detail_transaksi.kode_transaksi ASC";
         Connection koneksi = (Connection)conn.configDB();
         Statement stm = koneksi.createStatement();
         ResultSet res = stm.executeQuery(sql);
@@ -89,10 +100,10 @@ SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
                     res.getString("tgl_transaksi"), 
                     res.getString("nama"),
                     res.getString("jenis"), 
-                    res.getString("harga_jual"), 
+                    nf.format(res.getInt("harga_jual")), 
                     res.getString("banyak_barang"),
-                    res.getString("detail_transaksi.total_harga"),
-                    res.getString("grand_total")
+                    nf.format(res.getInt("detail_transaksi.total_harga")),
+                    nf.format(res.getInt("grand_total"))
                 });
             }
             table.setModel(model);
@@ -122,6 +133,7 @@ SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
         btnLaporan = new javax.swing.JLabel();
         txtDateEnd = new com.toedter.calendar.JDateChooser();
         txtDateStart = new com.toedter.calendar.JDateChooser();
+        jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -216,6 +228,14 @@ SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
         getContentPane().add(txtDateStart);
         txtDateStart.setBounds(810, 165, 190, 40);
 
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(1240, 120, 70, 40);
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/laporan penjulan.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1);
@@ -230,16 +250,17 @@ SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
         dateFilterStart = dateStart;
         dateFilterEnd = dateEnd;
         DefaultTableModel model = new DefaultTableModel();
-                model.addColumn("Kode Transaksi");
+             model.addColumn("Kode Transaksi");
             model.addColumn("Tanggal Transaksi");
             model.addColumn("Nama");
             model.addColumn("Jenis");
             model.addColumn("Harga");
             model.addColumn("Banyak");
             model.addColumn("Total");
+            model.addColumn("Grand Total");
     try{
         int no = 1;
-        String sql = "SELECT * FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi JOIN obat ON detail_transaksi.kode_obat = obat.kode_obat JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail WHERE tgl_transaksi BETWEEN '"+dateStart+"' AND '"+dateEnd+"'";
+        String sql = "SELECT * FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail JOIN obat ON detail_obat.kode_obat = obat.kode_obat  WHERE tgl_transaksi BETWEEN '"+dateStart+"' AND '"+dateEnd+"'";
         Connection conn = (Connection) koneksi.conn.configDB();
         Statement stm = conn.createStatement();
         ResultSet res = stm.executeQuery(sql);
@@ -249,9 +270,10 @@ SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
                     res.getString("tgl_transaksi"), 
                     res.getString("nama"),
                     res.getString("jenis"), 
-                    res.getString("harga_jual"), 
+                    nf.format(res.getInt("harga_jual")), 
                     res.getString("banyak_barang"),
-                    res.getString("detail_transaksi.total_harga")
+                    nf.format(res.getInt("detail_transaksi.total_harga")),
+                    nf.format(res.getInt("grand_total"))
             });
         }
         table.setModel(model);
@@ -263,20 +285,21 @@ SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
     private void txtSearcbKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearcbKeyReleased
         String cari = txtSearcb.getText();
         DefaultTableModel model = new DefaultTableModel();
-                model.addColumn("Kode Transaksi");
+            model.addColumn("Kode Transaksi");
             model.addColumn("Tanggal Transaksi");
             model.addColumn("Nama");
             model.addColumn("Jenis");
             model.addColumn("Harga");
             model.addColumn("Banyak");
             model.addColumn("Total");
+            model.addColumn("Grand Total");
     try{
         int no = 1;
         String sql;
         if(dateFilterStart.equals("default")&& dateFilterEnd.equals("default")){
-            sql = "SELECT * FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi JOIN obat ON detail_transaksi.kode_obat = obat.kode_obat JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail WHERE nama LIKE '%"+cari+"%'";
+            sql = "SELECT * FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail JOIN obat ON detail_obat.kode_obat = obat.kode_obat WHERE nama LIKE '%"+cari+"%'";
         }else{
-            sql = "SELECT * FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi JOIN obat ON detail_transaksi.kode_obat = obat.kode_obat JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail WHERE nama LIKE '%"+cari+"%' AND tgl_transaksi BETWEEN '"+dateFilterStart+"' AND '"+dateFilterEnd+"'";
+            sql = "SELECT * FROM detail_transaksi JOIN transaksi ON detail_transaksi.kode_transaksi = transaksi.kode_transaksi JOIN detail_obat ON detail_transaksi.id_detail_obat = detail_obat.id_detail JOIN obat ON detail_obat.kode_obat = obat.kode_obat WHERE nama LIKE '%"+cari+"%' AND tgl_transaksi BETWEEN '"+dateFilterStart+"' AND '"+dateFilterEnd+"'";
         }
         
         Connection conn = (Connection) koneksi.conn.configDB();
@@ -288,9 +311,10 @@ SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
                     res.getString("tgl_transaksi"), 
                     res.getString("nama"),
                     res.getString("jenis"), 
-                    res.getString("harga_jual"), 
+                    nf.format(res.getInt("harga_jual")), 
                     res.getString("banyak_barang"),
-                    res.getString("detail_transaksi.total_harga")
+                    nf.format(res.getInt("detail_transaksi.total_harga")),
+                    nf.format(res.getInt("grand_total"))
             });
         }
         table.setModel(model);
@@ -368,6 +392,21 @@ SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
         new LaporanAdmin().setVisible(true);
     }//GEN-LAST:event_btnLaporanMouseClicked
 
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        MessageFormat header = new MessageFormat("Laporan Pengeluaran");
+        MessageFormat footer = new MessageFormat("");
+        
+        try {
+            PrintRequestAttributeSet set = new HashPrintRequestAttributeSet();
+            set.add(OrientationRequested.PORTRAIT);
+            table.print(JTable.PrintMode.FIT_WIDTH,header,footer,true,set,true);
+            JOptionPane.showMessageDialog(null, "sukses","berhasil mencetak Laporan",JOptionPane.INFORMATION_MESSAGE);
+            
+        } catch (Exception e) {
+             JOptionPane.showMessageDialog(null, "Salah",e.getMessage(),JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_jLabel2MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -412,6 +451,7 @@ SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
     private javax.swing.JLabel btnTransaksi;
     private javax.swing.JComboBox<String> cmbWaktu;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable table;
     private com.toedter.calendar.JDateChooser txtDateEnd;

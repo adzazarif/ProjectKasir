@@ -48,6 +48,15 @@ SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
         } catch (Exception e) {
         }
     }
+    public boolean validateRequired(){
+        if( txtStok.getText().length() < 1 || txtDosis.getText().length() < 1 || txtHargaBeli.getText().length() < 1 || txtHargaJual.getText().length() < 1 || txtKet.getText().length() < 1 ){
+            JOptionPane.showMessageDialog(rootPane, "Input harus di isi ");
+            return false;
+        }else{
+                    return true;
+
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -140,7 +149,7 @@ SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
             }
         });
         getContentPane().add(txtHargaBeli);
-        txtHargaBeli.setBounds(1090, 250, 240, 40);
+        txtHargaBeli.setBounds(1090, 260, 240, 30);
 
         txtHargaJual.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtHargaJual.setBorder(null);
@@ -150,7 +159,7 @@ SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
             }
         });
         getContentPane().add(txtHargaJual);
-        txtHargaJual.setBounds(1090, 310, 240, 40);
+        txtHargaJual.setBounds(1090, 320, 240, 30);
 
         txtKet.setColumns(20);
         txtKet.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -253,30 +262,32 @@ SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
         String harga_beli = txtHargaBeli.getText();
         String tgl_exp = dcn.format(txtTglexp.getDate());
         String ket = txtKet.getText(); 
-         
-        try {
-            ObatAdmin obat = new ObatAdmin();
-            int kode_obat = obat.kd_obat;
-            Connection koneksi = (Connection)conn.configDB();
-            String queryCek = "SELECT * FROM obat WHERE kode_obat = '" + kode_obat +"'";
-            Statement pstCek = koneksi.createStatement();
-            ResultSet res = pstCek.executeQuery(queryCek);
-            if(!res.next()){
-                 return;
+         if(validateRequired()){
+             try {
+                ObatAdmin obat = new ObatAdmin();
+                int kode_obat = obat.kd_obat;
+                Connection koneksi = (Connection)conn.configDB();
+                String queryCek = "SELECT * FROM obat WHERE kode_obat = '" + kode_obat +"'";
+                Statement pstCek = koneksi.createStatement();
+                ResultSet res = pstCek.executeQuery(queryCek);
+                    if(!res.next()){
+                         return;
+                    }
+                 Obat o = new Obat();
+                      boolean result = o.tambahDetail(res.getString("kode_obat"), jenis, dosis, stok, harga_jual, harga_beli, tgl_exp, ket);
+                      if(result){
+                          JOptionPane.showMessageDialog(rootPane, "Data berhasil ditambahkan");
+                      }else{
+                          JOptionPane.showMessageDialog(rootPane, "Data gagal ditambahkan");
+                      }
+                      this.setVisible(false);
+                this.dispose();
+                new ObatAdmin().setVisible(true);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(rootPane, e);
             }
-             Obat o = new Obat();
-                  boolean result = o.tambahDetail(res.getString("kode_obat"), jenis, dosis, stok, harga_jual, harga_beli, tgl_exp, ket);
-                  if(result){
-                      JOptionPane.showMessageDialog(rootPane, "Data berhasil ditambahkan");
-                  }else{
-                      JOptionPane.showMessageDialog(rootPane, "Data gagal ditambahkan");
-                  }
-                  this.setVisible(false);
-        this.dispose();
-        new ObatAdmin().setVisible(true);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(rootPane, e);
-        }
+         }
+        
     }//GEN-LAST:event_txtSimpanMouseClicked
 
     private void cmbUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbUserActionPerformed
